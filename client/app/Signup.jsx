@@ -4,6 +4,7 @@ import $ from 'jquery';
 import App from './App.jsx';
 import Cropper from 'react-cropper';
 import APIcall from '../apicall/ajax.js';
+import '../css/cropper.css';
 
 class Signup extends React.Component {
 

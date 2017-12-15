@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Main from './Main.jsx';
 import APIcall from '../apicall/ajax.js';
+import { Link } from 'react-router-dom';
 
 const Header = (props) => {
   let clickToSearch = () => {
@@ -19,7 +19,7 @@ const Header = (props) => {
     // Refresh after logout
     window.open('/');
   }
-
+  console.log('this is inside header', props)
   return (
     <nav className="navbar-light text-white bg-primary">
       <div className="container">
@@ -27,7 +27,7 @@ const Header = (props) => {
         <form className="form-inline" id="searchbar">
           <input className="form-control" type="text" size="65" placeholder="Search" id="searchbox" />
           <button className="btn btn-success ml-2" id="button-search" type="button" onClick={clickToSearch}>Search</button>
-          <button className="btn btn-info ml-2" id="button-upload" type="button" onClick={props.handleUpload}>Upload Multitrack</button>
+          <Link to="/upload"><button className="btn btn-info ml-2" id="button-upload" type="button">Upload Multitrack</button></Link>
           <a href="" className="logout" onClick={handleLogout}>Log Out</a>
           <span className="pipe"> | </span>
           <span className="username">{props.username}</span>
