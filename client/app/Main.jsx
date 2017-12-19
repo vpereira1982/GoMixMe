@@ -13,10 +13,11 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggeduser: props.username,
+      firstname: props.userInfo.firstname || props.location.state.firstname,
       usersTracks: [],
       contentBody: ''
     };
+    console.log('this is state in Main', this.state)
     this.handleSearch = this.handleSearch.bind(this);
 
     window.query = '';
@@ -42,7 +43,7 @@ class Main extends React.Component {
     return (
       <div>
         <div className="search col-offset-4 col-6">
-          <Header username={this.state.loggeduser} handleSearch={this.handleSearch} />
+          <Header firstname={this.state.firstname} handleSearch={this.handleSearch} />
         </div>
         <div className="container contentBody">
           <Results users={this.state.usersTracks} />

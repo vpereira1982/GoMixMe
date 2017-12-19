@@ -6,6 +6,7 @@ import Login from './Login.jsx';
 import Upload from './Upload.jsx';
 import APIcall from '../apicall/ajax.js'
 import errorMessage from './errorMessage.jsx';
+import Header from './Header.jsx';
 
 // LOAD REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -17,9 +18,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLogged: '',
-      username: '',
-      email: '',
-      pw: ''
+      firstname: '',
+      lastname: '',
+      email: ''
     }
   }
 
@@ -29,7 +30,9 @@ class App extends React.Component {
       let parsedData = JSON.parse(data);
         this.setState({
           isLogged: parsedData.hasOwnProperty('id') ? true : false,
-          username: parsedData.firstname
+          firstname: parsedData.firstname,
+          lastname: parsedData.lastname,
+          email: parsedData.email
         });
       } else {
         this.setState({
@@ -51,14 +54,17 @@ class App extends React.Component {
               render=
               {
                 this.state.isLogged ?
-                (props) => <Main {...props} history={customHistory} username={this.state.username} /> :
+                (props) => <Main {...props} history={customHistory} userInfo={this.state} /> :
                 (props) => <Login {...props} userInfo={this.state} />
               }/>
             <Route
-              exact path="/upload"
-              render={(props) => <Upload {...props} username={this.state.username} />}
-              />
-            <Route exact path="/signup" component={Signup} />
+              exact path="/upload/"
+              render={(props) => <Upload {...props} history={customHistory} userInfo={this.state} />
+              }/>
+            <Route
+              exact path="/main"
+              render={(props) => <Main {...props} history={customHistory} userInfo={this.state} />
+              }/>
             <Route component={errorMessage} />
           </Switch>
         </BrowserRouter>

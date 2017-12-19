@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import APIcall from '../apicall/ajax.js';
-import { Link } from 'react-router-dom';
+import { History, Link } from 'react-router-dom';
 
 const Header = (props) => {
   let clickToSearch = () => {
@@ -19,7 +19,7 @@ const Header = (props) => {
     // Refresh after logout
     window.open('/');
   }
-  console.log('this is inside header', props)
+  console.log('this is props inside Header', props)
   return (
     <nav className="navbar-light text-white bg-primary">
       <div className="container">
@@ -30,7 +30,7 @@ const Header = (props) => {
           <Link to="/upload"><button className="btn btn-info ml-2" id="button-upload" type="button">Upload Multitrack</button></Link>
           <a href="" className="logout" onClick={handleLogout}>Log Out</a>
           <span className="pipe"> | </span>
-          <span className="username">{props.username}</span>
+          <span className="username">{props.firstname} </span>
         </form>
       </div>
     </nav>

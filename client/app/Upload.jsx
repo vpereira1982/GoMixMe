@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import App from './App.jsx';
 import Cropper from 'react-cropper';
 import Header from './Header.jsx';
@@ -11,6 +10,7 @@ import '../css/upload.css';
 
 class Upload extends React.Component {
   constructor(props) {
+    console.log('this is props inside upload', props);
     super(props);
     this.state = {
       src: '../images/default-profile.jpg',
@@ -90,11 +90,10 @@ class Upload extends React.Component {
   }
 
   render() {
-    console.log(this.props.username)
     if (!this.state.isFirstPageComplete) {
       return (
         <div>
-          <Header username={this.props.username} />
+          <Header firstname={this.props.userInfo.firstname} />
           <div className="container">
             <h2> Upload Audio </h2> <br />
             <form encType="multipart/form-data" id="Form" onSubmit={this.createFormData}>
@@ -163,7 +162,7 @@ class Upload extends React.Component {
     if (this.state.isFirstPageComplete) {
       return (
         <div>
-          <Header username={this.props.username} />
+          <Header firstname={this.props.userInfo.firstname} />
           <UploadPage2 />
         </div>
       )

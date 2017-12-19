@@ -3,17 +3,14 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Signup from './Signup.jsx';
 import Main from './Main.jsx';
-import { BrowserRouter, Route, Link, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Switch, withRouter } from 'react-router-dom';
 import APIcall from '../apicall/ajax.js';
 import createBrowserHistory from 'history/createBrowserHistory'
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email: '',
-      pw: ''
-    }
+    this.state = props.userInfo;
   }
 
   handleChange(event) {
@@ -30,9 +27,9 @@ class Login extends React.Component {
         let parsedData = JSON.parse(data);
 
         // If user is valid (i.e. data), redirect to the main page:
-        this.props.history.push({pathname: '/main', state: {username: parsedData.firstname}});
+        this.props.history.push({pathname: '/main', state: parsedData});
       } else {
-        let errorMsg = document.getElementsByClassName('errorMsg')[0];
+        let errorMsg = document.querySelector('.errorMsg');
         errorMsg.style.visibility = 'visible';
       }
     });
@@ -55,7 +52,6 @@ class Login extends React.Component {
         </form>
         <p className='errorMsg' style={{visibility: 'hidden', 'color': 'red'}}>User name and password do not match. Please try again or sign-up.</p>
       </div>
-
     )
   }
 }
