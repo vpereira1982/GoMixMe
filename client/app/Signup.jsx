@@ -5,6 +5,8 @@ import App from './App.jsx';
 import Cropper from 'react-cropper';
 import APIcall from '../apicall/ajax.js';
 import '../css/cropper.css';
+import { Link } from 'react-router-dom';
+
 
 class Signup extends React.Component {
 
@@ -15,6 +17,8 @@ class Signup extends React.Component {
       cropResult: null,
       cropFile: null
     };
+
+    this.formSubmit = this.formSubmit.bind(this);
   }
 
   onChange(e) {
@@ -31,7 +35,7 @@ class Signup extends React.Component {
   cropImage() {
     if (this.cropper.getCroppedCanvas() === 'undefined') { return } ;
 
-    // Convert dataURI -> Blob -> File
+    // convert dataURI -> Blob -> File
     let canvas = this.cropper.getCroppedCanvas();
     canvas.toBlob((blob) => {
       this.setState({
@@ -49,16 +53,18 @@ class Signup extends React.Component {
     // append the new Cropped Image file to the FormData
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
 
-    // Send FORM to API
-    APIcall.post(formData, '/api', () => { console.log('Form has been submitted') }, false);
-    window.open('/');
+    // send FORM to API
+    APIcall.post(formData, '/api', () => { this.props.handleSubmit(e) }, false).bind(this);
+
+    // auto-log user using the same handleSubmit as <Login />
+
   }
 
   render() {
     return (
       <div className="col-md-4 col-md-offset-4 bg-primary signup">
         <h2> Sign Up </h2> <br />
-        <form method="POST" onSubmit={this.formSubmit.bind(this)} encType="multipart/form-data" id="postform">
+        <form method="POST" onSubmit={this.formSubmit} encType="multipart/form-data" id="postform">
           <div className="form-group">
             <input type="text" className="form-control form-control-lg" placeholder="First Name" required name="firstname"/>
           </div>
@@ -66,10 +72,10 @@ class Signup extends React.Component {
             <input type="text" className="form-control form-control-lg" placeholder="Last Name" required name="lastname"/>
           </div>
           <div className="form-group">
-            <input type="password" className="form-control form-control-lg" placeholder="Password" required name="pw"/>
+            <input type="password" className="form-control form-control-lg" placeholder="Password" onChange={this.props.handleChange} value={this.props.pw} required name="pw"/>
           </div>
           <div className="form-group">
-            <input type="text" className="form-control form-control-lg" placeholder="Email" required name="email"/>
+            <input type="text" className="form-control form-control-lg" placeholder="Email" onChange={this.props.handleChange} value={this.props.email} required name="email"/>
           </div>
           <div className="form-group">
           {/* this is the UPLOAD AUDIO button */}

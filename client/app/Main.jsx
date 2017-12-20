@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
-import Header from './Header.jsx';
 import Results from './Results.jsx';
 import APIcall from '../apicall/ajax.js'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -14,6 +13,7 @@ class Main extends React.Component {
       usersTracks: [],
       contentBody: ''
     };
+
     this.handleSearch = this.handleSearch.bind(this);
 
     window.query = '';

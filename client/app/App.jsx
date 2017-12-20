@@ -9,7 +9,7 @@ import Upload from './Upload.jsx';
 import errorMessage from './errorMessage.jsx';
 
 // LOAD REACT-ROUTER MODULES
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
 const customHistory = createBrowserHistory();
 
@@ -21,7 +21,8 @@ class App extends React.Component {
       firstname: '',
       lastname: '',
       email: '',
-      pw: ''
+      pw: '',
+      isReturning: true
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,7 +65,15 @@ class App extends React.Component {
         let parsedData = JSON.parse(data);
 
         // If user is valid (i.e. data), redirect to the main page:
-        this.setState({ isLogged: true });
+        customHistory.push('/');
+        this.setState({
+          isLogged: true,
+          returningUser: false,
+          firstname: parsedData.firstname,
+          lastname: parsedData.lastname,
+          email: parsedData.email,
+          isReturning: false
+        });
       } else {
         let errorMsg = document.querySelector('.errorMsg');
         errorMsg.style.visibility = 'visible';
@@ -82,11 +91,12 @@ class App extends React.Component {
             <Header userInfo={this.state} />
             <Switch>
               <Route
-                path="/" exact
+                path="/" exact={this.state.isReturning}
+                id="test"
                 render={(props) => <Main {...props} history={customHistory} userInfo={this.state} />}
               />
               <Route
-                path="/upload"
+                path="/upload" exact
                 render={(props) => <Upload {...props} history={customHistory} userInfo={this.state} />}
               />
               <Route component={errorMessage} />
@@ -101,6 +111,10 @@ class App extends React.Component {
             <Route
               exact path="/"
               render={(props) => <Login handleSubmit={this.handleSubmit} handleChange={this.handleChange} email={this.state.email} pw={this.state.pw} />}
+            />
+            <Route
+              exact path="/signup"
+              render={(props) => <Signup handleSubmit={this.handleSubmit} handleChange={this.handleChange} email={this.state.email} pw={this.state.pw} />}
             />
             <Route component={errorMessage} />
           </Switch>
