@@ -4,20 +4,16 @@ import App from './App.jsx';
 import Header from './Header.jsx';
 import Results from './Results.jsx';
 import APIcall from '../apicall/ajax.js'
-// LOAD REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory'
-const customHistory = createBrowserHistory();
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: props.userInfo.firstname || props.location.state.firstname,
+      firstname: props.userInfo.firstname,
       usersTracks: [],
       contentBody: ''
     };
-    console.log('this is state in Main', this.state)
     this.handleSearch = this.handleSearch.bind(this);
 
     window.query = '';
@@ -41,17 +37,11 @@ class Main extends React.Component {
 
   render () {
     return (
-      <div>
-        <div className="search col-offset-4 col-6">
-          <Header firstname={this.state.firstname} handleSearch={this.handleSearch} />
-        </div>
-        <div className="container contentBody">
-          <Results users={this.state.usersTracks} />
-        </div>
+      <div className="container contentBody">
+        <Results users={this.state.usersTracks} />
       </div>
     )
   }
 }
-
 
 export default Main;
