@@ -92,7 +92,6 @@ class App extends React.Component {
             <Switch>
               <Route
                 path="/" exact={this.state.isReturning}
-                id="test"
                 render={(props) => <Main {...props} history={customHistory} userInfo={this.state} />}
               />
               <Route
