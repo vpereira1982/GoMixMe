@@ -6,11 +6,12 @@ import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
 import Upload from './Upload.jsx';
-import errorMessage from './errorMessage.jsx';
+import ErrorMessage from './Error.jsx';
 
 // LOAD REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
+
 const customHistory = createBrowserHistory();
 
 class App extends React.Component {
@@ -98,7 +99,7 @@ class App extends React.Component {
                 path="/upload" exact
                 render={(props) => <Upload {...props} history={customHistory} userInfo={this.state} />}
               />
-              <Route component={errorMessage} />
+              <Route component={ErrorMessage} />
             </Switch>
           </div>
         </BrowserRouter>
@@ -115,7 +116,7 @@ class App extends React.Component {
               exact path="/signup"
               render={(props) => <Signup handleSubmit={this.handleSubmit} handleChange={this.handleChange} email={this.state.email} pw={this.state.pw} />}
             />
-            <Route component={errorMessage} />
+            <Route component={ErrorMessage} />
           </Switch>
         </BrowserRouter>
       )

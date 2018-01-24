@@ -162,7 +162,7 @@ class Upload extends React.Component {
     if (this.state.isFirstPageComplete) {
       return (
         <div>
-          <UploadPage2 />
+          <UploadPage2 data={this.formData} />
         </div>
       )
     }

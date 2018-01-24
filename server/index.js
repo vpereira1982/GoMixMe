@@ -2,7 +2,6 @@ let express = require('express');
 let app = express();
 let path = require('path');
 let routes = require('./controllers/routes');
-let session = require('express-session');
 
 // Add routes & middleware
 app.use('/', express.static(path.join(__dirname, '../client')));
