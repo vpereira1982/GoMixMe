@@ -34,7 +34,9 @@
     "react-file-image": "^1.0.1",
     "react-file-input": "^0.2.5",
     "react-image-crop": "^3.0.7",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
     "session-file-store": "^1.1.2",
     "webpack": "^3.8.1"
   },

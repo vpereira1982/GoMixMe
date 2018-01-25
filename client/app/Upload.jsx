@@ -8,8 +8,6 @@ import UploadPage2 from './UploadPage2.jsx';
 // LOAD REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
-
-
 import '../css/upload.css';
 
 class Upload extends React.Component {
