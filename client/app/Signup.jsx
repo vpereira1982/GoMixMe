@@ -6,10 +6,10 @@ import Cropper from 'react-cropper';
 import APIcall from '../apicall/ajax.js';
 import '../css/cropper.css';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import * as Actions from './actions';
 
 class Signup extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -138,5 +138,11 @@ class Signup extends React.Component {
   }
 }
 
+const MapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails
+  }
+}
 
-export default Signup;
+
+export default connect(MapStateToProps, Actions)(Signup);

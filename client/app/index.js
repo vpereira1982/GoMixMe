@@ -8,7 +8,9 @@ import reducers from './reducers';
 const Index = (props) => {
   return (
     <Provider store={createStore(reducers)}>
-      <App />
+      <div>
+        <App />
+      </div>
     </Provider>
   )
 }

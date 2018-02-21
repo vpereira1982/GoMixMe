@@ -7,6 +7,8 @@ import Main from './Main.jsx';
 import Login from './Login.jsx';
 import Upload from './Upload.jsx';
 import ErrorMessage from './Error.jsx';
+import { connect } from 'react-redux';
+import * as Actions from './actions';
 
 // LOAD REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
@@ -17,33 +19,25 @@ const customHistory = createBrowserHistory();
 class App extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {
-      isLogged: '',
-      firstname: '',
-      lastname: '',
-      email: '',
-      pw: '',
-      isReturning: true
-    }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.props.checkIfLogged(false);
   }
 
   componentDidMount () {
     APIcall.fetch('','/api/session', (data) => {
       if (data) {
-      let parsedData = JSON.parse(data);
-        this.setState({
-          isLogged: parsedData.hasOwnProperty('id') ? true : false,
-          firstname: parsedData.firstname,
-          lastname: parsedData.lastname,
-          email: parsedData.email
-        });
+        let parsedData = JSON.parse(data);
+        let isLogged = parsedData.hasOwnProperty('id') ? true : false;
+
+        // Call Redux Action Creators:
+        this.props.changeFirstName(parsedData.firstname);
+        this.props.changeLastName(parsedData.lastname);
+        this.props.checkIfLogged(isLogged);
+        this.props.changeEmail(parsedData.email);
       } else {
-        this.setState({
-          isLogged: false
-        });
+        this.props.checkIfLogged(false);
       }
     });
   }
@@ -53,28 +47,29 @@ class App extends React.Component {
   //************************
 
   handleChange (event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
+    if (event.target.name === 'email') {
+      this.props.changeEmail(event.target.value);
+    } else {
+      this.props.changePw(event.target.value);
+    }
   }
 
   handleSubmit (e) {
     e.preventDefault();
 
-    APIcall.fetch(this.state,'/api/login', (data) => {
+    APIcall.fetch(this.props.userDetails,'/api/login', (data) => {
       if (data) {
         let parsedData = JSON.parse(data);
 
         // If user is valid (i.e. data), redirect to the main page:
         customHistory.push('/');
-        this.setState({
-          isLogged: true,
-          returningUser: false,
-          firstname: parsedData.firstname,
-          lastname: parsedData.lastname,
-          email: parsedData.email,
-          isReturning: false
-        });
+
+        // Call Redux Action Creators:
+        this.props.checkIfLogged(true);
+        this.props.isReturning(false);
+        this.props.changeFirstName(parsedData.firstname);
+        this.props.changeLastName(parsedData.lastname);
+        this.props.changeEmail(parsedData.email)
       } else {
         let errorMsg = document.querySelector('.errorMsg');
         errorMsg.style.visibility = 'visible';
@@ -83,21 +78,42 @@ class App extends React.Component {
   }
 
   render () {
-    if (this.state.isLogged === '') {
+    const {
+      firstname,
+      lastname,
+      email,
+      pw,
+      isLogged,
+      isReturning
+    } = this.props.userDetails;
+
+    //*************
+    // User-Auth Conditional Rendering
+    //*************
+
+    if (isLogged === '') {
       return (<h6>Loading...</h6>);
-    } else if (this.state.isLogged) {
+    } else if (isLogged) {
       return (
         <BrowserRouter>
           <div>
-            <Header userInfo={this.state} />
+            <Header userInfo={this.props.userDetails} />
             <Switch>
               <Route
-                path="/" exact={this.state.isReturning}
-                render={(props) => <Main {...props} history={customHistory} userInfo={this.state} />}
+                path="/"
+                exact={isReturning}
+                render={(props) => <Main {...props}
+                  history={customHistory}
+                  userInfo={this.props.userDetails}
+                />}
               />
               <Route
-                path="/upload" exact
-                render={(props) => <Upload {...props} history={customHistory} userInfo={this.state} />}
+                path="/upload"
+                exact
+                render={(props) => <Upload {...props}
+                  history={customHistory}
+                  userInfo={this.props.userDetails}
+                />}
               />
               <Route component={ErrorMessage} />
             </Switch>
@@ -110,11 +126,21 @@ class App extends React.Component {
           <Switch>
             <Route
               exact path="/"
-              render={(props) => <Login handleSubmit={this.handleSubmit} handleChange={this.handleChange} email={this.state.email} pw={this.state.pw} />}
+              render={(props) => <Login
+                handleSubmit={this.handleSubmit}
+                handleChange={this.handleChange}
+                email={email}
+                pw={pw}
+              />}
             />
             <Route
               exact path="/signup"
-              render={(props) => <Signup handleSubmit={this.handleSubmit} handleChange={this.handleChange} email={this.state.email} pw={this.state.pw} />}
+              render={(props) => <Signup
+                handleSubmit={this.handleSubmit}
+                handleChange={this.handleChange}
+                email={email}
+                pw={pw}
+              />}
             />
             <Route component={ErrorMessage} />
           </Switch>
@@ -124,4 +150,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const MapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails
+  }
+}
+
+export default connect(MapStateToProps, Actions)(App);

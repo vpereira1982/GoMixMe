@@ -1,5 +1,5 @@
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const SRC_DIR = path.join(__dirname, '/client/app');
 const DIST_DIR = path.join(__dirname, '/client/dist');
 

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
-import { currentUserInfoRed } from '../actions/index.js';
+import UserDetailsReducer from './UserDetailsReducer.js';
 
 export default combineReducers({
-  currentUserInfo: () => []
+  userDetails: UserDetailsReducer
 });
+
