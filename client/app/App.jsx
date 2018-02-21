@@ -69,7 +69,7 @@ class App extends React.Component {
         this.props.isReturning(false);
         this.props.changeFirstName(parsedData.firstname);
         this.props.changeLastName(parsedData.lastname);
-        this.props.changeEmail(parsedData.email)
+        this.props.changeEmail(parsedData.email);
       } else {
         let errorMsg = document.querySelector('.errorMsg');
         errorMsg.style.visibility = 'visible';
@@ -138,8 +138,6 @@ class App extends React.Component {
               render={(props) => <Signup
                 handleSubmit={this.handleSubmit}
                 handleChange={this.handleChange}
-                email={email}
-                pw={pw}
               />}
             />
             <Route component={ErrorMessage} />

@@ -17,7 +17,7 @@ export default (state = defaultState, action) => {
       return Object.assign({}, state, {lastname: action.payload});
 
     case 'isLogged':
-      return Object.assign({}, state, {isLogged: action.payload});;
+      return Object.assign({}, state, {isLogged: action.payload});
 
     case 'email':
       return Object.assign({}, state, {email: action.payload});

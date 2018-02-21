@@ -15,7 +15,6 @@ class Main extends React.Component {
     };
 
     this.handleSearch = this.handleSearch.bind(this);
-
     window.query = '';
   }
 
@@ -30,9 +29,7 @@ class Main extends React.Component {
 
   handleSearch(query) {
     window.query = {'query': query};
-    setTimeout(
-      this.componentDidMount.bind(this), 500
-    );
+    setTimeout(this.componentDidMount.bind(this), 500);
   }
 
   render () {
