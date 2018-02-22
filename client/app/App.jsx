@@ -22,7 +22,8 @@ class App extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.props.checkIfLogged(false);
+    this.loggedHomePage = this.loggedHomePage.bind(this);
+    this.loginHomePage = this.loginHomePage.bind(this);
   }
 
   componentDidMount () {
@@ -43,7 +44,7 @@ class App extends React.Component {
   }
 
   //************************
-  // Login
+  // Login Functions
   //************************
 
   handleChange (event) {
@@ -77,6 +78,25 @@ class App extends React.Component {
     });
   }
 
+  //************************
+  // Conditional Homepage Routing
+  //************************
+
+  loggedHomePage(props) {
+    return <Main {...props} history={customHistory} userInfo={this.props.userDetails} />
+  }
+
+
+  loginHomePage() {
+    return (
+      <Login
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+        email={this.props.userDetails.email}
+        pw={this.props.userDetails.pw}
+      />)
+  }
+
   render () {
     const {
       firstname,
@@ -87,25 +107,18 @@ class App extends React.Component {
       isReturning
     } = this.props.userDetails;
 
-    //*************
-    // User-Auth Conditional Rendering
-    //*************
-
     if (isLogged === '') {
       return (<h6>Loading...</h6>);
-    } else if (isLogged) {
+    } else {
       return (
         <BrowserRouter>
           <div>
-            <Header userInfo={this.props.userDetails} />
+            {isLogged ? () => <Header userInfo={this.props.userDetails} /> : null}
             <Switch>
               <Route
                 path="/"
-                exact={isReturning}
-                render={(props) => <Main {...props}
-                  history={customHistory}
-                  userInfo={this.props.userDetails}
-                />}
+                exact={isReturning ? true : false}
+                render={isLogged ? this.loggedHomePage : this.loginHomePage}
               />
               <Route
                 path="/upload"
@@ -115,33 +128,16 @@ class App extends React.Component {
                   userInfo={this.props.userDetails}
                 />}
               />
+              <Route
+                exact path="/signup"
+                render={(props) => <Signup
+                  handleSubmit={this.handleSubmit}
+                  handleChange={this.handleChange}
+                />}
+              />
               <Route component={ErrorMessage} />
             </Switch>
           </div>
-        </BrowserRouter>
-      )
-    } else {
-      return (
-        <BrowserRouter>
-          <Switch>
-            <Route
-              exact path="/"
-              render={(props) => <Login
-                handleSubmit={this.handleSubmit}
-                handleChange={this.handleChange}
-                email={email}
-                pw={pw}
-              />}
-            />
-            <Route
-              exact path="/signup"
-              render={(props) => <Signup
-                handleSubmit={this.handleSubmit}
-                handleChange={this.handleChange}
-              />}
-            />
-            <Route component={ErrorMessage} />
-          </Switch>
         </BrowserRouter>
       )
     }
@@ -149,9 +145,7 @@ class App extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  return {
-    userDetails: state.userDetails
-  }
+  return {userDetails: state.userDetails}
 }
 
 export default connect(MapStateToProps, Actions)(App);

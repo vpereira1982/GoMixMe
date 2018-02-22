@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-const UploadPage2 = (props) => (
+const Upload2 = (props) => (
   <div>
     <h1>This is upload page 2 </h1>
   </div>
 )
 
-export default UploadPage2;
+export default Upload2;
