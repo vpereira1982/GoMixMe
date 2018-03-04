@@ -1,35 +1,61 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as Actions from './actions';
+import { changeEmail, changePw } from './actions';
+import { Link } from 'react-router-dom';
 
-const Login = (props) => {
-  const { email, pw } = props.userDetails;
+const Login = ({ email, pw, handleLogin, changePw, changeEmail }) => {
+  let callActionCreators = (e) => {
+    if (e.target.name === 'email') {
+      changeEmail(e.target.value);
+    } else {
+      changePw(e.target.value);
+    }
+  }
 
   return (
     <div className="col-md-4 col-md-offset-4 login bg-primary">
-      <h2> Log In </h2> <br />
-      <form onSubmit={props.handleSubmit}>
+      <h2>Log In</h2>
+      <br />
+      <form onSubmit={handleLogin}>
         <div className="form-group">
-          <input className="form-control form-control-lg" value={email} onChange={props.handleChange} type="text" name="email" placeholder="Email" />
+          <input
+            type="text"
+            className="form-control form-control-lg"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={callActionCreators}
+          />
         </div>
         <div className="form-group">
-          <input className="form-control form-control-lg" value={pw} onChange={props.handleChange} type="password" name="pw" placeholder="Password" />
+          <input
+            type="password"
+            className="form-control form-control-lg"
+            name="pw"
+            placeholder="Password"
+            value={pw}
+            onChange={callActionCreators}
+          />
         </div>
         <br />
-        <button className="btn btn-success" type="submit" placeholder="Submit">Sign In</button><span>   </span>
-        <Link to="/signup"><button type="button" className="btn btn-danger" placeholder="Submit">Sign Up</button></Link>
+        <button type="submit" className="btn btn-success" placeholder="Submit">Sign In</button>
+        <Link to="/signup">
+          <button type="button" className="btn btn-danger" placeholder="Submit">Sign Up</button>
+        </Link>
       </form>
-      <p className='errorMsg' style={{visibility: 'hidden', 'color': 'red'}}>User name and password do not match. Please try again or sign-up.</p>
+      <div className='errorMsg' style={{visibility: 'hidden', 'color': 'red'}}>
+        User name and password do not match. Please try again or sign-up.
+      </div>
     </div>
   )
 }
 
 const MapStateToProps = (state) => {
   return {
-    userDetails: state.userDetails
+    email: state.email,
+    pw: state.pw
   }
 }
 
-export default connect(MapStateToProps, Actions)(Login);
+export default connect(MapStateToProps, { changeEmail, changePw })(Login);

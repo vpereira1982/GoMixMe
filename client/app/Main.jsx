@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import Results from './Results.jsx';
-import APIcall from '../apicall/ajax.js'
+import APIcall from '../apicall'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as Actions from './actions';
 
 class Main extends React.Component {
   constructor(props) {
@@ -13,7 +15,6 @@ class Main extends React.Component {
       usersTracks: [],
       contentBody: ''
     };
-
     this.handleSearch = this.handleSearch.bind(this);
     window.query = '';
   }
@@ -41,4 +42,10 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+const MapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails
+  }
+}
+
+export default connect(MapStateToProps, Actions)(Main);

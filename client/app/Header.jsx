@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import APIcall from '../apicall/ajax.js';
+import APIcall from '../apicall';
 import { Link } from 'react-router-dom';
 
 const Header = (props) => {
@@ -23,11 +23,11 @@ const Header = (props) => {
   return (
     <nav className="navbar-light text-white bg-primary">
       <div className="container">
-        <span className="navbar-brand clickable" id="navbar-brand" onClick={() => { window.location.reload(); }}>GoMixMe</span>
+        <Link to="/"><span className="navbar-brand clickable" id="navbar-brand">GoMixMe</span></Link>
         <form className="form-inline" id="searchbar">
           <input className="form-control" type="text" size="65" placeholder="Search" id="searchbox" />
           <button className="btn btn-success ml-2" id="button-search" type="button" onClick={clickToSearch}>Search</button>
-          <Link to="/upload"><button className="btn btn-info ml-2" id="button-upload" type="button">Upload Multitrack</button></Link>
+          <a href='/upload'><button className="btn btn-info ml-2" id="button-upload" type="button">Upload</button></a>
           <a href="" className="logout" onClick={handleLogout}>Log Out</a>
           <span className="pipe"> | </span>
           <span className="username">{props.userInfo.firstname} </span>

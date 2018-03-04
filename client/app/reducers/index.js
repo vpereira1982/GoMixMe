@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
-import UserDetailsReducer from './UserDetailsReducer.js';
+import UserReducer from './UserReducer.js';
+import UploadReducer from './UploadReducer.js';
+
 
 export default combineReducers({
-  userDetails: UserDetailsReducer
+  userDetails: UserReducer,
+  uploadDetails: UploadReducer
 });
 

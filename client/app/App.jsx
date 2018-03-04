@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import APIcall from '../apicall/ajax.js'
+import APIcall from '../apicall'
 import Header from './Header.jsx';
 import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
-import Upload from './Upload.jsx';
+import Upload from './uploadComponents/index.jsx';
+import Loading from './Loading.jsx';
 import ErrorMessage from './Error.jsx';
 import { connect } from 'react-redux';
 import * as Actions from './actions';
 
 // LOAD REACT-ROUTER MODULES
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
 
 const customHistory = createBrowserHistory();
@@ -19,23 +20,21 @@ const customHistory = createBrowserHistory();
 class App extends React.Component {
   constructor (props) {
     super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.loggedHomePage = this.loggedHomePage.bind(this);
     this.loginHomePage = this.loginHomePage.bind(this);
   }
 
+  // If the user is valid, pull his info right away.
   componentDidMount () {
     APIcall.fetch('','/api/session', (data) => {
       if (data) {
         let parsedData = JSON.parse(data);
-        let isLogged = parsedData.hasOwnProperty('id') ? true : false;
 
         // Call Redux Action Creators:
         this.props.changeFirstName(parsedData.firstname);
         this.props.changeLastName(parsedData.lastname);
-        this.props.checkIfLogged(isLogged);
+        this.props.checkIfLogged(parsedData.hasOwnProperty('id'));
         this.props.changeEmail(parsedData.email);
       } else {
         this.props.checkIfLogged(false);
@@ -47,18 +46,18 @@ class App extends React.Component {
   // Login Functions
   //************************
 
-  handleChange (event) {
-    if (event.target.name === 'email') {
-      this.props.changeEmail(event.target.value);
-    } else {
-      this.props.changePw(event.target.value);
-    }
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
 
-  handleSubmit (e) {
-    e.preventDefault();
+  handleLogin(e) {
+    e ? e.preventDefault() : null;
 
-    APIcall.fetch(this.props.userDetails,'/api/login', (data) => {
+    const { email, pw } = this.props.userDetails;
+
+    APIcall.fetch({email, pw},'/api/login', (data) => {
       if (data) {
         let parsedData = JSON.parse(data);
 
@@ -70,8 +69,8 @@ class App extends React.Component {
         this.props.isReturning(false);
         this.props.changeFirstName(parsedData.firstname);
         this.props.changeLastName(parsedData.lastname);
-        this.props.changeEmail(parsedData.email);
-      } else {
+        //!!!!!!!!!!!!!!********** ADD AN ACTION TO SAVE THE USER PROFILE PICTURE LATER!!!!!
+      } else if (e) {
         let errorMsg = document.querySelector('.errorMsg');
         errorMsg.style.visibility = 'visible';
       }
@@ -86,54 +85,42 @@ class App extends React.Component {
     return <Main {...props} history={customHistory} userInfo={this.props.userDetails} />
   }
 
-
   loginHomePage() {
-    return (
-      <Login
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
-        email={this.props.userDetails.email}
-        pw={this.props.userDetails.pw}
-      />)
+    return <Login handleLogin={this.handleLogin} handleChange={this.handleChange} />
   }
 
-  render () {
-    const {
-      firstname,
-      lastname,
-      email,
-      pw,
-      isLogged,
-      isReturning
-    } = this.props.userDetails;
+  render() {
+    const { isLogged, isReturning } = this.props.userDetails;
 
     if (isLogged === '') {
-      return (<h6>Loading...</h6>);
+      return <Loading />
     } else {
       return (
         <BrowserRouter>
           <div>
-            {isLogged ? () => <Header userInfo={this.props.userDetails} /> : null}
+            {isLogged ? <Header userInfo={this.props.userDetails} /> : null}
             <Switch>
+              <Route
+                path="/upload"
+                exact
+                render={(props) => <Upload handleChange={this.handleChange} />}
+              />
               <Route
                 path="/"
                 exact={isReturning ? true : false}
                 render={isLogged ? this.loggedHomePage : this.loginHomePage}
               />
               <Route
-                path="/upload"
+                path="/signup"
                 exact
-                render={(props) => <Upload {...props}
-                  history={customHistory}
-                  userInfo={this.props.userDetails}
-                />}
-              />
-              <Route
-                exact path="/signup"
-                render={(props) => <Signup
-                  handleSubmit={this.handleSubmit}
-                  handleChange={this.handleChange}
-                />}
+                render={
+                  (props) => (
+                    <Signup {...props}
+                      handleLogin={this.handleLogin}
+                      handleChange={this.handleChange}
+                    />
+                  )
+                }
               />
               <Route component={ErrorMessage} />
             </Switch>

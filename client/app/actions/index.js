@@ -1,3 +1,5 @@
+
+
 export const changeFirstName = (name) => {
   return {
     type: 'first_name',
@@ -37,5 +39,26 @@ export const isReturning = (bool) => {
   return {
     type: 'isReturning',
     payload: bool
+  }
+}
+
+export const selectUploadType = (name) => {
+  return {
+    type: 'UploadType',
+    payload: name
+  }
+}
+
+export const handleFileData = (formData) => {
+  return {
+    type: 'saveFileDetails',
+    payload: formData
+  }
+}
+
+export const handleUploadImage = (image) => {
+  return {
+    type: 'handleUploadImage',
+    payload: image
   }
 }

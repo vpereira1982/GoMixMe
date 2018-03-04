@@ -2,91 +2,142 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import Cropper from 'react-cropper';
-import APIcall from '../apicall/ajax.js';
+import APIcall from '../apicall';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as Actions from './actions';
+import { changePw, changeEmail } from './actions';
+import { createImgSrc }  from './helperFunctions/createImgSrc.js';
+
 import '../css/cropper.css';
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      src: '../images/default-profile.jpg',
+      profilePic: '../../images/default-profile.jpg',
       cropResult: null,
-      cropFile: null
+      cropFile: null,
+      firstname: '',
+      lastname: '',
+      email: '',
+      pw: ''
     };
-
-    this.formSubmit = this.formSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleImgFile = this.handleImgFile.bind(this);
+    this.handleChange = this.props.handleChange.bind(this);
+    this.handleLogin = this.props.handleLogin.bind(this);
     this.cropImage = this.cropImage.bind(this);
   }
 
-  onChange(e) {
-    // 'get' and 'read' file from input field upload
-    let file = e.target.files[0];
+  handleImgFile(e) {
+    let imageFile = e.target.files[0];
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.setState({ src: reader.result });
-    };
-    reader.readAsDataURL(file);
+    createImgSrc(imageFile, (result) => {
+      this.setState({
+        profilePic: result
+      });
+    });
   }
 
   cropImage() {
-    if (!this.cropper.getCroppedCanvas()) { return };
-
     // convert dataURI -> Blob -> File
     let canvas = this.cropper.getCroppedCanvas();
 
     canvas.toBlob((blob) => {
       this.setState({
         cropResult: canvas.toDataURL(),
-        cropFile:
-          new File([blob], 'croppedImg.png', {type: 'image/png', lastModified: Date.now()})
+        cropFile: new File([blob], 'croppedImg.png', {type: 'image/png', lastModified: Date.now()})
       });
     });
   }
 
-  formSubmit(e) {
+  handleFormSubmit(e) {
     e.preventDefault();
-    let formElement = document.getElementById('postform');
+    let formElement = document.getElementById('form');
     let formData = new FormData(formElement);
 
     // append the new Cropped Image file to the FormData
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
-
     // send FORM to API
     APIcall.post(formData, '/api', () => {
-      // auto-log user using the same handleSubmit as <Login />
-      this.props.handleSubmit(e);
+      // Dispatch email && pw to Redux Store so handleLogin() can log the new user
+      this.props.changeEmail(this.state.email);
+      this.props.changePw(this.state.pw);
+      this.handleLogin();
     });
   }
 
   render() {
+    const {
+      firstname,
+      lastname,
+      pw,
+      email,
+      cropResult,
+      profilePic
+    } = this.state;
+
     return (
       <div className="col-md-4 col-md-offset-4 bg-primary signup">
         <h2> Sign Up </h2> <br />
-        <form method="POST" onSubmit={this.formSubmit} encType="multipart/form-data" id="postform">
+        <form method="POST" onSubmit={this.handleFormSubmit} encType="multipart/form-data" id="form">
           <div className="form-group">
-            <input type="text" className="form-control form-control-lg" placeholder="First Name" required name="firstname"/>
+            <input
+              name="firstname"
+              type="text"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="First Name"
+              value={firstname}
+              required
+              />
           </div>
           <div className="form-group">
-            <input type="text" className="form-control form-control-lg" placeholder="Last Name" required name="lastname"/>
+            <input
+              name="lastname"
+              type="text"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="Last Name"
+              value={lastname}
+              required
+              />
           </div>
           <div className="form-group">
-            <input type="password" className="form-control form-control-lg" placeholder="Password" onChange={this.props.handleChange} value={this.props.pw} required name="pw"/>
+            <input
+              name="pw"
+              type="password"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="Password"
+              value={pw}
+              required
+              />
           </div>
           <div className="form-group">
-            <input type="text" className="form-control form-control-lg" placeholder="Email" onChange={this.props.handleChange} value={this.props.email} required name="email"/>
+            <input
+              name="email"
+              type="text"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="Email"
+              value={email}
+              required
+              />
           </div>
           <div className="form-group">
-          {/* this is the UPLOAD AUDIO button */}
+          {/* UPLOAD AUDIO button. */}
             <label htmlFor="file">Upload Music</label>
-            <input type="file" className="form-control form-control-lg" id="file" name="audiofile" accept="application/x-zip-compressed,audio/*" />
+            <input
+              type="file"
+              name="audiofile"
+              className="form-control form-control-lg"
+              id="file"
+              accept="application/x-zip-compressed,audio/*"
+            />
             <br />
             <div className="form-group">
-              <select required className="custom-select btn btn-success dropdown-toggle" name="genre">
+              <select className="custom-select btn btn-success dropdown-toggle" name="genre" required>
                 <option value="">Favorite Genre</option>
                 <option value="Blues">Blues</option>
                 <option value="Classical">Classical</option>
@@ -99,39 +150,36 @@ class Signup extends React.Component {
                 <option value="Jazz">Jazz</option>
               </select>
             </div>
-
             <div>
               <div style={{ width: '45%' }}>
-              {/* this is the UPLOAD IMAGE button */}
+              {/* UPLOAD IMAGE button */}
                 <label htmlFor='image' className='btn btn-info'>Upload Profile Photo</label>
                 <input
+                  name="image"
                   type="file"
-                  onChange={this.onChange}
-                  style={{"visibility":"hidden"}}
-                  className='imgUploadInput form-control form-control-lg'
-                  id='image'
-                  name='image'
-                  accept='image/x-png,image/gif,image/jpeg'
-                  multiple
+                  id="image"
+                  style={{visibility: "hidden"}}
+                  onChange={this.handleImgFile}
+                  className="imgUploadInput form-control form-control-lg"
+                  accept="image/x-png,image/gif,image/jpeg"
+                  required
                 />
                 <Cropper
-                  style={{ height: 200, width: '50%' }}
-                  aspectRatio={4 / 3}
+                  style={{ height: 400, width: 400 }}
+                  aspectRatio={1}
                   preview="img-preview"
                   zoomable={false}
                   scalable={false}
                   guides={false}
-                  src={this.state.src}
-                  ref={cropper => { this.cropper = cropper; }}
+                  src={profilePic}
+                  ref={(cropper) => {this.cropper = cropper}}
                 />
               </div>
               <div>
-                {/* this is the CROP FILE  button */}
-                <button type="button" className='btn btn-danger' onClick={this.cropImage}>
-                  Crop Image
-                </button>
+                {/* CROP FILE  button */}
+                <button type="button" className='btn btn-danger' onClick={this.cropImage}>Crop Image</button>
                 <br />
-                <img style={{ width: '20%', border: 'solid 0.5 grey' }} src={this.state.cropResult} />
+                <img style={{ width: '20%', border: 'solid 0.5 grey' }} src={cropResult} />
               </div>
               <br style={{ clear: 'both' }} />
             </div>
@@ -143,10 +191,4 @@ class Signup extends React.Component {
   }
 }
 
-const MapStateToProps = (state) => {
-  return {
-    userDetails: state.userDetails
-  }
-}
-
-export default connect(MapStateToProps, Actions)(Signup);
+export default connect(null, { changePw, changeEmail })(Signup);
