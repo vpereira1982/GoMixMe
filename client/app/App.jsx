@@ -10,6 +10,7 @@ import Loading from './Loading.jsx';
 import ErrorMessage from './Error.jsx';
 import { connect } from 'react-redux';
 import * as Actions from './actions';
+import axios from 'axios'
 
 // LOAD REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -25,19 +26,17 @@ class App extends React.Component {
     this.loginHomePage = this.loginHomePage.bind(this);
   }
 
-  // If the user is valid, pull his info right away.
   componentDidMount () {
-    APIcall.fetch('','/api/session', (data) => {
-      if (data) {
-        let parsedData = JSON.parse(data);
-
+    // Checks if user is valid
+    axios.get('/api/session').then(user => {
+      if (user) {
         // Call Redux Action Creators:
-        this.props.changeFirstName(parsedData.firstname);
-        this.props.changeLastName(parsedData.lastname);
-        this.props.checkIfLogged(parsedData.hasOwnProperty('id'));
-        this.props.changeEmail(parsedData.email);
+        this.props.isLogged(user.data.hasOwnProperty('id'));
+        this.props.changeFirstName(user.data.firstname);
+        this.props.changeLastName(user.data.lastname);
+        this.props.changeEmail(user.data.email);
       } else {
-        this.props.checkIfLogged(false);
+        this.props.isLogged(false);
       }
     });
   }
@@ -54,21 +53,19 @@ class App extends React.Component {
 
   handleLogin(e) {
     e ? e.preventDefault() : null;
-
     const { email, pw } = this.props.userDetails;
 
-    APIcall.fetch({email, pw},'/api/login', (data) => {
-      if (data) {
-        let parsedData = JSON.parse(data);
+    axios.post('/api/login', {email, pw}).then(user => {
 
-        // If user is valid (i.e. data), redirect to the main page:
+      if (user) {
+        // If user is valid (i.e. data), redirects to the main page:
         customHistory.push('/');
 
         // Call Redux Action Creators:
-        this.props.checkIfLogged(true);
+        this.props.isLogged(user.data.hasOwnProperty('id'));
         this.props.isReturning(false);
-        this.props.changeFirstName(parsedData.firstname);
-        this.props.changeLastName(parsedData.lastname);
+        this.props.changeFirstName(user.data.firstname);
+        this.props.changeLastName(user.data.lastname);
         //!!!!!!!!!!!!!!********** ADD AN ACTION TO SAVE THE USER PROFILE PICTURE LATER!!!!!
       } else if (e) {
         let errorMsg = document.querySelector('.errorMsg');
@@ -82,7 +79,7 @@ class App extends React.Component {
   //************************
 
   loggedHomePage(props) {
-    return <Main {...props} history={customHistory} userInfo={this.props.userDetails} />
+    return <Main {...props} history={customHistory} />
   }
 
   loginHomePage() {
@@ -98,7 +95,7 @@ class App extends React.Component {
       return (
         <BrowserRouter>
           <div>
-            {isLogged ? <Header userInfo={this.props.userDetails} /> : null}
+            {isLogged ? <Header /> : null}
             <Switch>
               <Route
                 path="/upload"

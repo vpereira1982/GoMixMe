@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import Cropper from 'react-cropper';
 import APIcall from '../apicall';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { changePw, changeEmail } from './actions';
 import { createImgSrc }  from './helperFunctions/createImgSrc.js';
-
 import '../css/cropper.css';
 
 class Signup extends React.Component {
@@ -59,12 +59,21 @@ class Signup extends React.Component {
     // append the new Cropped Image file to the FormData
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
     // send FORM to API
-    APIcall.post(formData, '/api', () => {
+
+
+    axios.post('/api', formData).then((res) => {
       // Dispatch email && pw to Redux Store so handleLogin() can log the new user
       this.props.changeEmail(this.state.email);
       this.props.changePw(this.state.pw);
       this.handleLogin();
-    });
+    })
+
+/*    APIcall.post(formData, '/api', () => {
+      // Dispatch email && pw to Redux Store so handleLogin() can log the new user
+      this.props.changeEmail(this.state.email);
+      this.props.changePw(this.state.pw);
+      this.handleLogin();
+    });*/
   }
 
   render() {
@@ -162,7 +171,6 @@ class Signup extends React.Component {
                   onChange={this.handleImgFile}
                   className="imgUploadInput form-control form-control-lg"
                   accept="image/x-png,image/gif,image/jpeg"
-                  required
                 />
                 <Cropper
                   style={{ height: 400, width: 400 }}

@@ -2,7 +2,7 @@ import $ from 'jquery';
 import axios from 'axios';
 
 const APIcall =  {
-  fetch: function(data, endpoint, callback) {
+  fetch: function(value, endpoint, callback) {
 /*    $.ajax({
       type: 'GET',
       url: endpoint,
@@ -12,9 +12,8 @@ const APIcall =  {
         console.log('GET has failed');
       }
     })*/
-    axios.get(endpoint)
-    .then(callback)
-    .catch((err) => console.log('GET has failed.'))
+    axios.get(endpoint, {params: {query: value} })
+    .then((res) => callback(res.data))
   },
 
   post: function(data, endpoint, callback) {
@@ -30,10 +29,8 @@ const APIcall =  {
       }
     })*/
     axios.post(endpoint, data)
-    .then(callback)
-    .catch((err) => console.log('POST has failed'));
+    .then((res) => callback(res.data));
   },
 }
 
 export default APIcall;
-

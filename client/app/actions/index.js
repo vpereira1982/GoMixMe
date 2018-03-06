@@ -1,4 +1,4 @@
-
+import axios from 'axios';
 
 export const changeFirstName = (name) => {
   return {
@@ -14,7 +14,7 @@ export const changeLastName = (name) => {
   }
 }
 
-export const checkIfLogged = (bool) => {
+export const isLogged = (bool) => {
   return {
     type: 'isLogged',
     payload: bool
@@ -61,4 +61,9 @@ export const handleUploadImage = (image) => {
     type: 'handleUploadImage',
     payload: image
   }
+}
+
+export const pullTracks = (request) => {
+  return axios.get('/api/all', { params: { query: request } })
+  .then(res => ({type: 'pullTracks', payload: res.data}) );
 }

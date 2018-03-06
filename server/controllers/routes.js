@@ -49,10 +49,9 @@ router.use(function(req, res, next) {
 
 
 // GET REQUESTS
-router.get('/login', function(req, res) {
-  let queryData = req.query;
+router.post('/login', function(req, res) {
+  let queryData = req.body;
 
-  console.log('this is queryData before DB call', queryData);
   model.get(queryData, function(err, data) {
     if (err) throw err;
     console.log('this is data from queryData after DB call', data);

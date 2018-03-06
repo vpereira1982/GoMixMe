@@ -14,7 +14,7 @@ const Login = ({ email, pw, handleLogin, changePw, changeEmail }) => {
   }
 
   return (
-    <div className="col-md-4 col-md-offset-4 login bg-primary">
+    <div className="col-md-6 offset-md-3 login bg-navy">
       <h2>Log In</h2>
       <br />
       <form onSubmit={handleLogin}>

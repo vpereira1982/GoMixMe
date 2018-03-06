@@ -1,40 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import APIcall from '../apicall';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { pullTracks, isLogged } from './actions';
 
 const Header = (props) => {
   let clickToSearch = () => {
-    let query = document.getElementById('searchbox');
-    props.handleSearch(query.value);
-    query.value = '';
+    let query = document.getElementById('searchbox').value;
+    props.pullTracks(query);
+    query = '';
   }
 
   let handleLogout = () => {
-    // Request server to Delete cookies
-    APIcall.fetch('', '/api/destroyCookie', () => {
-      console.log('cookie has been destroyed');
-    });
-
-    // Refresh after logout
-    window.open('/');
+    axios.get('/api/destroyCookie')
+    .then(res => {props.isLogged(false)});
   }
 
   return (
-    <nav className="navbar-light text-white bg-primary">
-      <div className="container">
-        <Link to="/"><span className="navbar-brand clickable" id="navbar-brand">GoMixMe</span></Link>
-        <form className="form-inline" id="searchbar">
+    <nav className="navbar navbar-light text-white bg-navy">
+      <div className="container justify-content-between">
+        <Link to="/"><img className="navbar-brand" src="../images/logo.png" /></Link>
+        <form className="form-inline">
           <input className="form-control" type="text" size="65" placeholder="Search" id="searchbox" />
           <button className="btn btn-success ml-2" id="button-search" type="button" onClick={clickToSearch}>Search</button>
           <a href='/upload'><button className="btn btn-info ml-2" id="button-upload" type="button">Upload</button></a>
-          <a href="" className="logout" onClick={handleLogout}>Log Out</a>
-          <span className="pipe"> | </span>
-          <span className="username">{props.userInfo.firstname} </span>
         </form>
+        <span className="navbar-text">
+          <span className="username">{props.firstname} </span>
+          <span className="pipe"> | </span>
+          <a href="" className="logout" onClick={handleLogout}>Log Out</a>
+        </span>
       </div>
     </nav>
   )
 }
 
-export default Header;
+const MapStateToProps = (state) => {
+  return { firstname: state.userDetails.firstname }
+}
+
+export default connect(MapStateToProps, { pullTracks, isLogged })(Header);
