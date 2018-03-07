@@ -7,6 +7,7 @@ let router = express.Router();
 let session = require('express-session');
 let FileStore = require('session-file-store')(session);
 let multer = require('multer');
+const multerFields = require('./multerFields.js');
 
 // MULTER SETUP
 let storage = multer.diskStorage({
@@ -14,15 +15,10 @@ let storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../../userfiles'));
   },
   filename: function (req, file, cb) {
-    console.log('this is file.originalname 18', JSON.stringify(file.originalname));
     cb(null, Date.now() + '_'+ file.originalname);
   }
 })
-let upload = multer({'storage': storage}).fields([
-  {'name': 'image'},
-  {'name': 'audiofile'},
-  {'name': 'imageCropped'}
-]);
+let upload = multer({'storage': storage}).fields(multerFields);
 
 
 // SESSION SETTINGS
@@ -51,7 +47,7 @@ router.use(function(req, res, next) {
 *****************/
 
 // USERLOGIN
-router.post('/login', function(req, res) {
+router.post('/login', (req, res) => {
   let queryData = req.body;
 
   model.get(queryData, function(err, data) {
@@ -71,7 +67,7 @@ router.post('/login', function(req, res) {
   });
 });
 
-router.get('/session', function(req, res) {
+router.get('/session', (req, res) => {
   model.getSession(req.session, function(err, data) {
     console.log('this is the DB query return inside /session', data);
     if (data.length === 0) {
@@ -81,7 +77,7 @@ router.get('/session', function(req, res) {
   });
 })
 
-router.get('/all', function(req, res) {
+router.get('/all', (req, res) => {
   let queryData = req.query;
 
   model.get(queryData, function(err, data) {
@@ -90,7 +86,7 @@ router.get('/all', function(req, res) {
   });
 });
 
-router.get('/destroycookie', function(req, res) {
+router.get('/destroycookie', (req, res) => {
   req.session.destroy((err) => {
     if (err) throw err;
     res.send('User Session has been destroyed on the server');
@@ -99,7 +95,7 @@ router.get('/destroycookie', function(req, res) {
 });
 
 // REGISTER NEW USER
-router.post('/newuser', function(req, res) {
+router.post('/newuser', (req, res) => {
   let data = req.body;
   data.profilepic = req.files.imageCropped[0].filename;
 
@@ -114,5 +110,25 @@ router.post('/newuser', function(req, res) {
   model.post(data);
   res.status(201).redirect('/');
 });
+
+
+// HANDLE NEW UPLOAD
+router.post('/upload', (req, res) => {
+  let data = req.body;
+  console.log('this is req.body', req.body, 'and this is req.file', req.files)
+  res.status(201).send('received the request')
+/*  console.log('this is req.file', req.files)
+  console.log('this is the req.body', req.body)
+
+  upload(req, res, function (err) {
+    if (err) return next(err)
+    console.log('File has been stored');
+  });
+
+  model.post(data);
+  res.status(201).redirect('/');*/
+});
+
+
 
 module.exports = router;

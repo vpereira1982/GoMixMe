@@ -100,7 +100,12 @@ class App extends React.Component {
               <Route
                 path="/upload"
                 exact
-                render={(props) => <Upload handleChange={this.handleChange} />}
+                render={(props) =>
+                  <Upload
+                    customHistory={customHistory}
+                    handleChange={this.handleChange}
+                  />
+                }
               />
               <Route
                 path="/"

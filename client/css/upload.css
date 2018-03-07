@@ -1,3 +1,7 @@
 .multitrack, .mix {
   display: none;
 }
+
+.mix, .btn {
+  text-align: left;
+}

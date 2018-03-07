@@ -7,7 +7,7 @@ const MultitrackUpload = (props) => (
       <input
         type="file"
         className="form-control form-control-lg"
-        name="SessionPreviewFile"
+        name="sessionPreviewFile"
         accept="application/x-zip-compressed,audio/*"
         onChange={props.handleForm}
         />
@@ -28,7 +28,7 @@ const MultitrackUpload = (props) => (
       <input
         type="file"
         className="form-control form-control-lg"
-        name="SessionFiles"
+        name="multitrackFiles"
         accept="application/x-zip-compressed,audio/*"
         multiple
         onChange={props.handleForm}

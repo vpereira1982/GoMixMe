@@ -24,7 +24,6 @@ class Upload extends React.Component {
     this.setState({
       isMix: (e.target.value === 'Mix' ? true : false)
     });
-
     handleConditionalForm(e);
   }
 
@@ -42,7 +41,7 @@ class Upload extends React.Component {
     if (!isFirstPageComplete) {
       return (
         <div className="container">
-          <h2> Upload Audio </h2> <br />
+          <h2 className="pageHeader">Upload Audio</h2>
           <form id="Form" onSubmit={this.handleFormData} encType="multipart/form-data">
             <div className="form-group">
               <p>
@@ -50,7 +49,7 @@ class Upload extends React.Component {
                 Do you want to upload a Multitrack Session (i.e. several files) or a Mix?
               </p>
               <select
-                className="custom-select btn btn-success dropdown-toggle"
+                className="form-control btn btn-success dropdown-toggle"
                 name="type"
                 onChange={this.handleSelect}
                 required
@@ -77,6 +76,7 @@ class Upload extends React.Component {
           handleChange={this.props.handleChange}
           formData={this.state.formData}
           isMix={this.state.isMix}
+          customHistory={this.props.customHistory}
         />
       )
     }

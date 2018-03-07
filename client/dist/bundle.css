@@ -329,6 +329,10 @@
 .multitrack, .mix {
   display: none;
 }
+
+.mix, .btn {
+  text-align: left;
+}
 .sampleContainer {
   margin-top: 250px;
 }
