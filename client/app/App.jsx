@@ -32,9 +32,10 @@ class App extends React.Component {
       if (user) {
         // Call Redux Action Creators:
         this.props.isLogged(user.data.hasOwnProperty('id'));
-        this.props.changeFirstName(user.data.firstname);
-        this.props.changeLastName(user.data.lastname);
-        this.props.changeEmail(user.data.email);
+        this.props.updateFirstName(user.data.firstname);
+        this.props.updateLastName(user.data.lastname);
+        this.props.updateEmail(user.data.email);
+        this.props.updateProfilePic(user.data.profilepic)
       } else {
         this.props.isLogged(false);
       }
@@ -56,7 +57,6 @@ class App extends React.Component {
     const { email, pw } = this.props.userDetails;
 
     axios.post('/api/login', {email, pw}).then(user => {
-
       if (user) {
         // If user is valid (i.e. data), redirects to the main page:
         customHistory.push('/');
@@ -64,9 +64,9 @@ class App extends React.Component {
         // Call Redux Action Creators:
         this.props.isLogged(user.data.hasOwnProperty('id'));
         this.props.isReturning(false);
-        this.props.changeFirstName(user.data.firstname);
-        this.props.changeLastName(user.data.lastname);
-        //!!!!!!!!!!!!!!********** ADD AN ACTION TO SAVE THE USER PROFILE PICTURE LATER!!!!!
+        this.props.updateFirstName(user.data.firstname);
+        this.props.updateLastName(user.data.lastname);
+        this.props.updateProfilePic(user.data.profilepic);
       } else if (e) {
         let errorMsg = document.querySelector('.errorMsg');
         errorMsg.style.visibility = 'visible';

@@ -19,8 +19,10 @@ class Main extends React.Component {
   render () {
     if (this.props.tracklist) {
       return (
-        <div className="container">
-          <Results users={this.props.tracklist} />
+        <div className="bg-light">
+          <div className="container">
+            <Results users={this.props.tracklist} />
+          </div>
         </div>
       )
     } else {
@@ -32,6 +34,7 @@ class Main extends React.Component {
 const MapStateToProps = (state) => {
   return {
     searchQuery: state.searchQuery,
+    profilePic: state.userDetails.profilePic,
     tracklist: state.tracklist.tracks
   };
 }

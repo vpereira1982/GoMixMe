@@ -6,7 +6,7 @@ import APIcall from '../apicall';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { changePw, changeEmail } from './actions';
+import { updatePw, updateEmail } from './actions';
 import { createImgSrc }  from './helperFunctions/createImgSrc.js';
 import '../css/cropper.css';
 
@@ -58,22 +58,14 @@ class Signup extends React.Component {
 
     // append the new Cropped Image file to the FormData
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
+
     // send FORM to API
-
-
-    axios.post('/api', formData).then((res) => {
-      // Dispatch email && pw to Redux Store so handleLogin() can log the new user
-      this.props.changeEmail(this.state.email);
-      this.props.changePw(this.state.pw);
+    axios.post('/api/newuser', formData).then((res) => {
+      // Dispatch email && pw to Redux State so handleLogin() can log the new user
+      this.props.updateEmail(this.state.email);
+      this.props.updatePw(this.state.pw);
       this.handleLogin();
     })
-
-/*    APIcall.post(formData, '/api', () => {
-      // Dispatch email && pw to Redux Store so handleLogin() can log the new user
-      this.props.changeEmail(this.state.email);
-      this.props.changePw(this.state.pw);
-      this.handleLogin();
-    });*/
   }
 
   render() {
@@ -87,14 +79,14 @@ class Signup extends React.Component {
     } = this.state;
 
     return (
-      <div className="col-md-4 col-md-offset-4 bg-primary signup">
+      <div className="col-md-6 offset-md-3 signup text-white bg-navy">
         <h2> Sign Up </h2> <br />
         <form method="POST" onSubmit={this.handleFormSubmit} encType="multipart/form-data" id="form">
-          <div className="form-group">
+          <div className="form-group input-sm">
             <input
               name="firstname"
               type="text"
-              className="form-control form-control-lg"
+              className="form-control"
               onChange={this.handleChange}
               placeholder="First Name"
               value={firstname}
@@ -105,7 +97,7 @@ class Signup extends React.Component {
             <input
               name="lastname"
               type="text"
-              className="form-control form-control-lg"
+              className="form-control"
               onChange={this.handleChange}
               placeholder="Last Name"
               value={lastname}
@@ -116,7 +108,7 @@ class Signup extends React.Component {
             <input
               name="pw"
               type="password"
-              className="form-control form-control-lg"
+              className="form-control"
               onChange={this.handleChange}
               placeholder="Password"
               value={pw}
@@ -127,7 +119,7 @@ class Signup extends React.Component {
             <input
               name="email"
               type="text"
-              className="form-control form-control-lg"
+              className="form-control"
               onChange={this.handleChange}
               placeholder="Email"
               value={email}
@@ -136,15 +128,6 @@ class Signup extends React.Component {
           </div>
           <div className="form-group">
           {/* UPLOAD AUDIO button. */}
-            <label htmlFor="file">Upload Music</label>
-            <input
-              type="file"
-              name="audiofile"
-              className="form-control form-control-lg"
-              id="file"
-              accept="application/x-zip-compressed,audio/*"
-            />
-            <br />
             <div className="form-group">
               <select className="custom-select btn btn-success dropdown-toggle" name="genre" required>
                 <option value="">Favorite Genre</option>
@@ -169,7 +152,7 @@ class Signup extends React.Component {
                   id="image"
                   style={{visibility: "hidden"}}
                   onChange={this.handleImgFile}
-                  className="imgUploadInput form-control form-control-lg"
+                  className="imgUploadInput form-control"
                   accept="image/x-png,image/gif,image/jpeg"
                 />
                 <Cropper
@@ -185,7 +168,7 @@ class Signup extends React.Component {
               </div>
               <div>
                 {/* CROP FILE  button */}
-                <button type="button" className='btn btn-danger' onClick={this.cropImage}>Crop Image</button>
+                <button type="button" className='btn btn-danger' onClick={this.cropImage} required>Crop Image</button>
                 <br />
                 <img style={{ width: '20%', border: 'solid 0.5 grey' }} src={cropResult} />
               </div>
@@ -199,4 +182,4 @@ class Signup extends React.Component {
   }
 }
 
-export default connect(null, { changePw, changeEmail })(Signup);
+export default connect(null, { updatePw, updateEmail })(Signup);

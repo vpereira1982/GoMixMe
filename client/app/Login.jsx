@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { changeEmail, changePw } from './actions';
+import { updateEmail, updatePw } from './actions';
 import { Link } from 'react-router-dom';
 
-const Login = ({ email, pw, handleLogin, changePw, changeEmail }) => {
+const Login = ({ email, pw, handleLogin, updatePw, updateEmail }) => {
   let callActionCreators = (e) => {
     if (e.target.name === 'email') {
-      changeEmail(e.target.value);
+      updateEmail(e.target.value);
     } else {
-      changePw(e.target.value);
+      updatePw(e.target.value);
     }
   }
 
   return (
-    <div className="col-md-6 offset-md-3 login bg-navy">
+    <div className="col-md-6 offset-md-3 login text-white bg-navy">
       <h2>Log In</h2>
       <br />
       <form onSubmit={handleLogin}>
@@ -58,4 +58,4 @@ const MapStateToProps = (state) => {
   }
 }
 
-export default connect(MapStateToProps, { changeEmail, changePw })(Login);
+export default connect(MapStateToProps, { updateEmail, updatePw })(Login);

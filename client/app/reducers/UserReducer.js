@@ -6,7 +6,7 @@ const defaultState = {
         lastname: '',
         email: '',
         pw: '',
-        profilePic: path.join(__dirname, '../../images/default-profile.jpg'),
+        profilePic: '/Users/vpereira1982/Desktop/GoMixMe/userfiles/1520390614088_croppedImg.png',
         isReturning: true
       }
 
@@ -31,7 +31,7 @@ export default (state = defaultState, action) => {
     case 'isReturning':
       return Object.assign({}, state, {isReturning: action.payload});
 
-    case 'handleUploadImage':
+    case 'ProfilePic':
       return Object.assign({}, state, {profilePic: action.payload});
 
     default:

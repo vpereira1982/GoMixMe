@@ -46,9 +46,11 @@ router.use(function(req, res, next) {
   next();
 });
 
+/*****************
+    ROUTING
+*****************/
 
-
-// GET REQUESTS
+// USERLOGIN
 router.post('/login', function(req, res) {
   let queryData = req.body;
 
@@ -62,9 +64,9 @@ router.post('/login', function(req, res) {
       req.session.uid = data[0].id;
       req.session.firstname = data[0].firstname;
       console.log('this is the user data from DB after login', data);
-      res.status(200).send(JSON.stringify(data[0]));
+      res.status(201).send(JSON.stringify(data[0]));
     } else {
-      res.status(200).send(false);
+      res.status(401).send(false);
     }
   });
 });
@@ -80,11 +82,12 @@ router.get('/session', function(req, res) {
 })
 
 router.get('/all', function(req, res) {
-    let queryData = req.query;
-    model.get(queryData, function(err, data) {
-      if (err) throw err;
-      res.status(200).send(JSON.stringify(data));
-    });
+  let queryData = req.query;
+
+  model.get(queryData, function(err, data) {
+    if (err) throw err;
+    res.status(200).send(JSON.stringify(data));
+  });
 });
 
 router.get('/destroycookie', function(req, res) {
@@ -95,9 +98,11 @@ router.get('/destroycookie', function(req, res) {
 
 });
 
-// POST REQUESTS
-router.post('/', function(req, res) {
+// REGISTER NEW USER
+router.post('/newuser', function(req, res) {
   let data = req.body;
+  data.profilepic = req.files.imageCropped[0].filename;
+
   console.log('this is req.file', req.files)
   console.log('this is the req.body', req.body)
 

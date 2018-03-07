@@ -8,6 +8,7 @@ const favicon = require('serve-favicon')
 // Add routes & middleware
 app.use(favicon(path.join(__dirname, 'favicon', 'favicon.ico')))
 app.use('/', express.static(path.join(__dirname, '../client')));
+app.use('/userfiles', express.static(path.join(__dirname, '../userfiles')));
 app.use('/api', routes);
 
 // Server listens

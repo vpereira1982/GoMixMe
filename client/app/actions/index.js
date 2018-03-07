@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-export const changeFirstName = (name) => {
+export const updateFirstName = (name) => {
   return {
     type: 'first_name',
     payload: name
   }
 }
 
-export const changeLastName = (name) => {
+export const updateLastName = (name) => {
   return {
     type: 'last_name',
     payload: name
@@ -21,14 +21,14 @@ export const isLogged = (bool) => {
   }
 }
 
-export const changeEmail = (email) => {
+export const updateEmail = (email) => {
   return {
     type: 'email',
     payload: email
   }
 }
 
-export const changePw = (pw) => {
+export const updatePw = (pw) => {
   return {
     type: 'pw',
     payload: pw
@@ -49,16 +49,16 @@ export const selectUploadType = (name) => {
   }
 }
 
-export const handleFileData = (formData) => {
+export const updateFileData = (formData) => {
   return {
     type: 'saveFileDetails',
     payload: formData
   }
 }
 
-export const handleUploadImage = (image) => {
+export const updateProfilePic = (image) => {
   return {
-    type: 'handleUploadImage',
+    type: 'ProfilePic',
     payload: image
   }
 }

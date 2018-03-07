@@ -24,7 +24,7 @@ let obj = {
     let pwSalt = encrypt.makeSaltSync();
     let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
 
-    let queryString = `INSERT INTO users (firstname, lastname, pw, email, genre, salt, file) VALUES ('${data.firstname}','${data.lastname}','${pwHashed}','${data.email}','${data.genre}','${pwSalt}', '${data.file}');`
+    let queryString = `INSERT INTO users (firstname, lastname, pw, email, genre, salt, profilepic) VALUES ('${data.firstname}','${data.lastname}','${pwHashed}','${data.email}','${data.genre}','${pwSalt}', '${data.profilepic}');`
 
     db.query(queryString);
   }

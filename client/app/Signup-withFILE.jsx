@@ -2,43 +2,51 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import Cropper from 'react-cropper';
-import APIcall from '../apicall/ajax.js';
+import APIcall from '../apicall';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { changePw, changeEmail } from './actions';
-import { TextInput }  from './formComponents/InputForms.jsx';
-import FileInput from './formComponents/FileInputClass.jsx';
-import createImgSrc from './helperFunctions/createImgSrc.js';
-
+import { createImgSrc }  from './helperFunctions/createImgSrc.js';
 import '../css/cropper.css';
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      profilePic: '../../images/default-profile.jpg',
       cropResult: null,
       cropFile: null,
       firstname: '',
       lastname: '',
+      email: '',
+      pw: ''
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleImgFile = this.handleImgFile.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
     this.handleLogin = this.props.handleLogin.bind(this);
     this.cropImage = this.cropImage.bind(this);
   }
 
+  handleImgFile(e) {
+    let imageFile = e.target.files[0];
+
+    createImgSrc(imageFile, (result) => {
+      this.setState({
+        profilePic: result
+      });
+    });
+  }
 
   cropImage() {
-    if (!this.cropper.getCroppedCanvas()) { return };
-
     // convert dataURI -> Blob -> File
     let canvas = this.cropper.getCroppedCanvas();
 
     canvas.toBlob((blob) => {
       this.setState({
         cropResult: canvas.toDataURL(),
-        cropFile:
-          new File([blob], 'croppedImg.png', {type: 'image/png', lastModified: Date.now()})
+        cropFile: new File([blob], 'croppedImg.png', {type: 'image/png', lastModified: Date.now()})
       });
     });
   }
@@ -50,47 +58,76 @@ class Signup extends React.Component {
 
     // append the new Cropped Image file to the FormData
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
+
     // send FORM to API
-    APIcall.post(formData, '/api', () => {
-      // Send email && pw to Redux Store so handleLogin can log this user
+    axios.post('/api', formData).then((res) => {
+      // Dispatch email && pw to Redux State so handleLogin() can log the new user
       this.props.changeEmail(this.state.email);
       this.props.changePw(this.state.pw);
       this.handleLogin();
-    });
+    })
   }
-
 
   render() {
     const {
       firstname,
       lastname,
-      cropResult
+      pw,
+      email,
+      cropResult,
+      profilePic
     } = this.state;
 
-    const {
-      email,
-      pw,
-      profilePic
-    } = this.props
-
     return (
-      <div className="col-md-4 col-md-offset-4 bg-primary signup">
+      <div className="col-md-6 offset-md-3 signup text-white bg-navy">
         <h2> Sign Up </h2> <br />
         <form method="POST" onSubmit={this.handleFormSubmit} encType="multipart/form-data" id="form">
           <div className="form-group">
-            {TextInput('firstname', 'text', 'First Name', this.handleChange, firstname, true)}
+            <input
+              name="firstname"
+              type="text"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="First Name"
+              value={firstname}
+              required
+              />
           </div>
           <div className="form-group">
-            {TextInput('lastname', 'text', 'Last Name', this.handleChange, lastname, true)}
+            <input
+              name="lastname"
+              type="text"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="Last Name"
+              value={lastname}
+              required
+              />
           </div>
           <div className="form-group">
-            {TextInput('pw', 'password', 'Password', this.props.changePw, pw, true)}
+            <input
+              name="pw"
+              type="password"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="Password"
+              value={pw}
+              required
+              />
           </div>
           <div className="form-group">
-            {TextInput('email', 'text', 'Email', this.props.changeEmail, email, true)}
+            <input
+              name="email"
+              type="text"
+              className="form-control form-control-lg"
+              onChange={this.handleChange}
+              placeholder="Email"
+              value={email}
+              required
+              />
           </div>
           <div className="form-group">
-          {/* this is the UPLOAD AUDIO button. */}
+          {/* UPLOAD AUDIO button. */}
             <label htmlFor="file">Upload Music</label>
             <input
               type="file"
@@ -116,31 +153,31 @@ class Signup extends React.Component {
             </div>
             <div>
               <div style={{ width: '45%' }}>
-              {/* this is the UPLOAD IMAGE button */}
+              {/* UPLOAD IMAGE button */}
                 <label htmlFor='image' className='btn btn-info'>Upload Profile Photo</label>
-                <FileInput
-                  name={"image"}
-                  cssId={"image"}
+                <input
+                  name="image"
+                  type="file"
+                  id="image"
                   style={{visibility: "hidden"}}
-                  accept={"image/x-png,image/gif,image/jpeg"}
-                  require={true}
+                  onChange={this.handleImgFile}
+                  className="imgUploadInput form-control form-control-lg"
+                  accept="image/x-png,image/gif,image/jpeg"
                 />
                 <Cropper
-                  style={{ height: 100, width: 50 }}
+                  style={{ height: 400, width: 400 }}
                   aspectRatio={1}
                   preview="img-preview"
                   zoomable={false}
                   scalable={false}
                   guides={false}
-                  src={this.props.profilePic}
+                  src={profilePic}
                   ref={(cropper) => {this.cropper = cropper}}
                 />
               </div>
               <div>
-                {/* this is the CROP FILE  button */}
-                <button type="button" className='btn btn-danger' onClick={this.cropImage}>
-                  Crop Image
-                </button>
+                {/* CROP FILE  button */}
+                <button type="button" className='btn btn-danger' onClick={this.cropImage}>Crop Image</button>
                 <br />
                 <img style={{ width: '20%', border: 'solid 0.5 grey' }} src={cropResult} />
               </div>
@@ -154,14 +191,4 @@ class Signup extends React.Component {
   }
 }
 
-const MapStateToProps = (state) => {
-  const { profilePic, email, pw } = state.userDetails;
-
-  return {
-    profilePic,
-    email,
-    pw
-  }
-}
-
-export default connect(MapStateToProps, { changePw, changeEmail })(Signup);
+export default connect(null, { changePw, changeEmail })(Signup);
