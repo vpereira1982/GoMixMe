@@ -20,7 +20,7 @@ class UploadDetails extends React.Component {
     this.handleUploadImage = this.handleUploadImage.bind(this);
     this.cropImage = this.cropImage.bind(this);
     this.handleChange = props.handleChange.bind(this);
-    this.submitUpload = this.submitUpload.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleUploadImage(e) {
@@ -45,7 +45,8 @@ class UploadDetails extends React.Component {
     });
   }
 
-  submitUpload(e) {
+  handleSubmit(e) {
+    e.preventDefault();
     let { formData, isMix, customHistory } = this.props;
     let { cropFile, artist, title, description } = this.state;
 
@@ -55,12 +56,11 @@ class UploadDetails extends React.Component {
     formData.append('artist', artist);
     formData.append('description', description);
 
-    axios.post('/api/upload', formData).then((res) => {
-      console.log('Form has been submitted', res)
-    });
+    axios.post('/api/upload', formData)
+      .then((res) => {console.log('Form has been submitted', res)});
 
     // Once submitted, redirect to <Main />
-    customHistory.push('/');
+    this.props.customHistory.push('/');
   }
 
   render() {
@@ -70,7 +70,7 @@ class UploadDetails extends React.Component {
     return (
       <div className="bg-light">
         <div className="container bg-white">
-          <form id="UploadFormInfo" onSubmit={this.submitUpload} encType="multipart/form-data">
+          <form id="UploadFormInfo" onSubmit={this.handleSubmit} encType="multipart/form-data">
             <h2 className="pageHeader">Share some info</h2>
             <div className="form-group">
               <h5><label htmlFor="artist">Artist</label></h5>
