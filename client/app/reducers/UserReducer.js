@@ -6,6 +6,7 @@ const defaultState = {
         lastname: '',
         email: '',
         pw: '',
+        id: '',
         profilePic: '/Users/vpereira1982/Desktop/GoMixMe/userfiles/1520390614088_croppedImg.png',
         isReturning: true
       }
@@ -33,6 +34,9 @@ export default (state = defaultState, action) => {
 
     case 'ProfilePic':
       return Object.assign({}, state, {profilePic: action.payload});
+
+    case 'storeId':
+      return Object.assign({}, state, {id: action.payload});
 
     default:
       return state;

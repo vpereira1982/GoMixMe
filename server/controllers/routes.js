@@ -115,18 +115,21 @@ router.post('/newuser', (req, res) => {
 // HANDLE NEW UPLOAD
 router.post('/upload', (req, res) => {
   let data = req.body;
-  console.log('this is req.body', req.body, 'and this is req.file', req.files)
-  res.status(201).send('received the request')
-/*  console.log('this is req.file', req.files)
+
+  console.log('this is req.file', req.files)
   console.log('this is the req.body', req.body)
+
+  if (data.isMix) {
+    data.file = req.files.mixFile[0];
+  }
 
   upload(req, res, function (err) {
     if (err) return next(err)
     console.log('File has been stored');
   });
 
-  model.post(data);
-  res.status(201).redirect('/');*/
+  model.saveMix(data);
+  res.status(201).redirect('/');
 });
 
 

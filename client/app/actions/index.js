@@ -35,6 +35,13 @@ export const updatePw = (pw) => {
   }
 }
 
+export const storeId = (id) => {
+  return {
+    type: 'storeId',
+    payload: id
+  }
+}
+
 export const isReturning = (bool) => {
   return {
     type: 'isReturning',

@@ -49,7 +49,7 @@ class UploadDetails extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     this.setState({transferring: true});
-    let { formData, isMix, customHistory } = this.props;
+    let { formData, isMix, customHistory, userId } = this.props;
     let { cropFile, artist, title, description } = this.state;
 
     formData.append('trackImage', cropFile, 'croppedImg.png');
@@ -57,6 +57,7 @@ class UploadDetails extends React.Component {
     formData.append('title', title);
     formData.append('artist', artist);
     formData.append('description', description);
+    formData.append('userId', userId);
 
     axios.post('/api/upload', formData)
       .then(() => {

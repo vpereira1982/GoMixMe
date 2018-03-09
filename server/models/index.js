@@ -20,7 +20,6 @@ let obj = {
   },
 
   post: (data, callback) => {
-    console.log('this is the signup data', data);
     let pwSalt = encrypt.makeSaltSync();
     let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
 
@@ -28,6 +27,10 @@ let obj = {
 
     db.query(queryString);
   }
+
+  saveMix: (data, callback) => {
+    db.query(`INSERT INTO mixes (file, userId) VALUES ('${data.file}','${data.userid}'`);
+  };
 }
 
 

@@ -31,6 +31,7 @@ class App extends React.Component {
       if (user) {
         // Call Redux Action Creators:
         this.props.isLogged(user.data.hasOwnProperty('id'));
+        this.props.storeId(user.data.id);
         this.props.updateFirstName(user.data.firstname);
         this.props.updateLastName(user.data.lastname);
         this.props.updateEmail(user.data.email);
@@ -62,6 +63,7 @@ class App extends React.Component {
 
         // Call Redux Action Creators:
         this.props.isLogged(user.data.hasOwnProperty('id'));
+        this.props.storeId(user.data.id);
         this.props.isReturning(false);
         this.props.updateFirstName(user.data.firstname);
         this.props.updateLastName(user.data.lastname);
@@ -86,7 +88,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLogged, isReturning } = this.props.userDetails;
+    const { isLogged, isReturning, id } = this.props.userDetails;
 
     if (isLogged === '') {
       return <Loading />
@@ -103,6 +105,7 @@ class App extends React.Component {
                   <Upload
                     customHistory={customHistory}
                     handleChange={this.handleChange}
+                    userId={id}
                   />
                 }
               />
