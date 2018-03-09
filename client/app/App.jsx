@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import APIcall from '../apicall'
+import axios from 'axios'
 import Header from './Header.jsx';
 import Signup from './Signup.jsx';
 import Main from './Main.jsx';
@@ -10,7 +10,6 @@ import Loading from './Loading.jsx';
 import ErrorMessage from './Error.jsx';
 import { connect } from 'react-redux';
 import * as Actions from './actions';
-import axios from 'axios'
 
 // LOAD REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch } from 'react-router-dom';

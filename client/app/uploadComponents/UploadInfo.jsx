@@ -15,7 +15,8 @@ class UploadDetails extends React.Component {
       cropFile: null,
       artist: '',
       title: '',
-      description: ''
+      description: '',
+      transferring: false
     }
     this.handleUploadImage = this.handleUploadImage.bind(this);
     this.cropImage = this.cropImage.bind(this);
@@ -47,6 +48,7 @@ class UploadDetails extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.setState({transferring: true});
     let { formData, isMix, customHistory } = this.props;
     let { cropFile, artist, title, description } = this.state;
 
@@ -57,10 +59,12 @@ class UploadDetails extends React.Component {
     formData.append('description', description);
 
     axios.post('/api/upload', formData)
-      .then((res) => {console.log('Form has been submitted', res)});
-
-    // Once submitted, redirect to <Main />
-    this.props.customHistory.push('/');
+      .then(() => {
+        //setTimeout(() => window.location.replace("http://localhost:8080/"), 3000);
+        customHistory.push('/');
+        setTimeout(() => location.reload(), 3000);
+        // TO-DO: Optimize this. Add a component that will show that the data is being transferred.
+      });
   }
 
   render() {
@@ -149,6 +153,7 @@ class UploadDetails extends React.Component {
             <br />
             <button type="submit" className="btn btn-success">Submit</button>
           </form>
+          {this.state.transferring ? <p className="text-info">Uploading...</p> : <br/>}
         </div>
       </div>
     )
