@@ -25,8 +25,14 @@ const Header = (props) => {
         <Link to="/"><img className="navbar-brand" src="../images/logo.png" /></Link>
         <form className="form-inline">
           <input className="form-control" type="text" size="65" placeholder="Search" id="searchbox" />
-          <button className="btn btn-success ml-2" id="button-search" type="button" onClick={clickToSearch}>Search</button>
-          <a href='/upload'><button className="btn btn-info ml-2" id="button-upload" type="button">Upload</button></a>
+          <button className="btn btn-success ml-2" id="button-search" type="button" onClick={clickToSearch}>
+            Search
+          </button>
+          <a href='/upload'>
+            <button className="btn btn-info ml-2" id="button-upload" type="button">
+              Upload
+            </button>
+          </a>
         </form>
         <span className="navbar-text">
           <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilePic}`} />
