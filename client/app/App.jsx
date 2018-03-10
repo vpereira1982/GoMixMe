@@ -35,7 +35,7 @@ class App extends React.Component {
         this.props.updateFirstName(user.data.firstname);
         this.props.updateLastName(user.data.lastname);
         this.props.updateEmail(user.data.email);
-        this.props.updateProfilePic(user.data.profilepic)
+        this.props.updateProfilePic(user.data.profilepic);
       } else {
         this.props.isLogged(false);
       }
@@ -105,7 +105,6 @@ class App extends React.Component {
                   <Upload
                     customHistory={customHistory}
                     handleChange={this.handleChange}
-                    userId={id}
                   />
                 }
               />

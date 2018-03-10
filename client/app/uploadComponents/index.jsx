@@ -76,7 +76,6 @@ class Upload extends React.Component {
           handleChange={this.props.handleChange}
           formData={this.state.formData}
           isMix={this.state.isMix}
-          userId={this.props.id}
           customHistory={this.props.customHistory}
         />
       )

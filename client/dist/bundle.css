@@ -326,13 +326,6 @@
   cursor: not-allowed;
 }
 
-.multitrack, .mix {
-  display: none;
-}
-
-.mix, .btn {
-  text-align: left;
-}
 .sampleContainer {
   margin-top: 250px;
 }
@@ -424,4 +417,11 @@
   100% {
     transform: rotate(-360deg) translateX(12px);
   }
+}
+.multitrack, .mix {
+  display: none;
+}
+
+.mix, .btn {
+  text-align: left;
 }

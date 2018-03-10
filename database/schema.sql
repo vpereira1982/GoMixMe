@@ -17,7 +17,12 @@ CREATE TABLE users (
 
 CREATE TABLE mixes (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  file VARCHAR(600),
+  file JSON,
+  image VARCHAR(600),
+  artist VARCHAR(30),
+  title VARCHAR(30),
+  genre VARCHAR(15),
+  description VARCHAR(300),
   userid INT
 );
 
@@ -57,7 +62,23 @@ INSERT INTO users (
   '/Users/vpereira1982/Desktop/GoMixMe/userfile/1520305869370_ingrid.PNG'
 );
 
-INSERT INTO mixes (file, userid) VALUES ('teste.wav', 1);
+INSERT INTO mixes (
+  file,
+  userid,
+  image,
+  artist,
+  title,
+  genre,
+  description
+  ) VALUES (
+  '{"mascot": "Our mascot is a dolphin named \\"Sakila\\"."}',
+  1,
+  'placeholder.jpg',
+  'Ozzy',
+  'Lay Your World On Me',
+  'metal',
+  'Our song is beautiful'
+);
 
 INSERT INTO multitracks (
   file1,

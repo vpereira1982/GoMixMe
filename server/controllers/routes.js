@@ -102,12 +102,12 @@ router.post('/newuser', (req, res) => {
   console.log('this is req.file', req.files)
   console.log('this is the req.body', req.body)
 
-  upload(req, res, function (err) {
+  upload(req, res, (err) => {
     if (err) return next(err)
-    console.log('File has been stored');
+    console.log('Profile Img has been stored');
   });
 
-  model.post(data);
+  model.newUser(data);
   res.status(201).redirect('/');
 });
 
@@ -116,20 +116,18 @@ router.post('/newuser', (req, res) => {
 router.post('/upload', (req, res) => {
   let data = req.body;
 
-  console.log('this is req.file', req.files)
-  console.log('this is the req.body', req.body)
-
   if (data.isMix) {
-    data.file = req.files.mixFile[0];
+    data.file = JSON.stringify(req.files.mixFile[0]);
+    data.image = JSON.stringify(req.files.image[0].filename);
+    model.newMix(data);
   }
 
-  upload(req, res, function (err) {
-    if (err) return next(err)
-    console.log('File has been stored');
+  upload(req, res, (err) => {
+    if (err) return next(err);
+    console.log('Upload files have been stored');
   });
 
-  model.saveMix(data);
-  res.status(201).redirect('/');
+  res.status(201).send('Success, upload data has been saved');
 });
 
 

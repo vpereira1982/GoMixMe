@@ -4,7 +4,8 @@ import { handleUploadImage } from '../actions';
 import { createImgSrc } from '../helperFunctions/createImgSrc.js';
 import axios from 'axios';
 import Cropper from 'react-cropper';
-import APIcall from '../../apicall';
+import Transferring from './Transferring.jsx';
+import { connect } from 'react-redux';
 
 class UploadDetails extends React.Component {
   constructor(props) {
@@ -12,9 +13,10 @@ class UploadDetails extends React.Component {
     this.state = {
       imgSrc: '../../images/default-profile.jpg',
       cropResult: null,
-      cropFile: null,
+      image: null,
       artist: '',
       title: '',
+      genre: '',
       description: '',
       transferring: false
     }
@@ -39,7 +41,7 @@ class UploadDetails extends React.Component {
     canvas.toBlob((blob) => {
       this.setState({
         cropResult: canvas.toDataURL(),
-        cropFile: new File(
+        image: new File(
           [blob], 'croppedImg.png', {type: 'image/png', lastModified: Date.now()}
         )
       });
@@ -48,23 +50,27 @@ class UploadDetails extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({transferring: true});
-    let { formData, isMix, customHistory, userId } = this.props;
-    let { cropFile, artist, title, description } = this.state;
 
-    formData.append('trackImage', cropFile, 'croppedImg.png');
+    // Make Form disappear and load new Transferring component
+    document.getElementById('upload-form').style.display = 'none';
+    this.setState({transferring: true});
+
+    // Handle formData and push to server
+    let { formData, isMix, customHistory, id } = this.props;
+    let { image, artist, title, genre, description } = this.state;
+
     formData.append('isMix', isMix);
     formData.append('title', title);
     formData.append('artist', artist);
+    formData.append('genre', genre);
+    formData.append('userId', id);
     formData.append('description', description);
-    formData.append('userId', userId);
+    formData.append('image', image, 'croppedImg.png');
 
     axios.post('/api/upload', formData)
-      .then(() => {
-        //setTimeout(() => window.location.replace("http://localhost:8080/"), 3000);
+      .then((res) => {
         customHistory.push('/');
         setTimeout(() => location.reload(), 3000);
-        // TO-DO: Optimize this. Add a component that will show that the data is being transferred.
       });
   }
 
@@ -75,7 +81,7 @@ class UploadDetails extends React.Component {
     return (
       <div className="bg-light">
         <div className="container bg-white">
-          <form id="UploadFormInfo" onSubmit={this.handleSubmit} encType="multipart/form-data">
+          <form id="upload-form" onSubmit={this.handleSubmit} encType="multipart/form-data">
             <h2 className="pageHeader">Share some info</h2>
             <div className="form-group">
               <h5><label htmlFor="artist">Artist</label></h5>
@@ -96,14 +102,19 @@ class UploadDetails extends React.Component {
                 type="text"
                 id="title"
                 size="40"
-                placeholder={isMix ? 'Name your Mix' : 'Name your Session'}
+                placeholder="Title of your track"
                 onChange={this.handleChange}
                 value={title}
               />
             </div>
             <div className="form-group">
               <h5><label htmlFor="genre">Genre</label></h5>
-              <select name="genre" id="genre" className="custom-select btn btn-success dropdown-toggle" required>
+              <select
+                name="genre"
+                className="custom-select btn btn-success dropdown-toggle"
+                onChange={this.handleChange}
+                required
+              >
                 <option value="">Favorite Genre</option>
                 <option value="Blues">Blues</option>
                 <option value="Classical">Classical</option>
@@ -154,11 +165,15 @@ class UploadDetails extends React.Component {
             <br />
             <button type="submit" className="btn btn-success">Submit</button>
           </form>
-          {this.state.transferring ? <p className="text-info">Uploading...</p> : <br/>}
+          {this.state.transferring ? <Transferring /> : <br/>}
         </div>
       </div>
     )
   }
 }
 
-export default UploadDetails;
+const MapStateToProps = (state) => {
+  return {id: state.userDetails.id};
+}
+
+export default connect(MapStateToProps, null)(UploadDetails);
