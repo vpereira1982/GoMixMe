@@ -11,5 +11,5 @@ module.exports =  [
   {'name': 'trackImage'},
   {'name': 'imageCropped'},
   {'name': 'multitrackFiles'},
-  {'name': 'sessionPreviewFile'}
+  {'name': 'previewFile'}
 ];

@@ -28,15 +28,12 @@ CREATE TABLE mixes (
 
 CREATE TABLE multitracks (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  file1 VARCHAR(600),
-  file2 VARCHAR(600),
-  file3 VARCHAR(600),
-  file4 VARCHAR(600),
-  file5 VARCHAR(600),
-  file6 VARCHAR(600),
-  file7 VARCHAR(600),
-  file8 VARCHAR(600),
-  file9 VARCHAR(600),
+  files JSON,
+  image VARCHAR(600),
+  artist VARCHAR(30),
+  title VARCHAR(30),
+  genre VARCHAR(15),
+  description VARCHAR(300),
   userid INT
 );
 
@@ -81,27 +78,23 @@ INSERT INTO mixes (
 );
 
 INSERT INTO multitracks (
-  file1,
-  file2,
-  file3,
-  file4,
-  file5,
-  file6,
-  file7,
-  file8,
-  file9,
-  userid
+  previewFile,
+  files,
+  userid,
+  image,
+  artist,
+  title,
+  genre,
+  description
   ) VALUES (
-  'guitarL.wav',
-  'guitarR.wav',
-  'bass-clean.wav',
-  'vocals.wav',
-  'ride.wav',
-  'hi-hat.wav',
-  'crash-left.wav',
-  'crash-right.wav',
-  'snare.wav',
-  1
+  '{"preview": "Our mascot is a dolphin named \\"Sakila\\"."}',
+  '{"mascot": "Our mascot is a dolphin named \\"Sakila\\"."}',
+  1,
+  'placeholder.jpg',
+  'Ozzy',
+  'Lay Your World On Me',
+  'metal',
+  'Our song is beautiful'
 );
 
 

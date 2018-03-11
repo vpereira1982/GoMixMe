@@ -48,6 +48,31 @@ let obj = {
       '${data.image}',
       '${data.genre}')`
     );
+  },
+
+
+  newMultitrack: (data, callback) => {
+    db.query(
+      `INSERT INTO mixes (
+      userid,
+      files,
+      artist,
+      title,
+      description,
+      image,
+      genre,
+      previewFile
+      ) VALUES (
+      '${data.userId}',
+      '${data.files}',
+      '${data.artist}',
+      '${data.title}',
+      '${data.description}',
+      '${data.image}',
+      '${data.genre}',
+      '${data.previewFile}'
+      )`
+    );
   }
 }
 

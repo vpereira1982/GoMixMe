@@ -40,31 +40,33 @@ class Upload extends React.Component {
 
     if (!isFirstPageComplete) {
       return (
-        <div className="container">
-          <h2 className="pageHeader">Upload Audio</h2>
-          <form id="Form" onSubmit={this.handleFormData} encType="multipart/form-data">
-            <div className="form-group">
-              <p>
-                <strong>Step 1:</strong>
-                Do you want to upload a Multitrack Session (i.e. several files) or a Mix?
-              </p>
-              <select
-                className="form-control btn btn-success dropdown-toggle"
-                name="type"
-                onChange={this.handleSelect}
-                required
-              >
-                <option className="defaultOption" defaultValue>Select Option</option>
-                <option value="Mix">Mix</option>
-                <option value="Multitrack">Multitrack</option>
-              </select>
-            </div>
-            {/* Step2 for Mix Uploads */}
-            <MixUpload handleForm={handleConditionalForm} />
-            {/* Step2 for Multitracks */}
-            <MultitrackUpload handleForm={handleConditionalForm} />
-            <button id="button" type="button" className="btn btn-success">Continue</button>
-          </form>
+        <div className="bg-light">
+          <div className="container bg-white content-body">
+            <h2 className="pageHeader">Upload Audio</h2>
+            <form id="Form" onSubmit={this.handleFormData} encType="multipart/form-data">
+              <div className="form-group">
+                <p>
+                  <strong>Step 1:</strong>
+                  Do you want to upload a Multitrack Session (i.e. several files) or a Mix?
+                </p>
+                <select
+                  className="form-control btn btn-success dropdown-toggle"
+                  name="type"
+                  onChange={this.handleSelect}
+                  required
+                >
+                  <option className="defaultOption" defaultValue>Select Option</option>
+                  <option value="Mix">Mix</option>
+                  <option value="Multitrack">Multitrack</option>
+                </select>
+              </div>
+              {/* Step2 for Mix Uploads */}
+              <MixUpload handleForm={handleConditionalForm} />
+              {/* Step2 for Multitracks */}
+              <MultitrackUpload handleForm={handleConditionalForm} />
+              <button id="button" type="button" className="btn btn-success">Continue</button>
+            </form>
+          </div>
         </div>
       )
     }

@@ -116,10 +116,16 @@ router.post('/newuser', (req, res) => {
 router.post('/upload', (req, res) => {
   let data = req.body;
 
-  if (data.isMix) {
+  if (!!data.isMix) {
     data.file = JSON.stringify(req.files.mixFile[0]);
     data.image = JSON.stringify(req.files.image[0].filename);
     model.newMix(data);
+  } else {
+    console.log('it is false..')
+    data.previewFile = JSON.stringify(req.files.previewFile[0]);
+    data.files = JSON.stringify(req.files.multitrackFiles);
+    data.image = JSON.stringify(req.files.image[0].filename);
+    model.newMultitrack(data);
   }
 
   upload(req, res, (err) => {

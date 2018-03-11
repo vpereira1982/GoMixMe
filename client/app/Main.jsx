@@ -20,7 +20,7 @@ class Main extends React.Component {
     if (this.props.tracklist) {
       return (
         <div className="bg-light">
-          <div className="container">
+          <div className="container bg-white">
             <Results users={this.props.tracklist} />
           </div>
         </div>
