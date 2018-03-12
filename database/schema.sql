@@ -23,6 +23,7 @@ CREATE TABLE mixes (
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
+  isMix BOOLEAN,
   userId INT
 );
 
@@ -35,6 +36,7 @@ CREATE TABLE multitracks (
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
+  isMix BOOLEAN,
   userId INT
 );
 
@@ -67,15 +69,17 @@ INSERT INTO mixes (
   artist,
   title,
   genre,
-  description
+  description,
+  isMix
   ) VALUES (
-  '{"mascot": "Our mascot is a dolphin named \\"Sakila\\"."}',
+  '{"MIX": "mix"}',
   1,
   '{"filename": "default-profile.jpg"}',
   'Pink Floud',
   'Breath',
   'Progressive',
-  'Our song is beautiful'
+  'Our song is beautiful',
+  true
 );
 
 INSERT INTO multitracks (
@@ -86,16 +90,18 @@ INSERT INTO multitracks (
   artist,
   title,
   genre,
-  description
+  description,
+  isMix
   ) VALUES (
-  '{"preview": "Our mascot is a dolphin named \\"Sakila\\"."}',
-  '{"mascot": "Our mascot is a dolphin named \\"Sakila\\"."}',
+  '{"MULTITRACK": "multitrack"}',
+  '{"MULTITRACK": "multitrack"}',
   1,
   '{"filename": "default-profile.jpg"}',
   'Ozzy',
   'Lay Your World On Me',
   'metal',
-  'Our song is beautiful'
+  'Our song is beautiful',
+  false
 );
 
 

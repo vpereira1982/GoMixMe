@@ -82,6 +82,7 @@ router.get('/tracks', (req, res) => {
 
   model.get(queryData, function(err, data) {
     if (err) throw err;
+    console.log('this is the data with mixes and multitracks together...', data)
     res.status(200).send(JSON.stringify(data));
   });
 });
@@ -112,8 +113,10 @@ router.post('/newuser', (req, res) => {
 // HANDLE NEW UPLOAD
 router.post('/upload', (req, res) => {
   let data = req.body;
+  data.isMix = JSON.parse(data.isMix)
 
-  if (JSON.parse(data.isMix)) {
+  if (data.isMix) {
+    console.log(typeof data.isMix)
     data.file = JSON.stringify(req.files.mixFile[0]);
     data.image = JSON.stringify(req.files.image[0]);
     model.newMix(data);

@@ -14,8 +14,8 @@ module.exports = {
     } */
 
     else {
-      console.log('it does get here in this global query part..')
-      db.query(`SELECT * FROM mixes ORDER BY id LIMIT 5000`, callback);
+      // THIS NEEDS TO BE OPTIMIZED INTO A SINGLE QUERY...
+      db.query(`SELECT * FROM mixes ORDER BY id LIMIT 10`, callback);
     }
   },
 
@@ -35,6 +35,8 @@ module.exports = {
   },
 
   newMix: (data, callback) => {
+        console.log('inside model', typeof data.isMix)
+
     db.query(
       `INSERT INTO mixes (
       userId,
@@ -43,7 +45,8 @@ module.exports = {
       title,
       description,
       image,
-      genre
+      genre,
+      isMix
       ) VALUES (
       '${data.userId}',
       '${data.file}',
@@ -51,7 +54,9 @@ module.exports = {
       '${data.title}',
       '${data.description}',
       '${data.image}',
-      '${data.genre}')`
+      '${data.genre}',
+      '${data.isMix}'
+      )`
     );
   },
 
@@ -66,7 +71,8 @@ module.exports = {
       description,
       image,
       genre,
-      previewFile
+      previewFile,
+      isMix
       ) VALUES (
       '${data.userId}',
       '${data.files}',
@@ -75,7 +81,8 @@ module.exports = {
       '${data.description}',
       '${data.image}',
       '${data.genre}',
-      '${data.previewFile}'
+      '${data.previewFile}',
+      '${data.isMix}'
       )`
     );
   }
