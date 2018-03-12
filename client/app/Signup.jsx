@@ -9,13 +9,14 @@ import { connect } from 'react-redux';
 import { updatePw, updateEmail } from './actions';
 import { createImgSrc }  from './helperFunctions/createImgSrc.js';
 import '../css/cropper.css';
+const defaultImg = '../../images/default-profile.jpg'
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePic: '../../images/default-profile.jpg',
-      cropResult: null,
+      profilePic: defaultImg,
+      cropResult: defaultImg,
       cropFile: null,
       firstname: '',
       lastname: '',
@@ -142,37 +143,32 @@ class Signup extends React.Component {
                 <option value="Jazz">Jazz</option>
               </select>
             </div>
-            <div>
-              <div style={{ width: '45%' }}>
-              {/* UPLOAD IMAGE button */}
-                <label htmlFor='image' className='btn btn-info'>Upload Profile Photo</label>
-                <input
-                  name="image"
-                  type="file"
-                  id="image"
-                  style={{visibility: "hidden"}}
-                  onChange={this.handleImgFile}
-                  className="imgUploadInput form-control"
-                  accept="image/x-png,image/gif,image/jpeg"
-                />
-                <Cropper
-                  style={{ height: 400, width: 400 }}
-                  aspectRatio={1}
-                  preview="img-preview"
-                  zoomable={false}
-                  scalable={false}
-                  guides={false}
-                  src={profilePic}
-                  ref={(cropper) => {this.cropper = cropper}}
-                />
-              </div>
-              <div>
-                {/* CROP FILE  button */}
-                <button type="button" className='btn btn-danger' onClick={this.cropImage} required>Crop Image</button>
-                <br />
-                <img style={{ width: '20%', border: 'solid 0.5 grey' }} src={cropResult} />
-              </div>
-              <br style={{ clear: 'both' }} />
+            <div className="form-group">
+            {/* UPLOAD IMAGE button */}
+              <label htmlFor='image' className='btn btn-info mt-4'>Upload Profile Photo</label>
+              <input
+                name="image"
+                type="file"
+                id="image"
+                onChange={this.handleImgFile}
+                className="form-control invisible"
+                accept="image/x-png,image/gif,image/jpeg"
+              />
+              <Cropper
+                style={{ height: 300, width: 300 }}
+                aspectRatio={1}
+                zoomable={false}
+                scalable={false}
+                guides={false}
+                src={profilePic}
+                ref={(cropper) => {this.cropper = cropper}}
+              />
+            {/* CROP FILE  button */}
+              <button type="button" className='btn btn-danger mt-3 mb-3' onClick={this.cropImage} required>
+                Crop Image
+              </button>
+              <br />
+              <img className="cropped-img-preview " src={cropResult} />
             </div>
           </div>
           <button type="submit" className="btn btn-success">Submit</button>

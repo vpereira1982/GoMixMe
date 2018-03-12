@@ -71,6 +71,6 @@ export const updateProfilePic = (image) => {
 }
 
 export const pullTracks = (request) => {
-  return axios.get('/api/all', { params: { query: request } })
+  return axios.get('/api/tracks', { params: { query: request } })
   .then(res => ({type: 'pullTracks', payload: res.data}) );
 }

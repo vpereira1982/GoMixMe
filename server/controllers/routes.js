@@ -77,7 +77,7 @@ router.get('/session', (req, res) => {
   });
 })
 
-router.get('/all', (req, res) => {
+router.get('/tracks', (req, res) => {
   let queryData = req.query;
 
   model.get(queryData, function(err, data) {
@@ -99,9 +99,6 @@ router.post('/newuser', (req, res) => {
   let data = req.body;
   data.profilepic = req.files.imageCropped[0].filename;
 
-  console.log('this is req.file', req.files)
-  console.log('this is the req.body', req.body)
-
   upload(req, res, (err) => {
     if (err) return next(err)
     console.log('Profile Img has been stored');
@@ -116,21 +113,20 @@ router.post('/newuser', (req, res) => {
 router.post('/upload', (req, res) => {
   let data = req.body;
 
-  if (!!data.isMix) {
+  if (JSON.parse(data.isMix)) {
     data.file = JSON.stringify(req.files.mixFile[0]);
-    data.image = JSON.stringify(req.files.image[0].filename);
+    data.image = JSON.stringify(req.files.image[0]);
     model.newMix(data);
   } else {
-    console.log('it is false..')
     data.previewFile = JSON.stringify(req.files.previewFile[0]);
     data.files = JSON.stringify(req.files.multitrackFiles);
-    data.image = JSON.stringify(req.files.image[0].filename);
+    data.image = JSON.stringify(req.files.image[0]);
     model.newMultitrack(data);
   }
 
+  // Store files in Multer's folder
   upload(req, res, (err) => {
     if (err) return next(err);
-    console.log('Upload files have been stored');
   });
 
   res.status(201).send('Success, upload data has been saved');

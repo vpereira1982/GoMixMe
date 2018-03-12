@@ -1,3 +1,17 @@
+### Start the application
+
+First time:
+1 - make sure you create a folder at the root level called '/userfiles' (for local dev work)
+2 - npm install
+3 - mysql.server start
+4 - npm run refresh-schema (i.e. this will push the SQL schema)
+4 - npm start
+5 - npm run webpack
+
+Recurring:
+1 - npm start
+2 - npm run webpack
+
 ### Install and Set Up a Local MySQL Server
 
 - Ensure you have mysql installed by doing which mysql from inside the terminal. If you don't have it, install it
@@ -22,7 +36,7 @@ using brew install mysql. Having mysql installed also means you'll have access t
 - Exit the interactive prompt
 
 ####################
-  Troubleshooting
+### Troubleshooting
 ####################
 
 Q: Server breaks after you reboot your machine.

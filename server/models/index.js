@@ -2,14 +2,20 @@ let path = require('path');
 let db = require(path.join(__dirname, '../../database/index.js'));
 let encrypt = require('../encryptor/index.js');
 
-let obj = {
+module.exports = {
   get: (data, callback) => {
     if (data.hasOwnProperty('email')) {
       db.query(`SELECT * FROM users WHERE users.email = '${data.email}'`, callback);
-    } else if (data.hasOwnProperty('query')) {
+    }
+
+// This can be use for Search later..
+/*    else if (data.hasOwnProperty('query')) {
       db.query(`SELECT * FROM users WHERE users.genre = '${data.query}' OR users.firstname = '${data.query}' OR users.lastname = '${data.query}'`, callback);
-    } else {
-      db.query(`SELECT * FROM users`, callback);
+    } */
+
+    else {
+      console.log('it does get here in this global query part..')
+      db.query(`SELECT * FROM mixes ORDER BY id LIMIT 5000`, callback);
     }
   },
 
@@ -29,10 +35,9 @@ let obj = {
   },
 
   newMix: (data, callback) => {
-    console.log('it gets here in the model.. newMix')
     db.query(
       `INSERT INTO mixes (
-      userid,
+      userId,
       file,
       artist,
       title,
@@ -53,8 +58,8 @@ let obj = {
 
   newMultitrack: (data, callback) => {
     db.query(
-      `INSERT INTO mixes (
-      userid,
+      `INSERT INTO multitracks (
+      userId,
       files,
       artist,
       title,
@@ -75,8 +80,3 @@ let obj = {
     );
   }
 }
-
-
-module.exports = obj;
-
-// CREATE TABLE users (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, firstname VARCHAR(30), lastname VARCHAR(30), pw VARCHAR(30), email VARCHAR(255), genre VARCHAR(30), salt VARCHAR(255));

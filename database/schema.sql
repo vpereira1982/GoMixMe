@@ -18,27 +18,28 @@ CREATE TABLE users (
 CREATE TABLE mixes (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   file JSON,
-  image VARCHAR(600),
+  image JSON,
   artist VARCHAR(30),
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
-  userid INT
+  userId INT
 );
 
 CREATE TABLE multitracks (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   files JSON,
-  image VARCHAR(600),
+  previewFile JSON,
+  image JSON,
   artist VARCHAR(30),
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
-  userid INT
+  userId INT
 );
 
-ALTER TABLE mixes ADD FOREIGN KEY (userID) REFERENCES users(id);
-ALTER TABLE multitracks ADD FOREIGN KEY (userID) REFERENCES users(id);
+ALTER TABLE mixes ADD FOREIGN KEY (userId) REFERENCES users(id);
+ALTER TABLE multitracks ADD FOREIGN KEY (userId) REFERENCES users(id);
 
 /*Placeholder Data*/
 INSERT INTO users (
@@ -61,7 +62,7 @@ INSERT INTO users (
 
 INSERT INTO mixes (
   file,
-  userid,
+  userId,
   image,
   artist,
   title,
@@ -70,17 +71,17 @@ INSERT INTO mixes (
   ) VALUES (
   '{"mascot": "Our mascot is a dolphin named \\"Sakila\\"."}',
   1,
-  'placeholder.jpg',
-  'Ozzy',
-  'Lay Your World On Me',
-  'metal',
+  '{"filename": "default-profile.jpg"}',
+  'Pink Floud',
+  'Breath',
+  'Progressive',
   'Our song is beautiful'
 );
 
 INSERT INTO multitracks (
   previewFile,
   files,
-  userid,
+  userId,
   image,
   artist,
   title,
@@ -90,7 +91,7 @@ INSERT INTO multitracks (
   '{"preview": "Our mascot is a dolphin named \\"Sakila\\"."}',
   '{"mascot": "Our mascot is a dolphin named \\"Sakila\\"."}',
   1,
-  'placeholder.jpg',
+  '{"filename": "default-profile.jpg"}',
   'Ozzy',
   'Lay Your World On Me',
   'metal',

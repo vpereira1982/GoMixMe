@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { handleUploadImage } from '../actions';
-import { createImgSrc } from '../helperFunctions/createImgSrc.js';
 import axios from 'axios';
 import Cropper from 'react-cropper';
-import Transferring from './Transferring.jsx';
 import { connect } from 'react-redux';
+import { handleUploadImage } from '../actions';
+import { createImgSrc } from '../helperFunctions/createImgSrc.js';
+import Transferring from './Transferring.jsx';
 
 class UploadDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       imgSrc: '../../images/default-profile.jpg',
-      cropResult: null,
+      cropResult: '../../images/default-profile.jpg',
       image: null,
       artist: '',
       title: '',
@@ -142,7 +142,7 @@ class UploadDetails extends React.Component {
             </div>
             {/* UPLOAD IMAGE button */}
             <div className="form-group">
-              <h6><label htmlFor="uploadImg">Upload Image File</label></h6>
+              <h5><label htmlFor="uploadImg">Upload Image File</label></h5>
               <input
                 type="file"
                 name="uploadImg"
@@ -152,17 +152,18 @@ class UploadDetails extends React.Component {
               <Cropper
                 style={{ height: 300, width: 300 }}
                 aspectRatio={1}
-                preview="img-preview"
                 zoomable={false}
                 scalable={false}
                 guides={false}
                 src={this.state.imgSrc}
                 ref={(cropper) => { this.cropper = cropper }}
               />
-              <img style={{ width: '10%', border: 'solid 0.5 grey' }} src={cropResult} />
             </div>
-            <button type="button" className='btn btn-danger' onClick={this.cropImage}>Crop Image</button>
-            <br />
+            <div className="form-group">
+              <button type="button" className='btn btn-danger' onClick={this.cropImage}>Crop Image</button>
+              <br />
+              <img className="cropped-img-preview mt-2 mb-2" src={cropResult} />
+            </div>
             <button type="submit" className="btn btn-success">Submit</button>
           </form>
           {this.state.transferring ? <Transferring /> : <br/>}
@@ -173,7 +174,7 @@ class UploadDetails extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  return {id: state.userDetails.id};
+  return {id: state.userDetails.id}
 }
 
 export default connect(MapStateToProps, null)(UploadDetails);

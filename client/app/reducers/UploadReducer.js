@@ -4,8 +4,7 @@ const defaultState = {
   sessionPreviewFile: '',
   isSessionSynced: false,
   sessionFiles: [],
-  mixFile: ''/*,
-  imgSrc: '../../images/default-profile.jpg'*/
+  mixFile: ''
 }
 
 export default (state = defaultState, action) => {

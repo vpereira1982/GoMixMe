@@ -38,7 +38,7 @@ const Header = (props) => {
           <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilePic}`} />
           <span className="username">{props.firstname} </span>
           <span className="pipe"> | </span>
-          <a href="" className="logout" onClick={handleLogout}>Log Out</a>
+          <a href="/" className="logout" onClick={handleLogout}>Log Out</a>
         </span>
       </div>
     </nav>

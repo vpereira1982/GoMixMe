@@ -41,10 +41,10 @@ const Login = ({ email, pw, handleLogin, updatePw, updateEmail }) => {
         <br />
         <button type="submit" className="btn btn-success" placeholder="Submit">Sign In</button>
         <Link to="/signup">
-          <button type="button" className="btn btn-danger" placeholder="Submit">Sign Up</button>
+          <button type="button" className="btn btn-danger ml-3" placeholder="Submit">Sign Up</button>
         </Link>
       </form>
-      <div className='errorMsg' style={{visibility: 'hidden', 'color': 'red'}}>
+      <div className='alert-danger invisible'>
         User name and password do not match. Please try again or sign-up.
       </div>
     </div>
