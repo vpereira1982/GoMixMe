@@ -25,10 +25,11 @@ class Main extends React.Component {
             <div className="row">
               <div className="col">
                 <h1 class="display-4 header-custom mt-3">Mixes</h1>
-
                 <Mixes mixes={this.props.tracklist} />
               </div>
                 <div className="col">
+                  <h1 class="display-4 header-custom mt-3">Multitrack Sessions</h1>
+
                     {[1,2,3,4,5].map((i) =>
                       <p> {i} </p>
                     )}

@@ -116,14 +116,17 @@ router.post('/upload', (req, res) => {
   data.isMix = JSON.parse(data.isMix)
 
   if (data.isMix) {
-    console.log(typeof data.isMix)
     data.file = JSON.stringify(req.files.mixFile[0]);
     data.image = JSON.stringify(req.files.image[0]);
+
+    // send the Mix to mySQL Db
     model.newMix(data);
   } else {
     data.previewFile = JSON.stringify(req.files.previewFile[0]);
     data.files = JSON.stringify(req.files.multitrackFiles);
     data.image = JSON.stringify(req.files.image[0]);
+
+    // send the Multitrack to mySQL Db
     model.newMultitrack(data);
   }
 

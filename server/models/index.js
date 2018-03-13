@@ -35,7 +35,7 @@ module.exports = {
   },
 
   newMix: (data, callback) => {
-        console.log('inside model', typeof data.isMix)
+        console.log('inside model', data.isMix)
 
     db.query(
       `INSERT INTO mixes (
@@ -48,14 +48,14 @@ module.exports = {
       genre,
       isMix
       ) VALUES (
-      '${data.userId}',
+      ${data.userId},
       '${data.file}',
       '${data.artist}',
       '${data.title}',
       '${data.description}',
       '${data.image}',
       '${data.genre}',
-      '${data.isMix}'
+      ${data.isMix}
       )`
     );
   },
@@ -74,7 +74,7 @@ module.exports = {
       previewFile,
       isMix
       ) VALUES (
-      '${data.userId}',
+      ${data.userId},
       '${data.files}',
       '${data.artist}',
       '${data.title}',
@@ -82,7 +82,7 @@ module.exports = {
       '${data.image}',
       '${data.genre}',
       '${data.previewFile}',
-      '${data.isMix}'
+      ${data.isMix}
       )`
     );
   }

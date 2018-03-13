@@ -7,7 +7,7 @@ const defaultState = {
         email: '',
         pw: '',
         id: '',
-        profilePic: '/Users/vpereira1982/Desktop/GoMixMe/userfiles/1520390614088_croppedImg.png',
+        profilePic: '../images/default-profile.png',
         isReturning: true
       }
 

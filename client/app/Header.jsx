@@ -20,7 +20,7 @@ const Header = (props) => {
   }
 
   return (
-    <nav className="navbar navbar-light text-white bg-navy">
+    <nav className="navbar navbar-light fixed-top text-white bg-navy">
       <div className="container justify-content-between">
         <Link to="/"><img className="navbar-brand" src="../images/logo.png" /></Link>
         <form className="form-inline">
