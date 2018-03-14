@@ -14,7 +14,8 @@
 
 .content-body {
   height: 100vh;
-  padding-top: 70px; /* replace this with the height of the navbar */
+  padding-top: 70px; /* the height of the navbar */
+  overflow: auto;
 }
 
 .box{
@@ -30,6 +31,8 @@
 .header-custom {
   color: #009690;
   font-size: 44px;
+  font-weight: lighter;
+  margin-bottom: 25px;
 }
 
 .artwork-thumbnail {
@@ -51,7 +54,7 @@ a {
 
 .artwork-genre {
   color: white;
-  padding: 0 5px;
+  padding: 0 5px 1px;
   border: 1px;
   border-radius: 3px;
   background-color: lightgray;
@@ -75,8 +78,14 @@ a {
   cursor: pointer;
 }
 
+.border-main {
+  height: 100vh;
+  top: 25px;
+}
+
 .bg-navy {
   background: #28274B !important;
+  height: 60px;
 }
 
 #searchbar {
@@ -139,3 +148,12 @@ audio::-webkit-media-controls-enclosure {
 audio::-webkit-media-controls-panel {
     width: calc(100% + 30px); /* Adjust as needed */
 }
+
+/* Hide Scrollbar */
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+/* Hide Scrollbar MS Edge */
+::-ms-overflow-style: none;

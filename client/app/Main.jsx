@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import Mixes from './listComponents/Mixes.jsx';
+import Multitracks from './listComponents/Multitracks.jsx';
 import { connect } from 'react-redux';
 import { pullTracks } from './actions';
 
@@ -17,22 +18,24 @@ class Main extends React.Component {
   }
 
   render () {
-    console.log(this.props.tracklist)
-    if (this.props.tracklist) {
+    const { tracklist } = this.props;
+    if (tracklist) {
       return (
         <div className="bg-light">
           <div className="container bg-white content-body">
             <div className="row">
-              <div className="col">
-                <h1 class="display-4 header-custom mt-3">Mixes</h1>
-                <Mixes mixes={this.props.tracklist} />
+              <div className="col-5">
+                <h1 className="display-4 header-custom mt-3">Mixes</h1>
+                <Mixes mixes={tracklist.mixes} />
               </div>
-                <div className="col">
-                  <h1 class="display-4 header-custom mt-3">Multitrack Sessions</h1>
-
-                    {[1,2,3,4,5].map((i) =>
-                      <p> {i} </p>
-                    )}
+              <div className="col-1">
+                <div className="row">
+                  <div className="col-6 border-right border-main"></div>
+                </div>
+              </div>
+              <div className="col-5">
+                <h1 className="display-4 header-custom mt-3">Multitrack Sessions</h1>
+                <Multitracks multitracks={tracklist.multitracks} />
               </div>
             </div>
           </div>

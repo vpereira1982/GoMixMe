@@ -1,16 +1,16 @@
-let express = require('express');
-let path = require('path');
-let model = require('../models/index.js');
-let bodyParser = require('body-parser');
-let encrypt = require('../encryptor/index.js');
-let router = express.Router();
-let session = require('express-session');
-let FileStore = require('session-file-store')(session);
-let multer = require('multer');
+const express = require('express');
+const path = require('path');
+const model = require('../models/index.js');
+const bodyParser = require('body-parser');
+const encrypt = require('../encryptor/index.js');
+const router = express.Router();
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+const multer = require('multer');
 const multerFields = require('./multerFields.js');
 
 // MULTER SETUP
-let storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../../userfiles'));
   },
@@ -18,7 +18,7 @@ let storage = multer.diskStorage({
     cb(null, Date.now() + '_'+ file.originalname);
   }
 })
-let upload = multer({'storage': storage}).fields(multerFields);
+const upload = multer({'storage': storage}).fields(multerFields);
 
 
 // SESSION SETTINGS
@@ -46,20 +46,19 @@ router.use(function(req, res, next) {
     ROUTING
 *****************/
 
-// USERLOGIN
+// USER MANUAL LOGIN
 router.post('/login', (req, res) => {
   let queryData = req.body;
 
-  model.get(queryData, function(err, data) {
+  model.get(queryData, (err, data) => {
     if (err) throw err;
-    console.log('this is data from queryData after DB call', data);
+
     let pwHashed = typeof data[0] === 'object' ?
      encrypt.makeHashPw(queryData.pw, data[0].salt) : false;
 
     if (pwHashed && pwHashed === data[0].pw) {
       req.session.uid = data[0].id;
       req.session.firstname = data[0].firstname;
-      console.log('this is the user data from DB after login', data);
       res.status(201).send(JSON.stringify(data[0]));
     } else {
       res.status(401).send(false);
@@ -67,9 +66,9 @@ router.post('/login', (req, res) => {
   });
 });
 
+// USER SESSION LOGIN
 router.get('/session', (req, res) => {
-  model.getSession(req.session, function(err, data) {
-    console.log('this is the DB query return inside /session', data);
+  model.getSession(req.session, (err, data) => {
     if (data.length === 0) {
       res.send(false);
     }
@@ -77,16 +76,35 @@ router.get('/session', (req, res) => {
   });
 })
 
-router.get('/tracks', (req, res) => {
-  let queryData = req.query;
 
-  model.get(queryData, function(err, data) {
-    if (err) throw err;
-    console.log('this is the data with mixes and multitracks together...', data)
-    res.status(200).send(JSON.stringify(data));
+// MAIN TRACK LIST
+router.get('/tracks', (req, res) => {
+  let { query } = req;
+  let dbQueries = new Promise((resolve, reject) => {
+    // pull Mixes from db
+    model.getMixes(query, (err, data) => {
+      if (err) reject(err);
+      resolve(data)
+    });
   });
+
+  // pull Multitracks as well
+  dbQueries
+    .then((mixes) => {
+      model.getMultiTracks(query, (err, data) => {
+        if (err) throw err;
+
+        let tracks = JSON.stringify({mixes, multitracks: data});
+        res.status(200).send(tracks);
+      });
+    })
+    .catch((err) => {
+      res.status(404).send('Db tracks queries failed');
+    });
 });
 
+
+// LOG OUT
 router.get('/destroycookie', (req, res) => {
   req.session.destroy((err) => {
     if (err) throw err;
@@ -94,6 +112,7 @@ router.get('/destroycookie', (req, res) => {
   })
 
 });
+
 
 // REGISTER NEW USER
 router.post('/newuser', (req, res) => {
@@ -110,7 +129,7 @@ router.post('/newuser', (req, res) => {
 });
 
 
-// HANDLE NEW UPLOAD
+// NEW MIX/MULTI UPLOAD
 router.post('/upload', (req, res) => {
   let data = req.body;
   data.isMix = JSON.parse(data.isMix)

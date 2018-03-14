@@ -3,20 +3,26 @@ let db = require(path.join(__dirname, '../../database/index.js'));
 let encrypt = require('../encryptor/index.js');
 
 module.exports = {
-  get: (data, callback) => {
+
+  // REMOVE THIS ENTIRE 'GET' property, try to refactor some of the queries below for later use...
+  /*get: (data, callback) => {
     if (data.hasOwnProperty('email')) {
       db.query(`SELECT * FROM users WHERE users.email = '${data.email}'`, callback);
     }
 
-// This can be use for Search later..
-/*    else if (data.hasOwnProperty('query')) {
+    // This can be use for Search later..
+    else if (data.hasOwnProperty('query')) {
       db.query(`SELECT * FROM users WHERE users.genre = '${data.query}' OR users.firstname = '${data.query}' OR users.lastname = '${data.query}'`, callback);
-    } */
-
-    else {
-      // THIS NEEDS TO BE OPTIMIZED INTO A SINGLE QUERY...
-      db.query(`SELECT * FROM mixes ORDER BY id LIMIT 10`, callback);
     }
+
+  },*/
+
+  getMixes: (data, callback) => {
+    db.query(`SELECT * FROM mixes LIMIT 10`, callback);
+  },
+
+  getMultiTracks: (data, callback) => {
+    db.query(`SELECT * FROM multitracks LIMIT 10`, callback);
   },
 
   getSession: (data, callback) => {
