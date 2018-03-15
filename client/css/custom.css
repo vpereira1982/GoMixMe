@@ -12,6 +12,12 @@
   padding: 15px 20px 30px 20px;
 }
 
+.main-body {
+  padding-top: 70px; /* the height of the navbar */
+  overflow: auto;
+}
+
+
 .content-body {
   height: 100vh;
   padding-top: 70px; /* the height of the navbar */
@@ -85,11 +91,14 @@ a {
 
 .bg-navy {
   background: #28274B !important;
-  height: 60px;
 }
 
 #searchbar {
   padding: 15px;
+}
+
+.navbar {
+  height: 60px;
 }
 
 #button-search {
@@ -151,8 +160,8 @@ audio::-webkit-media-controls-panel {
 
 /* Hide Scrollbar */
 ::-webkit-scrollbar {
-    width: 0px;  /* remove scrollbar space */
-    background: transparent;  /* optional: just make scrollbar invisible */
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
 }
 
 /* Hide Scrollbar MS Edge */

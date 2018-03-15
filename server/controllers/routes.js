@@ -48,13 +48,13 @@ router.use(function(req, res, next) {
 
 // USER MANUAL LOGIN
 router.post('/login', (req, res) => {
-  let queryData = req.body;
+  let query = req.body;
 
-  model.get(queryData, (err, data) => {
+  model.login(query, (err, data) => {
     if (err) throw err;
 
     let pwHashed = typeof data[0] === 'object' ?
-     encrypt.makeHashPw(queryData.pw, data[0].salt) : false;
+     encrypt.makeHashPw(query.pw, data[0].salt) : false;
 
     if (pwHashed && pwHashed === data[0].pw) {
       req.session.uid = data[0].id;
@@ -79,6 +79,8 @@ router.get('/session', (req, res) => {
 
 // MAIN TRACK LIST
 router.get('/tracks', (req, res) => {
+
+  console.log(req.query, req.query.id, req.query.porra)
   let { query } = req;
   let dbQueries = new Promise((resolve, reject) => {
     // pull Mixes from db

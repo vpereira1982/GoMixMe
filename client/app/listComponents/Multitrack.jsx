@@ -18,7 +18,7 @@ const Multitrack = (props) => {
   const imgPath = '../../userfiles/' + JSON.parse(image).filename;
 
   return (
-    <div className="clearfix mt-3 mb-3">
+    <div className="clearfix mt-3 mb-4">
       <a href="">
         <img className="float-left artwork-thumbnail" src={imgPath} />
       <h6 className="lead font-weight-bold">{title}</h6>
