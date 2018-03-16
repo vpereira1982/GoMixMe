@@ -16,12 +16,12 @@ module.exports = {
     }
   },
 
-  getMixes: (data, callback, page = 0) => {
-    db.query(`SELECT * FROM mixes LIMIT 5 OFFSET ${page}`, callback);
+  getMixes: (data, callback, page) => {
+    db.query(`SELECT * FROM mixes LIMIT 5 OFFSET ${page * 5}`, callback);
   },
 
-  getMultiTracks: (data, callback, page = 0) => {
-    db.query(`SELECT * FROM multitracks LIMIT 5 OFFSET ${page}`, callback);
+  getMultiTracks: (data, callback, page) => {
+    db.query(`SELECT * FROM multitracks LIMIT 5 OFFSET ${page * 5}`, callback);
   },
 
   getSession: (data, callback) => {

@@ -77,28 +77,26 @@ router.get('/session', (req, res) => {
 })
 
 
-// MAIN TRACK LIST
+// MAIN TRACKLIST
 router.get('/tracks', (req, res) => {
-
-  console.log(req.query, req.query.id, req.query.porra)
-  let { query } = req;
+  let { search, page } = req.query;
   let dbQueries = new Promise((resolve, reject) => {
     // pull Mixes from db
-    model.getMixes(query, (err, data) => {
+    model.getMixes(search, (err, data) => {
       if (err) reject(err);
       resolve(data)
-    });
+    }, page);
   });
 
-  // pull Multitracks as well
   dbQueries
     .then((mixes) => {
-      model.getMultiTracks(query, (err, data) => {
+      // pull Multitracks from db
+      model.getMultiTracks(search, (err, data) => {
         if (err) throw err;
 
         let tracks = JSON.stringify({mixes, multitracks: data});
         res.status(200).send(tracks);
-      });
+      }, page);
     })
     .catch((err) => {
       res.status(404).send('Db tracks queries failed');

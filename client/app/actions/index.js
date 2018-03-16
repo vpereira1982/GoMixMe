@@ -70,7 +70,12 @@ export const updateProfilePic = (image) => {
   }
 }
 
-export const pullTracks = (request) => {
-  return axios.get('/api/tracks', { params: { search: request } })
-  .then(res => ({type: 'pullTracks', payload: res.data}) );
+export const pullTracks = (search = '', page = 0) => {
+  return (
+    axios.get('/api/tracks', { params: { search, page } })
+      .then(res => ({
+        type: 'pullTracks',
+        payload: res.data
+      }))
+  )
 }
