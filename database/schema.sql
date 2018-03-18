@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS userbase;
+ DROP DATABASE IF EXISTS userbase;
 
 CREATE DATABASE userbase;
 
@@ -8,6 +8,7 @@ CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   firstname VARCHAR(30),
   lastname VARCHAR(30),
+  displayname VARCHAR(30),
   pw VARCHAR(300),
   email VARCHAR(255),
   genre VARCHAR(30),
@@ -23,6 +24,7 @@ CREATE TABLE mixes (
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
+  displayName VARCHAR(30),
   isMix BOOLEAN,
   userId INT
 );
@@ -36,6 +38,7 @@ CREATE TABLE multitracks (
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
+  displayName VARCHAR(30),
   isMix BOOLEAN,
   userId INT
 );
@@ -47,6 +50,7 @@ ALTER TABLE multitracks ADD FOREIGN KEY (userId) REFERENCES users(id);
 INSERT INTO users (
   firstname,
   lastname,
+  displayname,
   pw,
   email,
   genre,
@@ -55,6 +59,7 @@ INSERT INTO users (
   ) VALUES (
   'Ozzy',
   'Osbourne',
+  'Ozzy666',
   'porra9090',
   'ozzy@gmail.com',
   'Metal',
@@ -70,6 +75,7 @@ INSERT INTO mixes (
   title,
   genre,
   description,
+  displayName,
   isMix
   ) VALUES (
   '{"MIX": "mix"}',
@@ -79,6 +85,7 @@ INSERT INTO mixes (
   'Breath',
   'Progressive',
   'Our song is beautiful',
+  'Ozzy666',
   true
 );
 
@@ -91,6 +98,7 @@ INSERT INTO multitracks (
   title,
   genre,
   description,
+  displayName,
   isMix
   ) VALUES (
   '{"MULTITRACK": "multitrack"}',
@@ -101,6 +109,7 @@ INSERT INTO multitracks (
   'Lay Your World On Me',
   'metal',
   'Our song is beautiful',
+  'Ozzy666',
   false
 );
 

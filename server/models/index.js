@@ -11,9 +11,21 @@ module.exports = {
 
   search: (data, callback) => {
     // This can be used for Search later..
-    if (data.hasOwnProperty('query')) {
-      db.query(`SELECT * FROM users WHERE users.genre = '${data.query}' OR users.firstname = '${data.query}' OR users.lastname = '${data.query}'`, callback);
-    }
+      db.query(
+        `SELECT * FROM users
+        INNER JOIN mixes
+        WHERE
+        users.genre = '${data}' OR
+        users.firstname = '${data}' OR
+        users.lastname = '${data}' OR
+        mixes.id = '${data}'`
+        , callback);
+  },
+
+  getTrack: (data, callback) => {
+    const type = data.isMix ? 'mixes' : 'multitracks';
+    console.log(`SELECT * FROM ${type} WHERE id = '${data.id}'`)
+    db.query(`SELECT * FROM ${type} WHERE id = '${data.id}'`, callback);
   },
 
   getMixes: (data, callback, page) => {
@@ -34,9 +46,27 @@ module.exports = {
     let pwSalt = encrypt.makeSaltSync();
     let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
 
-    let queryString = `INSERT INTO users (firstname, lastname, pw, email, genre, salt, profilepic) VALUES ('${data.firstname}','${data.lastname}','${pwHashed}','${data.email}','${data.genre}','${pwSalt}', '${data.profilepic}');`
-
-    db.query(queryString);
+    db.query(
+      `INSERT INTO users (
+        firstname,
+        lastname,
+        pw,
+        email,
+        genre,
+        salt,
+        profilepic,
+        displayname
+      ) VALUES (
+        '${data.firstname}',
+        '${data.lastname}',
+        '${pwHashed}',
+        '${data.email}',
+        '${data.genre}',
+        '${pwSalt}',
+        '${data.profilepic}',
+        '${data.displayname}'
+      )`
+    );
   },
 
   newMix: (data, callback) => {
@@ -44,50 +74,53 @@ module.exports = {
 
     db.query(
       `INSERT INTO mixes (
-      userId,
-      file,
-      artist,
-      title,
-      description,
-      image,
-      genre,
-      isMix
+        userId,
+        file,
+        artist,
+        title,
+        description,
+        displayName,
+        image,
+        genre,
+        isMix
       ) VALUES (
-      ${data.userId},
-      '${data.file}',
-      '${data.artist}',
-      '${data.title}',
-      '${data.description}',
-      '${data.image}',
-      '${data.genre}',
-      ${data.isMix}
+        ${data.userId},
+        '${data.file}',
+        '${data.artist}',
+        '${data.title}',
+        '${data.description}',
+        '${data.displayName}',
+        '${data.image}',
+        '${data.genre}',
+        ${data.isMix}
       )`
     );
   },
 
-
   newMultitrack: (data, callback) => {
     db.query(
       `INSERT INTO multitracks (
-      userId,
-      files,
-      artist,
-      title,
-      description,
-      image,
-      genre,
-      previewFile,
-      isMix
+        userId,
+        files,
+        artist,
+        title,
+        description,
+        displayName,
+        image,
+        genre,
+        previewFile,
+        isMix
       ) VALUES (
-      ${data.userId},
-      '${data.files}',
-      '${data.artist}',
-      '${data.title}',
-      '${data.description}',
-      '${data.image}',
-      '${data.genre}',
-      '${data.previewFile}',
-      ${data.isMix}
+        ${data.userId},
+        '${data.files}',
+        '${data.artist}',
+        '${data.title}',
+        '${data.description}',
+        '${data.displayName}',
+        '${data.image}',
+        '${data.genre}',
+        '${data.previewFile}',
+        ${data.isMix}
       )`
     );
   }

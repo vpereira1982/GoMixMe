@@ -56,7 +56,7 @@ class UploadDetails extends React.Component {
     this.setState({transferring: true});
 
     // Handle formData and push to server
-    let { formData, isMix, customHistory, id } = this.props;
+    let { formData, isMix, customHistory, id, displayName } = this.props;
     let { image, artist, title, genre, description } = this.state;
 
     formData.append('isMix', isMix);
@@ -64,6 +64,7 @@ class UploadDetails extends React.Component {
     formData.append('artist', artist);
     formData.append('genre', genre);
     formData.append('userId', id);
+    formData.append('displayName', displayName);
     formData.append('description', description);
     formData.append('image', image, 'croppedImg.png');
 
@@ -174,7 +175,10 @@ class UploadDetails extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  return {id: state.userDetails.id}
+  return {
+    id: state.userDetails.id,
+    displayName: state.userDetails.displayname
+  }
 }
 
 export default connect(MapStateToProps, null)(UploadDetails);

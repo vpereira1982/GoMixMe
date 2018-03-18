@@ -5,7 +5,8 @@ import Header from './Header.jsx';
 import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
-import Upload from './uploadComponents/index.jsx';
+import Upload from './UploadComponents/index.jsx';
+import Mixtrack from './TrackComponents/MixPage.jsx';
 import Loading from './Loading.jsx';
 import ErrorMessage from './Error.jsx';
 import { connect } from 'react-redux';
@@ -34,6 +35,7 @@ class App extends React.Component {
         this.props.storeId(user.data.id);
         this.props.updateFirstName(user.data.firstname);
         this.props.updateLastName(user.data.lastname);
+        this.props.updateDisplayName(user.data.displayname);
         this.props.updateEmail(user.data.email);
         this.props.updateProfilePic(user.data.profilepic);
       } else {
@@ -67,6 +69,7 @@ class App extends React.Component {
         this.props.isReturning(false);
         this.props.updateFirstName(user.data.firstname);
         this.props.updateLastName(user.data.lastname);
+        this.props.updateDisplayName(user.data.displayname);
         this.props.updateProfilePic(user.data.profilepic);
       } else if (e) {
         let errorMsg = document.querySelector('.errorMsg');
@@ -98,6 +101,10 @@ class App extends React.Component {
           <div>
             {isLogged ? <Header /> : null}
             <Switch>
+              <Route
+                path="/mix/:id"
+                component={Mixtrack}
+              />
               <Route
                 path="/upload"
                 exact

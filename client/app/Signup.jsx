@@ -20,6 +20,7 @@ class Signup extends React.Component {
       cropFile: null,
       firstname: '',
       lastname: '',
+      displayname: '',
       email: '',
       pw: ''
     };
@@ -73,6 +74,7 @@ class Signup extends React.Component {
     const {
       firstname,
       lastname,
+      displayname,
       pw,
       email,
       cropResult,
@@ -102,6 +104,17 @@ class Signup extends React.Component {
               onChange={this.handleChange}
               placeholder="Last Name"
               value={lastname}
+              required
+              />
+          </div>
+          <div className="form-group">
+            <input
+              name="displayname"
+              type="text"
+              className="form-control"
+              onChange={this.handleChange}
+              placeholder="Display Name"
+              value={displayname}
               required
               />
           </div>
@@ -145,7 +158,7 @@ class Signup extends React.Component {
             </div>
             <div className="form-group">
             {/* UPLOAD IMAGE button */}
-              <label htmlFor='image' className='btn btn-info mt-4'>Upload Profile Photo</label>
+              <label htmlFor='image' className='btn btn-info'>Upload Profile Photo</label>
               <input
                 name="image"
                 type="file"

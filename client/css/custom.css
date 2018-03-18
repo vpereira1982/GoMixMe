@@ -49,6 +49,10 @@
   width: 150px;
 }
 
+.user-icon {
+  font-size: 22px;
+}
+
 a {
   text-decoration: none !important;
   color: inherit;

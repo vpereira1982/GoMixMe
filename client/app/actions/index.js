@@ -14,6 +14,13 @@ export const updateLastName = (name) => {
   }
 }
 
+export const updateDisplayName = (name) => {
+  return {
+    type: 'display_name',
+    payload: name
+  }
+}
+
 export const isLogged = (bool) => {
   return {
     type: 'isLogged',
@@ -75,6 +82,23 @@ export const pullTracks = (search = '', page = 0) => {
     axios.get('/api/tracks', { params: { search, page } })
       .then(res => ({
         type: 'pullTracks',
+        payload: res.data
+      }))
+  )
+}
+
+export const storeSingleTrack = (store, id, isMix) => {
+  if (store) {
+    return {
+      type: 'singleTrack',
+      payload: store
+    }
+  }
+
+  return (
+    axios.get('/api/singleTrack', { params: { id, isMix } })
+      .then(res => ({
+        type: 'singleTrack',
         payload: res.data
       }))
   )

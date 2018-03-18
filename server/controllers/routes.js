@@ -104,6 +104,16 @@ router.get('/tracks', (req, res) => {
 });
 
 
+// SEARCH TRACK
+router.get('/singleTrack', (req, res) => {
+  model.getTrack(req.query, (err, data) => {
+    if (err) throw (err);
+    console.log(data)
+    res.status(200).send(data);
+  });
+});
+
+
 // LOG OUT
 router.get('/destroycookie', (req, res) => {
   req.session.destroy((err) => {

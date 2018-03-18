@@ -4,6 +4,7 @@ const defaultState = {
         isLogged: '',
         firstname: '',
         lastname: '',
+        displayname: '',
         email: '',
         pw: '',
         id: '',
@@ -19,6 +20,9 @@ export default (state = defaultState, action) => {
 
     case 'last_name':
       return Object.assign({}, state, {lastname: action.payload});
+
+    case 'display_name':
+      return Object.assign({}, state, {displayname: action.payload});
 
     case 'isLogged':
       return Object.assign({}, state, {isLogged: action.payload});
