@@ -14,7 +14,7 @@ class MixTrack extends React.Component {
     const { track, storeSingleTrack, id } = this.props;
 
     if (!track) {
-    // if user reloaded or went straight to Mix Page, get ID and pull track Info.
+      // if user reloaded or went straight to Mix Page, get ID and pull track Info.
       storeSingleTrack(null, id, true);
     } else if (Array.isArray(track)) {
 
@@ -28,12 +28,12 @@ class MixTrack extends React.Component {
   }
 
   render() {
-    if (this.props.track === null || Array.isArray(this.props.track)) {
+    if (!this.props.track) {
       return <Loading />
     } else {
       return (
         <div className="bg-light">
-          <div className="container bg-white main-body">
+          <div className="container bg-white content-body">
             <h1>{this.props.track.artist}</h1>
           </div>
         </div>
@@ -43,13 +43,15 @@ class MixTrack extends React.Component {
 }
 
 const MapStateToProps = (state) => {
+  const { track } = state.currentTrack;
+  const { tracks } = state.tracklist;
+  const id = Number(location.href[location.href.length - 1]);
   let mixes = null;
-  let id = Number(location.href[(location.href.lastIndexOf('/') + 1)]);
 
-  if (state.currentTrack.track && state.currentTrack.track.id === id) {
-    mixes = state.currentTrack.track;
-  } else if (state.tracklist.tracks) {
-    mixes = state.tracklist.tracks.mixes;
+  if (track && track.id === id) {
+    mixes = track;
+  } else if (tracks) {
+    mixes = tracks.mixes;
   }
 
   return {
