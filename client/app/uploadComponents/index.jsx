@@ -42,7 +42,7 @@ class Upload extends React.Component {
       return (
         <div className="bg-light">
           <div className="container bg-white content-body">
-            <h2 className="pageHeader">Upload Audio</h2>
+            <h2 className="pageHeader header-custom">Upload Audio</h2>
             <form id="Form" onSubmit={this.handleFormData} encType="multipart/form-data">
               <div className="form-group">
                 <p>

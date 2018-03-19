@@ -4,7 +4,7 @@ import App from './App.jsx';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { pullTracks } from './actions';
-import Page from './Page.jsx';
+import List from './ListComponents/List.jsx';
 
 class Main extends React.Component {
   constructor(props) {
@@ -47,7 +47,7 @@ class Main extends React.Component {
       return (
         <div className="bg-light">
           <div className="container bg-white main-body">
-            <Page tracklist={tracklist} />
+            <List tracklist={tracklist} />
           </div>
         </div>
       )

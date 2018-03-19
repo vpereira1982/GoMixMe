@@ -53,6 +53,35 @@
   font-size: 22px;
 }
 
+.track-play-icon {
+  font-size: 62px;
+}
+
+.track-play-type {
+  font-size: 15px;
+  font-family: Verdana;
+  letter-spacing: 1px;
+  color: #000000a6;
+}
+
+.track-play-info {
+  font-weight: bold;
+  margin-right: 5px;
+  letter-spacing: .5px;
+}
+
+.track-player {
+   position: absolute;
+   bottom: 0;
+}
+
+.track-input {
+  padding: 5px 2px;
+  background-color: #000000a2;
+  border: solid gray 1px;
+  border-radius: 3px;
+}
+
 a {
   text-decoration: none !important;
   color: inherit;
@@ -137,8 +166,8 @@ img.headerProfilePic {
 }
 
 
-h2.pageHeader {
-  padding: 30px 0;
+.pageHeader {
+  padding: 20px 0;
 }
 
 .logout {
@@ -148,6 +177,11 @@ h2.pageHeader {
 .logout:hover {
   color: white;
   text-decoration: none;
+}
+
+img.track-page {
+  width: 300px;
+  height: 300px;
 }
 
 audio::-internal-media-controls-download-button {

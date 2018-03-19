@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactAudioPlayer from 'react-audio-player';
+import AudioPlayer from 'react-audio-player';
 import { Link } from 'react-router-dom';
 
 const Multitrack = (props) => {
@@ -30,7 +30,7 @@ const Multitrack = (props) => {
         <i className="user-icon material-icons align-bottom pr-1">person</i>{displayName}
       </p>
       <p><span className="artwork-genre">{genre}</span></p>
-      <ReactAudioPlayer className="" src={filePath} controls />
+      <AudioPlayer className="" src={filePath} controls />
     </div>
   )
 }

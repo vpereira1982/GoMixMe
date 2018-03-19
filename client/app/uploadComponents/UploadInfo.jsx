@@ -83,7 +83,7 @@ class UploadDetails extends React.Component {
       <div className="bg-light">
         <div className="container bg-white">
           <form id="upload-form" onSubmit={this.handleSubmit} encType="multipart/form-data">
-            <h2 className="pageHeader">Share some info</h2>
+            <h2 className="pageHeader header-custom">Share some info</h2>
             <div className="form-group">
               <h5><label htmlFor="artist">Artist</label></h5>
               <input
