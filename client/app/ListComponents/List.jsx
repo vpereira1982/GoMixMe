@@ -12,7 +12,7 @@ const List = (props) => (
     </div>
     <div className="col-1">
       <div className="row">
-        <div className="col-6 border-right border-main"></div>
+        <div className="col-12 border-right border-main"></div>
       </div>
     </div>
     <div className="col-5">

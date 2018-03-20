@@ -24,7 +24,7 @@ CREATE TABLE mixes (
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
-  displayName VARCHAR(30),
+  displayname VARCHAR(30),
   isMix BOOLEAN,
   userId INT
 );
@@ -38,7 +38,7 @@ CREATE TABLE multitracks (
   title VARCHAR(30),
   genre VARCHAR(15),
   description VARCHAR(300),
-  displayName VARCHAR(30),
+  displayname VARCHAR(30),
   isMix BOOLEAN,
   userId INT
 );
@@ -75,7 +75,7 @@ INSERT INTO mixes (
   title,
   genre,
   description,
-  displayName,
+  displayname,
   isMix
   ) VALUES (
   '{"MIX": "mix"}',
@@ -98,7 +98,7 @@ INSERT INTO multitracks (
   title,
   genre,
   description,
-  displayName,
+  displayname,
   isMix
   ) VALUES (
   '{"MULTITRACK": "multitrack"}',

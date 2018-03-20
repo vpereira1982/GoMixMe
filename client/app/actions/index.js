@@ -103,3 +103,14 @@ export const storeSingleTrack = (store, id, isMix) => {
       }))
   )
 }
+
+export const pullUploader = (id) => {
+  return (
+    axios.get('/api/uploadUser', { params: { id } })
+      .then(res => ({
+        type: 'pullUploader',
+        payload: res.data
+      }))
+  )
+}
+

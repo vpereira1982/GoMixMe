@@ -11,21 +11,32 @@ module.exports = {
 
   search: (data, callback) => {
     // This can be used for Search later..
-      db.query(
-        `SELECT * FROM users
-        INNER JOIN mixes
-        WHERE
-        users.genre = '${data}' OR
-        users.firstname = '${data}' OR
-        users.lastname = '${data}' OR
-        mixes.id = '${data}'`
-        , callback);
+    db.query(
+      `SELECT * FROM users
+      INNER JOIN mixes
+      WHERE
+      users.genre = '${data}' OR
+      users.firstname = '${data}' OR
+      users.lastname = '${data}' OR
+      mixes.id = '${data}'`
+      , callback);
+  },
+
+  getUser: (data, callback) => {
+    db.query(`SELECT
+      firstname,
+      lastname,
+      displayname,
+      profilepic
+      FROM users WHERE id = '${data.id}'`,
+      callback);
   },
 
   getTrack: (data, callback) => {
     const type = data.isMix ? 'mixes' : 'multitracks';
-    console.log(`SELECT * FROM ${type} WHERE id = '${data.id}'`)
-    db.query(`SELECT * FROM ${type} WHERE id = '${data.id}'`, callback);
+/*    db.query(`SELECT * FROM ${type} WHERE id = '${data.id}'`, callback);
+*/
+    db.query(`SELECT DISTINCT * FROM ${type} INNER JOIN users WHERE ${type}.id = '${data.id}' AND users.id = ${type}.userId`, callback);
   },
 
   getMixes: (data, callback, page) => {
@@ -70,8 +81,6 @@ module.exports = {
   },
 
   newMix: (data, callback) => {
-        console.log('inside model', data.isMix)
-
     db.query(
       `INSERT INTO mixes (
         userId,

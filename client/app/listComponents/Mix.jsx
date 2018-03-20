@@ -8,7 +8,7 @@ const Mix = (props) => {
     artist,
     title,
     description,
-    displayName,
+    displayname,
     file,
     genre,
     image,
@@ -28,7 +28,7 @@ const Mix = (props) => {
         <p className="lead">{artist}</p>
       </Link>
       <p className="artwork-user">
-        <i className="user-icon material-icons align-bottom pr-1">person</i>{displayName}
+        <i className="user-icon material-icons align-bottom pr-1">person</i>{displayname}
       </p>
       <p><span className="artwork-genre">{genre}</span></p>
       <AudioPlayer className="" src={filePath} controls />

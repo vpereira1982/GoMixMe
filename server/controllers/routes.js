@@ -108,7 +108,16 @@ router.get('/tracks', (req, res) => {
 router.get('/singleTrack', (req, res) => {
   model.getTrack(req.query, (err, data) => {
     if (err) throw (err);
-    console.log(data)
+    res.status(200).send(data);
+  });
+});
+
+
+// SEARCH USER
+router.get('/uploadUser', (req, res) => {
+  model.getUser(req.query, (err, data) => {
+    if (err) throw (err);
+    console.log('uploaduser', data)
     res.status(200).send(data);
   });
 });
@@ -131,7 +140,6 @@ router.post('/newuser', (req, res) => {
 
   upload(req, res, (err) => {
     if (err) return next(err)
-    console.log('Profile Img has been stored');
   });
 
   model.newUser(data);

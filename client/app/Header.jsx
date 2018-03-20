@@ -35,7 +35,7 @@ const Header = (props) => {
           </a>
         </form>
         <span className="navbar-text">
-          <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilePic}`} />
+          <img className="headerProfilePic" src={`http://127.0.0.1:8080/userfiles/${props.profilePic}`} />
           <span className="username">{props.firstname} </span>
           <span className="pipe"> | </span>
           <a href="/" className="logout" onClick={handleLogout}>Log Out</a>
