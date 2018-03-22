@@ -18,10 +18,11 @@ const Multitrack = (props) => {
   } = props.multiDetails
   const filePath = '../../userfiles/' + JSON.parse(previewFile).filename;
   const imgPath = '../../userfiles/' + JSON.parse(image).filename;
+  const routePath = `/mt/${displayname}/${title.replace(/ /g,"-")}`;
 
   return (
     <div className="clearfix mt-3 mb-4">
-      <Link to={`/multitrack/${id}`}>
+      <Link to={routePath}>
         <img className="float-left artwork-thumbnail" src={imgPath} />
         <h6 className="lead font-weight-bold">{title}</h6>
         <p className="lead">{artist}</p>

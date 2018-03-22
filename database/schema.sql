@@ -17,7 +17,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE mixes (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id VARCHAR(50) NOT NULL PRIMARY KEY,
   file JSON,
   image JSON,
   artist VARCHAR(30),
@@ -30,7 +30,7 @@ CREATE TABLE mixes (
 );
 
 CREATE TABLE multitracks (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id VARCHAR(50) NOT NULL PRIMARY KEY,
   files JSON,
   previewFile JSON,
   image JSON,
@@ -41,6 +41,11 @@ CREATE TABLE multitracks (
   displayname VARCHAR(30),
   isMix BOOLEAN,
   userId INT
+);
+
+
+CREATE TABLE likes (
+  id VARCHAR(50) NOT NULL PRIMARY KEY
 );
 
 ALTER TABLE mixes ADD FOREIGN KEY (userId) REFERENCES users(id);
@@ -64,10 +69,11 @@ INSERT INTO users (
   'ozzy@gmail.com',
   'Metal',
   '$2a$04$M0zPYwllNPuXydAxYVlsru',
-  '/Users/vpereira1982/Desktop/GoMixMe/userfile/1520305869370_ingrid.PNG'
+  '1520318251600_croppedImg.png'
 );
 
 INSERT INTO mixes (
+  id,
   file,
   userId,
   image,
@@ -78,6 +84,7 @@ INSERT INTO mixes (
   displayname,
   isMix
   ) VALUES (
+  '3-addafasg',
   '{"MIX": "mix"}',
   1,
   '{"filename": "default-profile.jpg"}',
@@ -90,6 +97,7 @@ INSERT INTO mixes (
 );
 
 INSERT INTO multitracks (
+  id,
   previewFile,
   files,
   userId,
@@ -101,6 +109,7 @@ INSERT INTO multitracks (
   displayname,
   isMix
   ) VALUES (
+  '3-addafasg',
   '{"MULTITRACK": "multitrack"}',
   '{"MULTITRACK": "multitrack"}',
   1,

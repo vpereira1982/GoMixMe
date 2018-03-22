@@ -18,7 +18,7 @@ class Main extends React.Component {
     window.addEventListener('scroll', this.handleScrolling);
 
     // Pull page 1 tracks
-    if (!this.props.tracklist) {
+    if (!this.props.trackList) {
       this.props.pullTracks();
     }
   }
@@ -41,13 +41,13 @@ class Main extends React.Component {
   }
 
   render () {
-    const { tracklist } = this.props;
+    const { trackList } = this.props;
 
-    if (tracklist) {
+    if (trackList) {
       return (
         <div className="bg-light">
           <div className="container bg-white main-body">
-            <List tracklist={tracklist} />
+            <List tracklist={trackList} />
           </div>
         </div>
       )
@@ -58,7 +58,7 @@ class Main extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  return {tracklist: state.tracklist.tracks};
+  return {trackList: state.trackList.tracks};
 }
 
 export default connect(MapStateToProps, { pullTracks })(Main);

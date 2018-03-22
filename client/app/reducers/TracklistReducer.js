@@ -5,7 +5,7 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
 
-    case "pullTracks":
+    case 'pullTracks':
       // if state = null, render the first tracks from 0. Else, concat AllTracks
       if (state.tracks) {
         const { mixes: stateMx, multitracks: stateMt } = state.tracks;

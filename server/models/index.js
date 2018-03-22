@@ -1,6 +1,8 @@
-let path = require('path');
-let db = require(path.join(__dirname, '../../database/index.js'));
-let encrypt = require('../encryptor/index.js');
+const path = require('path');
+const db = require(path.join(__dirname, '../../database/index.js'));
+const encrypt = require('../encryptor/index.js');
+const uniqid = require('uniqid');
+
 
 module.exports = {
   login: (data, callback) => {
@@ -33,10 +35,14 @@ module.exports = {
   },
 
   getTrack: (data, callback) => {
-    const type = data.isMix ? 'mixes' : 'multitracks';
-/*    db.query(`SELECT * FROM ${type} WHERE id = '${data.id}'`, callback);
-*/
-    db.query(`SELECT DISTINCT * FROM ${type} INNER JOIN users WHERE ${type}.id = '${data.id}' AND users.id = ${type}.userId`, callback);
+    const type = Boolean(data.isMix) ? 'mixes' : 'multitracks';
+
+    db.query(`
+      SELECT DISTINCT *, mixes.id FROM ${type}
+      INNER JOIN users
+      WHERE ${type}.title = '${data.title}'
+      AND users.displayname = ${type}.displayname`
+      , callback);
   },
 
   getMixes: (data, callback, page) => {
@@ -54,8 +60,8 @@ module.exports = {
   },
 
   newUser: (data, callback) => {
-    let pwSalt = encrypt.makeSaltSync();
-    let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
+    const pwSalt = encrypt.makeSaltSync();
+    const pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
 
     db.query(
       `INSERT INTO users (
@@ -83,6 +89,7 @@ module.exports = {
   newMix: (data, callback) => {
     db.query(
       `INSERT INTO mixes (
+        id,
         userId,
         file,
         artist,
@@ -93,6 +100,7 @@ module.exports = {
         genre,
         isMix
       ) VALUES (
+        '${uniqid(String(data.userId))}',
         ${data.userId},
         '${data.file}',
         '${data.artist}',
@@ -109,6 +117,7 @@ module.exports = {
   newMultitrack: (data, callback) => {
     db.query(
       `INSERT INTO multitracks (
+        id,
         userId,
         files,
         artist,
@@ -120,6 +129,7 @@ module.exports = {
         previewFile,
         isMix
       ) VALUES (
+        '${uniqid(String(data.userId))}',
         ${data.userId},
         '${data.files}',
         '${data.artist}',

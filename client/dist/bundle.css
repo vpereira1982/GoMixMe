@@ -684,3 +684,63 @@
     .audio_player .audio_info {
       -webkit-animation: initial;
               animation: initial; } }
+.track-main-img {
+  width: 350px;
+}
+
+.track-play-icon {
+  font-size: 62px;
+}
+
+.track-play-type {
+  font-size: 15px;
+  font-family: Verdana;
+  letter-spacing: 1px;
+  color: #000000a6;
+}
+
+.track-play-info {
+  font-weight: bold;
+  margin-right: 5px;
+  letter-spacing: .5px;
+}
+
+.track-player {
+   position: absolute;
+   bottom: 0;
+}
+
+.track-add-comment {
+  padding: 5px 2px;
+  background-color: #009690;
+  border: solid gray 1px;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.track-uploader {
+  font-weight: normal;
+}
+
+.track-input {
+  width: 90% !important;
+  display: inline-flex;
+}
+
+.track-img-comment {
+  float: left;
+  margin: 0 10px 0 3px;
+  width: 37px;
+  border-radius: 5px;
+}
+
+.track-uploader-img {
+  float: left;
+  width: 200px;
+  border-radius: 2px;
+}
+
+.track-comment-section {
+  padding: 0;
+  margin: 0;
+}

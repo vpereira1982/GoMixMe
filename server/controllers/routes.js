@@ -105,9 +105,10 @@ router.get('/tracks', (req, res) => {
 
 
 // SEARCH TRACK
-router.get('/singleTrack', (req, res) => {
+router.get('/trackDetails', (req, res) => {
   model.getTrack(req.query, (err, data) => {
     if (err) throw (err);
+    console.log(data)
     res.status(200).send(data);
   });
 });

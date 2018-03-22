@@ -87,30 +87,23 @@ export const pullTracks = (search = '', page = 0) => {
   )
 }
 
-export const storeSingleTrack = (store, id, isMix) => {
-  if (store) {
-    return {
-      type: 'singleTrack',
-      payload: store
-    }
+export const pullTrackInfo = (user, title, isMix) => {
+  title = title.replace(/-/g, " ");
+
+  return (
+    axios.get('/api/trackDetails', { params: { isMix, user, title } })
+      .then(res => ({
+        type: 'pullTrackInfo',
+        payload: res.data[0]
+      }))
+  )
+}
+
+export const clearTrackInfo = () => {
+  return {
+    type: 'clearTrackInfo',
+    payload: null
   }
-
-  return (
-    axios.get('/api/singleTrack', { params: { id, isMix } })
-      .then(res => ({
-        type: 'singleTrack',
-        payload: res.data
-      }))
-  )
 }
 
-export const pullUploader = (id) => {
-  return (
-    axios.get('/api/uploadUser', { params: { id } })
-      .then(res => ({
-        type: 'pullUploader',
-        payload: res.data
-      }))
-  )
-}
 

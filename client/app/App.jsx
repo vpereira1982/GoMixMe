@@ -6,7 +6,7 @@ import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
 import Upload from './UploadComponents/index.jsx';
-import Mixtrack from './TrackComponents/MixPage.jsx';
+import TrackPage from './TrackComponents/index.jsx';
 import Loading from './Loading.jsx';
 import ErrorMessage from './Error.jsx';
 import { connect } from 'react-redux';
@@ -102,8 +102,8 @@ class App extends React.Component {
             {isLogged ? <Header /> : null}
             <Switch>
               <Route
-                path="/mix/:id"
-                component={Mixtrack}
+                path="/:type/:uname/:track"
+                component={TrackPage}
               />
               <Route
                 path="/upload"
