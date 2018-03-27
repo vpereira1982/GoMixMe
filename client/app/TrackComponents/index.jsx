@@ -4,7 +4,7 @@ import axios from 'axios';
 import AudioPlayer from 'react-responsive-audio-player';
 import { connect } from 'react-redux';
 import Loading from '../Loading.jsx';
-import { pullTrackInfo, clearTrackInfo } from '../actions';
+import Comments from './Comments.jsx';
 import '../../css/audioplayer.css';
 import '../../css/track.css';
 
@@ -13,29 +13,49 @@ class TrackPage extends React.Component {
   constructor(props) {
     super(props);
     this.path = 'http://127.0.0.1:8080/userfiles/';
+    this.state = {
+      comments: null,
+      trackInfo: null,
+      newComment: ''
+    }
+    this.handleNewComment = this.handleNewComment.bind(this);
+    this.handleChange = this.props.handleChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { type, uname, track } = this.props.match.params;
-    const { thisTrack, pullTrackInfo } = this.props;
-    pullTrackInfo(uname, track, type === 'mix');
+    const title = track.replace(/-/g, " ");
+    const isMix = type === 'mix';
+
+    axios.get('/api/trackDetails', { params: { isMix, uname, title } })
+      .then(res => {
+        this.setState({thisTrack: res.data[0]})
+
+        const { isMix, id } = res.data[0];
+
+        axios.get('/api/trackComments', { params: { isMix, id } })
+        .then(res => {
+          this.setState({comments: res.data});
+        });
+      })
   }
 
-  componentWillUnmount() {
-    this.props.clearTrackInfo();
+  handleNewComment(e) {
+    e.preventDefault();
+    // axios call will happen here..
   }
 
   render() {
-    if (!this.props.thisTrack) {
+    if (!this.state.thisTrack) {
       return <Loading />
     } else {
-      const { thisTrack, userPic } = this.props;
-      const uploadUserPic = this.path + thisTrack.profilepic;
+      const { thisTrack, comments, newComment } = this.state;
+      const curUserPic = this.path + this.props.userPic;
+      const uploaderPic = this.path + thisTrack.profilepic;
       const trackImg = this.path + JSON.parse(thisTrack.image).filename;
       const filePath = this.path + JSON.parse(thisTrack.file).filename;
-      const curUserPic = this.path + userPic;
       const playlist = [{url: filePath, title: `${thisTrack.artist} - ${thisTrack.title}`}];
-
+      console.log(this.state.comments)
       return (
         <div className="bg-light">
           <div className="container bg-white content-body">
@@ -71,13 +91,15 @@ class TrackPage extends React.Component {
 
             <div className="row mt-3">
               <div className="col-12">
-                <form className="form-inline">
+                <form className="form-inline" onSubmit={this.handleNewComment} >
                   <div className="track-add-comment">
                     <img className="track-img-comment" src={`${curUserPic}`} />
                     <input
                       type="text"
                       className="track-input form-control mr-2"
-                      name="comment"
+                      name="newComment"
+                      value={newComment}
+                      onChange={this.handleChange}
                       placeholder="Add a Comment"
                     />
                   </div>
@@ -88,23 +110,29 @@ class TrackPage extends React.Component {
 
             <div className="row mt-2">
               <div className="col-2">
-                <img className="track-uploader-img" src={`${uploadUserPic}`} />
+                <img className="track-uploader-img" src={`${uploaderPic}`} />
               </div>
               <div className="col-10">
                 <div className="ml-4">
-                  <h5 className="track-uploader">{thisTrack.displayname}'s Track Details:</h5>
-                  <small className="text-muted">{thisTrack.description}</small>
+                  <h5 className="track-uploader">{thisTrack.displayname}'s Upload Details:</h5>
+                  <p className="font-weight-light">{thisTrack.description}</p>
                 </div>
               </div>
             </div>
-
             <div className="row">
               <div className="col-2">
+              {/*This box only serves to move the comments below the descript box*/}
               </div>
               <div className="col-10">
                 <div className="ml-4">
                   <hr/>
-                  <h5 className="track-uploader">Comments:</h5>
+                  <h5 className="track-uploader mb-4">
+                    {comments && comments.length ?
+                      `${comments.length > 1 ? comments.length + ' Comments:' : '1 Comment'}` :
+                      'No comments yet'
+                    }
+                  </h5>
+                  {comments ? <Comments comments={comments} /> : 'No comments yet'}
                 </div>
               </div>
             </div>
@@ -117,11 +145,9 @@ class TrackPage extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  console.log('this is state', state);
   return {
     userPic: state.userDetails.profilePic,
-    thisTrack: state.thisTrack
   };
 }
 
-export default connect(MapStateToProps, { pullTrackInfo, clearTrackInfo })(TrackPage);
+export default connect(MapStateToProps, null)(TrackPage);

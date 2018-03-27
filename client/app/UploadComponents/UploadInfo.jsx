@@ -91,7 +91,7 @@ class UploadDetails extends React.Component {
                 type="text"
                 id="artist"
                 size="40"
-                placeholder={isMix ? 'Name your Mix' : 'Name your Session'}
+                placeholder="Recording Artist Name"
                 onChange={this.handleChange}
                 value={artist}
               />
@@ -103,7 +103,7 @@ class UploadDetails extends React.Component {
                 type="text"
                 id="title"
                 size="40"
-                placeholder="Title of your track"
+                placeholder={isMix ? 'Title of your Mix' : 'Title of your Session'}
                 onChange={this.handleChange}
                 value={title}
               />

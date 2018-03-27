@@ -43,16 +43,32 @@ CREATE TABLE multitracks (
   userId INT
 );
 
+CREATE TABLE comments_mixes (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  trackId VARCHAR(50) NOT NULL,
+  userId INT,
+  comment VARCHAR(300),
+  dt DATETIME
+);
 
-CREATE TABLE likes (
-  id VARCHAR(50) NOT NULL PRIMARY KEY
+CREATE TABLE comments_mtracks (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  trackId VARCHAR(50) NOT NULL,
+  userId INT,
+  comment VARCHAR(300),
+  dt DATETIME
 );
 
 ALTER TABLE mixes ADD FOREIGN KEY (userId) REFERENCES users(id);
 ALTER TABLE multitracks ADD FOREIGN KEY (userId) REFERENCES users(id);
+ALTER TABLE comments_mixes ADD FOREIGN KEY (trackId) REFERENCES mixes(id);
+ALTER TABLE comments_mixes ADD FOREIGN KEY (userId) REFERENCES users(id);
+ALTER TABLE comments_mtracks ADD FOREIGN KEY (trackId) REFERENCES multitracks(id);
+ALTER TABLE comments_mtracks ADD FOREIGN KEY (userID) REFERENCES users(id);
+
 
 /*Placeholder Data*/
-INSERT INTO users (
+/*INSERT INTO users (
   firstname,
   lastname,
   displayname,
@@ -120,6 +136,6 @@ INSERT INTO multitracks (
   'Our song is beautiful',
   'Ozzy666',
   false
-);
+);*/
 
 

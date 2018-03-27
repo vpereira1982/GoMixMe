@@ -99,6 +99,17 @@ export const pullTrackInfo = (user, title, isMix) => {
   )
 }
 
+export const pullComments = (trackId, isMix) => {
+  return (
+    axios.get('/api/trackComments', { params: { isMix, trackId } })
+      .then(res => ({
+        type: 'pullComments',
+        payload: res.data
+      }))
+  )
+}
+
+
 export const clearTrackInfo = () => {
   return {
     type: 'clearTrackInfo',

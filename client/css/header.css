@@ -1,0 +1,7 @@
+.headerProfilePic {
+  border: 0.06px solid white;
+  border-radius: 50%;
+  height: 45px;
+  max-height: 45px;
+  margin-right: 10px;
+}

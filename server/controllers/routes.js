@@ -104,11 +104,19 @@ router.get('/tracks', (req, res) => {
 });
 
 
-// SEARCH TRACK
+// PULL TRACK INFO
 router.get('/trackDetails', (req, res) => {
+  console.log(req.query)
   model.getTrack(req.query, (err, data) => {
     if (err) throw (err);
-    console.log(data)
+    res.status(200).send(data);
+  });
+});
+
+// PULL TRACK COMMENTS
+router.get('/trackComments', (req, res) => {
+  console.log('chegou aqui na linha 117', req.query)
+  model.getTrackComments(req.query, (err, data) => {
     res.status(200).send(data);
   });
 });
@@ -118,7 +126,6 @@ router.get('/trackDetails', (req, res) => {
 router.get('/uploadUser', (req, res) => {
   model.getUser(req.query, (err, data) => {
     if (err) throw (err);
-    console.log('uploaduser', data)
     res.status(200).send(data);
   });
 });
@@ -128,9 +135,8 @@ router.get('/uploadUser', (req, res) => {
 router.get('/destroycookie', (req, res) => {
   req.session.destroy((err) => {
     if (err) throw err;
-    res.send('User Session has been destroyed on the server');
-  })
-
+    res.status(200).send('User Session was destroyed');
+  });
 });
 
 

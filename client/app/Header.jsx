@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { pullTracks, isLogged } from './actions';
+import '../css/header.css';
 
 const Header = (props) => {
   let clickToSearch = () => {

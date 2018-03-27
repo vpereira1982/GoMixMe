@@ -103,7 +103,9 @@ class App extends React.Component {
             <Switch>
               <Route
                 path="/:type/:uname/:track"
-                component={TrackPage}
+                render={(props) =>
+                  <TrackPage {...props} handleChange={this.handleChange} />
+                }
               />
               <Route
                 path="/upload"

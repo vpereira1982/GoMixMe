@@ -1,4 +1,10 @@
-/*!
+.headerProfilePic {
+  border: 0.06px solid white;
+  border-radius: 50%;
+  height: 45px;
+  max-height: 45px;
+  margin-right: 10px;
+}/*!
  * Cropper.js v1.0.0-rc.3
  * https://github.com/fengyuanchen/cropperjs
  *
@@ -730,7 +736,7 @@
 .track-img-comment {
   float: left;
   margin: 0 10px 0 3px;
-  width: 37px;
+  width: 40px;
   border-radius: 5px;
 }
 

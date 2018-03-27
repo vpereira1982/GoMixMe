@@ -13,8 +13,8 @@ module.exports = {
 
   search: (data, callback) => {
     // This can be used for Search later..
-    db.query(
-      `SELECT * FROM users
+    db.query(`
+      SELECT * FROM users
       INNER JOIN mixes
       WHERE
       users.genre = '${data}' OR
@@ -25,7 +25,8 @@ module.exports = {
   },
 
   getUser: (data, callback) => {
-    db.query(`SELECT
+    db.query(`
+      SELECT
       firstname,
       lastname,
       displayname,
@@ -34,11 +35,29 @@ module.exports = {
       callback);
   },
 
-  getTrack: (data, callback) => {
-    const type = Boolean(data.isMix) ? 'mixes' : 'multitracks';
+  getTrackComments: (data, callback) => {
+    let comments_type = data.isMix ? 'comments_mixes' : 'comments_mtracks';
+    let type = data.isMix ? 'mixes' : 'multitracks';
 
     db.query(`
-      SELECT DISTINCT *, mixes.id FROM ${type}
+      SELECT
+      ${comments_type}.comment,
+      ${comments_type}.id,
+      ${comments_type}.dt,
+      users.displayname,
+      users.profilepic
+      FROM ${comments_type}
+      INNER JOIN users
+      WHERE ${comments_type}.trackId = '${data.id}'
+      AND ${comments_type}.userId = users.id
+      `, callback);
+  },
+
+  getTrack: (data, callback) => {
+    let type = Boolean(data.isMix) ? 'mixes' : 'multitracks';
+
+    db.query(`
+      SELECT DISTINCT *, ${type}.id FROM ${type}
       INNER JOIN users
       WHERE ${type}.title = '${data.title}'
       AND users.displayname = ${type}.displayname`
@@ -55,13 +74,17 @@ module.exports = {
 
   getSession: (data, callback) => {
     if (data.hasOwnProperty('id')) {
-      db.query(`SELECT * FROM users WHERE users.id = '${data.uid}' AND users.firstname = '${data.firstname}'`, callback);
+      db.query(`
+        SELECT * FROM users
+        WHERE users.id = '${data.uid}' AND
+        users.firstname = '${data.firstname}'`,
+        callback);
     }
   },
 
   newUser: (data, callback) => {
-    const pwSalt = encrypt.makeSaltSync();
-    const pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
+    let pwSalt = encrypt.makeSaltSync();
+    let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
 
     db.query(
       `INSERT INTO users (
