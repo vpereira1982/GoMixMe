@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import Cropper from 'react-cropper';
-import APIcall from '../apicall';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -21,6 +20,7 @@ class Signup extends React.Component {
       firstname: '',
       lastname: '',
       displayname: '',
+      description: '',
       email: '',
       pw: ''
     };
@@ -77,6 +77,7 @@ class Signup extends React.Component {
       displayname,
       pw,
       email,
+      description,
       cropResult,
       profilePic
     } = this.state;
@@ -137,6 +138,18 @@ class Signup extends React.Component {
               onChange={this.handleChange}
               placeholder="Email"
               value={email}
+              required
+              />
+          </div>
+          <div className="form-group">
+            <textarea
+              name="description"
+              type="text"
+              className="form-control"
+              rows="5" cols="25"
+              onChange={this.handleChange}
+              placeholder="Tell us a bit about yourself"
+              value={description}
               required
               />
           </div>

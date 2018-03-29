@@ -42,7 +42,6 @@ class Main extends React.Component {
 
   render () {
     const { trackList } = this.props;
-
     if (trackList) {
       return (
         <div className="bg-light">

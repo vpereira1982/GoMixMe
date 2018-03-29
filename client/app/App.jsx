@@ -9,6 +9,7 @@ import Upload from './UploadComponents/index.jsx';
 import TrackPage from './TrackComponents/index.jsx';
 import Loading from './Loading.jsx';
 import ErrorMessage from './Error.jsx';
+import Profile from './Profile.jsx';
 import { connect } from 'react-redux';
 import * as Actions from './actions';
 
@@ -133,6 +134,11 @@ class App extends React.Component {
                     />
                   )
                 }
+              />
+              <Route
+                path="/:uname"
+                exact
+                render={(props) => <Profile {...props} />}
               />
               <Route component={ErrorMessage} />
             </Switch>

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import AudioPlayer from 'react-responsive-audio-player';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Loading from '../Loading.jsx';
 import Comments from './Comments.jsx';
 import '../../css/audioplayer.css';
@@ -12,12 +13,13 @@ import '../../css/track.css';
 class TrackPage extends React.Component {
   constructor(props) {
     super(props);
-    this.path = 'http://127.0.0.1:8080/userfiles/';
     this.state = {
       comments: null,
-      trackInfo: null,
+      thisTrack: null,
+      playButton: false,
       newComment: ''
     }
+    this.path = 'http://127.0.0.1:8080/userfiles/';
     this.handleNewComment = this.handleNewComment.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
   }
@@ -30,19 +32,30 @@ class TrackPage extends React.Component {
     axios.get('/api/trackDetails', { params: { isMix, uname, title } })
       .then(res => {
         this.setState({thisTrack: res.data[0]})
+        this.pullComments(res.data[0])
+      });
+  }
 
-        const { isMix, id } = res.data[0];
-
-        axios.get('/api/trackComments', { params: { isMix, id } })
-        .then(res => {
-          this.setState({comments: res.data});
-        });
-      })
+  pullComments(params) {
+    axios.get('/api/trackComments', { params })
+      .then(res => {
+        this.setState({comments: res.data});
+      });
   }
 
   handleNewComment(e) {
     e.preventDefault();
-    // axios call will happen here..
+    if (this.state.newComment === '') return;
+
+    const details = {
+      comment: this.state.newComment,
+      trackId: this.state.thisTrack.id,
+      userId: this.props.userId,
+      isMix: this.props.match.params.type === 'mix'
+    }
+    axios.post('/api/addNewComment', details)
+      .then(res => { this.pullComments(details); });
+    this.setState({newComment: ''});
   }
 
   render() {
@@ -55,7 +68,7 @@ class TrackPage extends React.Component {
       const trackImg = this.path + JSON.parse(thisTrack.image).filename;
       const filePath = this.path + JSON.parse(thisTrack.file).filename;
       const playlist = [{url: filePath, title: `${thisTrack.artist} - ${thisTrack.title}`}];
-      console.log(this.state.comments)
+      const playerControls = ['playpause','spacer', 'progress']
       return (
         <div className="bg-light">
           <div className="container bg-white content-body">
@@ -73,14 +86,16 @@ class TrackPage extends React.Component {
                 <div className="row">
                   <div className="offset-md-1 col-11">
                     <p className="track-play-info">Uploaded by:
-                      <a href="#" className="font-weight-light pl-2">{thisTrack.displayname}</a>
+                      <Link to={`/${thisTrack.displayname}`}>
+                        <span href="#" className="font-weight-light pl-2">{thisTrack.displayname}</span>
+                      </Link>
                     </p>
                     <p><span className="artwork-genre">{thisTrack.genre}</span></p>
                   </div>
                 </div>
                 <div className="row">
                   <div className="track-player col-12">
-                    <AudioPlayer playlist={playlist} />
+                    <AudioPlayer playlist={playlist} controls={playerControls} />
                   </div>
                 </div>
               </div>
@@ -147,6 +162,7 @@ class TrackPage extends React.Component {
 const MapStateToProps = (state) => {
   return {
     userPic: state.userDetails.profilePic,
+    userId: state.userDetails.id
   };
 }
 

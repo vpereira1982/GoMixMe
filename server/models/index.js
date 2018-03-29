@@ -20,8 +20,8 @@ module.exports = {
       users.genre = '${data}' OR
       users.firstname = '${data}' OR
       users.lastname = '${data}' OR
-      mixes.id = '${data}'`
-      , callback);
+      mixes.id = '${data}'`,
+      callback);
   },
 
   getUser: (data, callback) => {
@@ -30,8 +30,11 @@ module.exports = {
       firstname,
       lastname,
       displayname,
+      genre,
+      description,
       profilepic
-      FROM users WHERE id = '${data.id}'`,
+      FROM users WHERE id = '${data.id}'
+      OR displayname = '${data.displayname}'`,
       callback);
   },
 
@@ -48,9 +51,11 @@ module.exports = {
       users.profilepic
       FROM ${comments_type}
       INNER JOIN users
-      WHERE ${comments_type}.trackId = '${data.id}'
+      WHERE ${comments_type}.trackId = '${data.id || data.trackId}'
       AND ${comments_type}.userId = users.id
-      `, callback);
+      ORDER BY ${comments_type}.dt DESC
+      `,
+      callback);
   },
 
   getTrack: (data, callback) => {
@@ -60,8 +65,8 @@ module.exports = {
       SELECT DISTINCT *, ${type}.id FROM ${type}
       INNER JOIN users
       WHERE ${type}.title = '${data.title}'
-      AND users.displayname = ${type}.displayname`
-      , callback);
+      AND users.displayname = ${type}.displayname`,
+      callback);
   },
 
   getMixes: (data, callback, page) => {
@@ -82,6 +87,24 @@ module.exports = {
     }
   },
 
+  newComment: (data, callback) => {
+    let { trackId, comment, userId } = data;
+    let comments_type = data.isMix ? 'comments_mixes' : 'comments_mtracks';
+
+    db.query(
+      `INSERT INTO ${comments_type} (
+        trackId,
+        comment,
+        userId,
+        dt
+      ) VALUES (
+        '${trackId}',
+        '${comment}',
+        ${userId},
+        NOW())`,
+        callback)
+  },
+
   newUser: (data, callback) => {
     let pwSalt = encrypt.makeSaltSync();
     let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
@@ -95,6 +118,7 @@ module.exports = {
         genre,
         salt,
         profilepic,
+        description,
         displayname
       ) VALUES (
         '${data.firstname}',
@@ -104,6 +128,7 @@ module.exports = {
         '${data.genre}',
         '${pwSalt}',
         '${data.profilepic}',
+        '${data.description}',
         '${data.displayname}'
       )`
     );

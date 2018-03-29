@@ -106,18 +106,25 @@ router.get('/tracks', (req, res) => {
 
 // PULL TRACK INFO
 router.get('/trackDetails', (req, res) => {
-  console.log(req.query)
   model.getTrack(req.query, (err, data) => {
     if (err) throw (err);
     res.status(200).send(data);
   });
 });
 
+
 // PULL TRACK COMMENTS
 router.get('/trackComments', (req, res) => {
-  console.log('chegou aqui na linha 117', req.query)
   model.getTrackComments(req.query, (err, data) => {
     res.status(200).send(data);
+  });
+});
+
+
+// ADD NEW COMMENT
+router.post('/addNewComment', (req, res) => {
+  model.newComment(req.body, (err, data) => {
+    res.status(201).send('New commented added');
   });
 });
 
