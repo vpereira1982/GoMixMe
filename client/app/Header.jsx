@@ -41,7 +41,7 @@ const Header = (props) => {
             <span className="username">{props.firstname} </span>
           </Link>
           <span className="pipe"> | </span>
-          <a href="/" className="logout" onClick={handleLogout}>Log Out</a>
+          <a href="#" className="logout" onClick={handleLogout}>Log Out</a>
         </span>
       </div>
     </nav>

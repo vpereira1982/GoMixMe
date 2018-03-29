@@ -19,6 +19,8 @@ const Multitrack = (props) => {
   const filePath = '../../userfiles/' + JSON.parse(previewFile).filename;
   const imgPath = '../../userfiles/' + JSON.parse(image).filename;
   const routePath = `/mt/${displayname}/${title.replace(/ /g,"-")}`;
+  const uploadUser = `/${displayname}`
+
 
   return (
     <div className="clearfix mt-3 mb-4">
@@ -28,7 +30,9 @@ const Multitrack = (props) => {
         <p className="lead">{artist}</p>
       </Link>
       <p className="artwork-user">
-        <i className="user-icon material-icons align-bottom pr-1">person</i>{displayname}
+        <Link to={uploadUser}>
+          <i className="user-icon material-icons align-bottom pr-1">person</i>{displayname}
+        </Link>
       </p>
       <p><span className="artwork-genre">{genre}</span></p>
       <AudioPlayer className="" src={filePath} controls />
