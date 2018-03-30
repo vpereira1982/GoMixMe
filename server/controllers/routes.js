@@ -88,12 +88,10 @@ router.get('/tracks', (req, res) => {
     }, page);
   });
 
-  dbQueries
-    .then((mixes) => {
+  dbQueries.then((mixes) => {
       // pull Multitracks from db
       model.getMultiTracks(search, (err, data) => {
         if (err) throw err;
-
         let tracks = JSON.stringify({mixes, multitracks: data});
         res.status(200).send(tracks);
       }, page);
@@ -116,6 +114,7 @@ router.get('/trackDetails', (req, res) => {
 // PULL TRACK COMMENTS
 router.get('/trackComments', (req, res) => {
   model.getTrackComments(req.query, (err, data) => {
+    if (err) throw (err);
     res.status(200).send(data);
   });
 });
@@ -124,6 +123,7 @@ router.get('/trackComments', (req, res) => {
 // ADD NEW COMMENT
 router.post('/addNewComment', (req, res) => {
   model.newComment(req.body, (err, data) => {
+    if (err) throw (err);
     res.status(201).send('New commented added');
   });
 });

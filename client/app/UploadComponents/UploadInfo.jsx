@@ -136,6 +136,7 @@ class UploadDetails extends React.Component {
                 id="description"
                 rows="5"
                 cols="80"
+                maxlength="300"
                 placeholder={isMix ? 'Describe your Mix' : 'Describe your Session'}
                 onChange={this.handleChange}
                 value={description}

@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading.jsx';
 import Comments from './Comments.jsx';
-import MultitrackPlayer from './MtPlayer.jsx';
 import createPlaylist from '../helperFunctions/genPlaylist.js';
 import '../../css/audioplayer.css';
 import '../../css/track.css';
@@ -19,7 +18,6 @@ class TrackPage extends React.Component {
       comments: null,
       thisTrack: null,
       playButton: false,
-      playlist: [],
       newComment: ''
     }
     this.path = 'http://127.0.0.1:8080/userfiles/';
@@ -34,10 +32,7 @@ class TrackPage extends React.Component {
 
     axios.get('/api/trackDetails', { params: { isMix, uname, title } })
       .then(res => {
-        this.setState({
-          thisTrack: res.data[0],
-          playlist: createPlaylist(res.data[0])
-        })
+        this.setState({thisTrack: res.data[0]})
         this.pullComments(res.data[0])
       });
   }
@@ -68,13 +63,19 @@ class TrackPage extends React.Component {
     if (!this.state.thisTrack) {
       return <Loading />
     } else {
-      const { thisTrack, comments, newComment, playlist } = this.state;
+      const { thisTrack, comments, newComment } = this.state;
+
+      console.log(thisTrack)
       const curUserPic = this.path + this.props.userPic;
       const uploaderPic = this.path + thisTrack.profilepic;
       const trackImg = this.path + JSON.parse(thisTrack.image).filename;
-      const playerControls = ['playpause','spacer', 'progress'];
+      const playlist = createPlaylist(thisTrack);
       console.log(playlist);
+/*      const filePath = this.path + JSON.parse(thisTrack.file).filename;
+      const playlist = [{url: filePath, title: `${thisTrack.artist} - ${thisTrack.title}`}];*/
 
+
+      const playerControls = ['playpause','spacer', 'progress']
       return (
         <div className="bg-light">
           <div className="container bg-white content-body">
@@ -101,17 +102,9 @@ class TrackPage extends React.Component {
                 </div>
                 <div className="row">
                   <div className="track-player col-12">
-                    {thisTrack.isMix ?
-                      <AudioPlayer playlist={playlist} controls={playerControls} /> :
-                      <MultitrackPlayer playlist={playlist} />
-                    }
+                    <AudioPlayer playlist={playlist} controls={playerControls} />
                   </div>
                 </div>
-
-
-
-
-
               </div>
               <div className="col-4">
                 <img className="rounded float-right track-main-img" src={`${trackImg}`} />

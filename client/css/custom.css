@@ -171,3 +171,10 @@ audio::-webkit-media-controls-panel {
 
 /* Hide Scrollbar MS Edge */
 ::-ms-overflow-style: none;
+
+.porra {
+  max-height: 30px !important;
+  height: 30px;
+  overflow: scroll !important;
+  scroll-behavior: smooth;
+}

@@ -23,7 +23,7 @@ CREATE TABLE mixes (
   artist VARCHAR(30),
   title VARCHAR(30),
   genre VARCHAR(15),
-  description VARCHAR(300),
+  description VARCHAR(350),
   displayname VARCHAR(30),
   isMix BOOLEAN,
   userId INT
@@ -37,7 +37,7 @@ CREATE TABLE multitracks (
   artist VARCHAR(30),
   title VARCHAR(30),
   genre VARCHAR(15),
-  description VARCHAR(300),
+  description VARCHAR(350),
   displayname VARCHAR(30),
   isMix BOOLEAN,
   userId INT

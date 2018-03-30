@@ -39,8 +39,9 @@ module.exports = {
   },
 
   getTrackComments: (data, callback) => {
-    let comments_type = data.isMix ? 'comments_mixes' : 'comments_mtracks';
-    let type = data.isMix ? 'mixes' : 'multitracks';
+    let isMix = JSON.parse(data.isMix);
+    let comments_type = isMix ? 'comments_mixes' : 'comments_mtracks';
+    let type = isMix ? 'mixes' : 'multitracks';
 
     db.query(`
       SELECT
@@ -59,10 +60,11 @@ module.exports = {
   },
 
   getTrack: (data, callback) => {
-    let type = Boolean(data.isMix) ? 'mixes' : 'multitracks';
+    let type = JSON.parse(data.isMix) ? 'mixes' : 'multitracks';
 
     db.query(`
-      SELECT DISTINCT *, ${type}.id FROM ${type}
+      SELECT DISTINCT *, ${type}.id, NULL as pw, NULL as salt
+      FROM ${type}
       INNER JOIN users
       WHERE ${type}.title = '${data.title}'
       AND users.displayname = ${type}.displayname`,
