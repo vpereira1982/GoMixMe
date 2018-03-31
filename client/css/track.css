@@ -58,3 +58,20 @@
   padding: 0;
   margin: 0;
 }
+
+.list-item-hover:hover {
+  background-color: #28274B;
+  color: white;
+}
+
+.mix_player {
+  height: 50px;
+  background-color: #333;
+  width: 100%;
+  color: #fff;
+  position: relative;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  word-spacing: 4px;
+};

@@ -1,16 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import AudioPlayer from 'react-responsive-audio-player';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading.jsx';
 import Comments from './Comments.jsx';
 import MultitrackPlayer from './MtPlayer.jsx';
+import MixPlayer from './MixPlayer.jsx';
 import createPlaylist from '../helperFunctions/genPlaylist.js';
-import '../../css/audioplayer.css';
 import '../../css/track.css';
-
 
 class TrackPage extends React.Component {
   constructor(props) {
@@ -23,8 +21,10 @@ class TrackPage extends React.Component {
       newComment: ''
     }
     this.path = 'http://127.0.0.1:8080/userfiles/';
+    this.audio = new Audio();
     this.handleNewComment = this.handleNewComment.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
+    this.handleClickToPlay = this.handleClickToPlay.bind(this);
   }
 
   componentDidMount() {
@@ -60,8 +60,28 @@ class TrackPage extends React.Component {
       isMix: this.props.match.params.type === 'mix'
     }
     axios.post('/api/addNewComment', details)
-      .then(res => { this.pullComments(details); });
-    this.setState({newComment: ''});
+      .then(res => {
+        this.pullComments(details);
+        this.setState({newComment: ''});
+      });
+  }
+
+  handleClickToPlay(e) {
+    // previewFile only exists for Multitracks
+    let { file, previewFile } = this.state.thisTrack
+    let track = previewFile || file;
+    let filePath = this.path + JSON.parse(track).filename;
+    let icon = document.querySelector('.track-play-icon');
+
+    if (this.audio.src) {
+      this.audio.pause();
+      this.audio.removeAttribute('src');
+      icon.innerHTML = 'play_circle_filled';
+    } else {
+      this.audio.src = filePath;
+      this.audio.play();
+      icon.innerHTML = 'pause_circle_filled';
+    }
   }
 
   render() {
@@ -72,8 +92,6 @@ class TrackPage extends React.Component {
       const curUserPic = this.path + this.props.userPic;
       const uploaderPic = this.path + thisTrack.profilepic;
       const trackImg = this.path + JSON.parse(thisTrack.image).filename;
-      const playerControls = ['playpause','spacer', 'progress'];
-      console.log(playlist);
 
       return (
         <div className="bg-light">
@@ -82,7 +100,9 @@ class TrackPage extends React.Component {
               <div className="col-8">
                 <div className="row">
                   <div className="col-1">
-                    <i className="header-custom material-icons track-play-icon">play_circle_filled</i>
+                    <a href={"javascript:void(0)"} onClick={this.handleClickToPlay}>
+                      <i className="header-custom material-icons track-play-icon">play_circle_filled</i>
+                    </a>
                   </div>
                   <div className="col-11">
                     <span className="header-custom pl-1">{thisTrack.title}</span>
@@ -100,10 +120,10 @@ class TrackPage extends React.Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="track-player col-12">
+                  <div id="track-player" className="track-player col-12">
                     {thisTrack.isMix ?
-                      <AudioPlayer playlist={playlist} controls={playerControls} /> :
-                      <MultitrackPlayer playlist={playlist} />
+                      <MixPlayer playlist={playlist} /> :
+                      <MultitrackPlayer playlist={playlist} audio={this.audio} />
                     }
                   </div>
                 </div>

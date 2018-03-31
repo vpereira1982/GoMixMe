@@ -9,6 +9,7 @@ CREATE TABLE users (
   firstname VARCHAR(30),
   lastname VARCHAR(30),
   displayname VARCHAR(30),
+  description VARCHAR(350),
   pw VARCHAR(300),
   email VARCHAR(255),
   genre VARCHAR(30),
