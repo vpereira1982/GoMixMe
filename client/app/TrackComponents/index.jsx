@@ -22,6 +22,7 @@ class TrackPage extends React.Component {
     }
     this.path = 'http://127.0.0.1:8080/userfiles/';
     this.audio = new Audio();
+    this.playTime = 0;
     this.handleNewComment = this.handleNewComment.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
     this.handleClickToPlay = this.handleClickToPlay.bind(this);
@@ -68,20 +69,27 @@ class TrackPage extends React.Component {
 
   handleClickToPlay(e) {
     // previewFile only exists for Multitracks
-    let { file, previewFile } = this.state.thisTrack
+    let { file, previewFile } = this.state.thisTrack;
     let track = previewFile || file;
     let filePath = this.path + JSON.parse(track).filename;
     let icon = document.querySelector('.track-play-icon');
 
     if (this.audio.src) {
+      this.playTime = this.audio.currentTime;
       this.audio.pause();
       this.audio.removeAttribute('src');
       icon.innerHTML = 'play_circle_filled';
     } else {
       this.audio.src = filePath;
+      this.audio.currentTime = this.playTime;
       this.audio.play();
       icon.innerHTML = 'pause_circle_filled';
     }
+  }
+
+  componentWillUnmount() {
+    this.audio.pause();
+    this.audio.removeAttribute('src');
   }
 
   render() {
@@ -122,7 +130,7 @@ class TrackPage extends React.Component {
                 <div className="row">
                   <div id="track-player" className="track-player col-12">
                     {thisTrack.isMix ?
-                      <MixPlayer playlist={playlist} /> :
+                      <MixPlayer playlist={playlist} audio={this.audio} /> :
                       <MultitrackPlayer playlist={playlist} audio={this.audio} />
                     }
                   </div>

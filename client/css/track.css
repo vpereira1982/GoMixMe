@@ -1,5 +1,9 @@
 .track-main-img {
   width: 300px;
+  border: solid 1px gray;
+  background: rgba(0, 0, 0, .3);
+  border-radius: 2px;
+  padding: 2px;
 }
 
 .track-play-icon {
@@ -25,11 +29,18 @@
 }
 
 .track-add-comment {
-  padding: 5px 2px;
+  padding: 4px 2px;
   background-color: #009690;
   border: solid gray 1px;
   border-radius: 3px;
   width: 100%;
+}
+
+.track-img-comment {
+  float: left;
+  margin: 0 10px 0 3px;
+  width: 38px;
+  border-radius: 5px;
 }
 
 .track-uploader {
@@ -41,17 +52,13 @@
   display: inline-flex;
 }
 
-.track-img-comment {
-  float: left;
-  margin: 0 10px 0 3px;
-  width: 40px;
-  border-radius: 5px;
-}
-
 .track-uploader-img {
   float: left;
   width: 200px;
+  border: solid 1px gray;
+  background: rgba(0, 0, 0, .3);;
   border-radius: 2px;
+  padding: 1px;
 }
 
 .track-comment-section {
@@ -64,14 +71,19 @@
   color: white;
 }
 
+.mix_player_text {
+  position: absolute !important;
+  padding-top: 5% !important;
+}
+
 .mix_player {
   height: 50px;
   background-color: #333;
   width: 100%;
   color: #fff;
   position: relative;
-  font-size: 20px;
-  text-transform: uppercase;
+  padding: 1px;
+  font-size: 30px;
   letter-spacing: 1px;
   word-spacing: 4px;
-};
+}
