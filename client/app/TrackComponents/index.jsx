@@ -96,7 +96,21 @@ class TrackPage extends React.Component {
   }
 
   handleDownload() {
-    axios.get('/api/download', { params: this.state.playlist });
+    axios.get(
+      'api/download',
+      { responseType: 'blob' },
+      { params: this.state.playlist }
+    )
+      .then(res => {
+        // creates a <a> tag that has a 'download' attribute and auto-click
+        const url = URL.createObjectURL(res.data)
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = "CHANGEFILENAME.MP3";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
   }
 
 

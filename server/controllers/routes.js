@@ -8,7 +8,8 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const multer = require('multer');
 const multerFields = require('./multerFields.js');
-const zip = require('express-zip');
+const archiver = require('archiver');
+const fs = require('fs');
 
 // MULTER SETUP
 const storage = multer.diskStorage({
@@ -102,20 +103,28 @@ router.get('/tracks', (req, res) => {
     });
 });
 
-// DOWNLO{AD MT FILES
+// DOWNLOAD MT FILES
 router.get('/download', (req, res) => {
   let playlist = Object.values(req.query);
-  let zipReadyList = [];
-  for (let i = 0; i < playlist.length; i++) {
-    zipReadyList.push({
-      path: playlist[i].url,
-      name: playlist[i].title
-    });
-  }
-  console.log(zipReadyList, 'after looping......')
-  res.zip(zipReadyList);
-  /*res.status(200).send('received');*/
+  let zip = archiver('zip');
+/*  zip.on('finish', (err) => {
+    res.send('');
+  })*/
 
+  console.log('it gets here', playlist)
+
+
+
+
+
+  let zipReadyList = [];
+
+  playlist.forEach(each => {
+    each = JSON.parse(each);
+    zipReadyList.push({path: each['url'], name: each['title']});
+  });
+  let porra = 'userfiles/1522437367117_Foo Fighters - My Hero.mp3';
+  res.download('userfiles/1522437366980_Radiohead - Idioteque.mp3');
 });
 
 
