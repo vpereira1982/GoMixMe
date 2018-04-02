@@ -22,11 +22,7 @@ class MixPlayer extends React.Component {
     setInterval(() => {
       let currentTimeInt = Math.round(audioMix.currentTime);
       let minutes = Math.floor(currentTimeInt / 60);
-
-      let seconds = Math.abs(
-        Math.floor((minutes * 60) - currentTimeInt));
-      console.log(currentTimeInt, minutes, seconds)
-
+      let seconds = Math.abs(Math.floor((minutes * 60) - currentTimeInt));
       this.setState({
         currentTime: minutes  + ':' + (seconds < 10 ? "0" + seconds : seconds)
       });

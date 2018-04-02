@@ -20,11 +20,12 @@ class TrackPage extends React.Component {
       playlist: [],
       newComment: ''
     }
-    this.path = 'http://127.0.0.1:8080/userfiles/';
     this.audio = new Audio();
     this.playTime = 0;
+    this.path = 'http://127.0.0.1:8080/userfiles/';
     this.handleNewComment = this.handleNewComment.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
     this.handleClickToPlay = this.handleClickToPlay.bind(this);
   }
 
@@ -41,6 +42,11 @@ class TrackPage extends React.Component {
         })
         this.pullComments(res.data[0])
       });
+  }
+
+  componentWillUnmount() {
+    this.audio.pause();
+    this.audio.removeAttribute('src');
   }
 
   pullComments(params) {
@@ -81,16 +87,18 @@ class TrackPage extends React.Component {
       icon.innerHTML = 'play_circle_filled';
     } else {
       this.audio.src = filePath;
+
+      // if ongoing audio, update currentTime with what is stored
       this.audio.currentTime = this.playTime;
       this.audio.play();
       icon.innerHTML = 'pause_circle_filled';
     }
   }
 
-  componentWillUnmount() {
-    this.audio.pause();
-    this.audio.removeAttribute('src');
+  handleDownload() {
+    axios.get('/api/download', { params: this.state.playlist });
   }
+
 
   render() {
     if (!this.state.thisTrack) {
@@ -125,6 +133,7 @@ class TrackPage extends React.Component {
                       </Link>
                     </p>
                     <p><span className="artwork-genre">{thisTrack.genre}</span></p>
+                    {thisTrack.isMix ? null : <button onClick={this.handleDownload} className="btn btn-info" /> }
                   </div>
                 </div>
                 <div className="row">

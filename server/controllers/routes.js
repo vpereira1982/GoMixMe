@@ -8,6 +8,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const multer = require('multer');
 const multerFields = require('./multerFields.js');
+const zip = require('express-zip');
 
 // MULTER SETUP
 const storage = multer.diskStorage({
@@ -99,6 +100,22 @@ router.get('/tracks', (req, res) => {
     .catch((err) => {
       res.status(404).send('Db tracks queries failed');
     });
+});
+
+// DOWNLO{AD MT FILES
+router.get('/download', (req, res) => {
+  let playlist = Object.values(req.query);
+  let zipReadyList = [];
+  for (let i = 0; i < playlist.length; i++) {
+    zipReadyList.push({
+      path: playlist[i].url,
+      name: playlist[i].title
+    });
+  }
+  console.log(zipReadyList, 'after looping......')
+  res.zip(zipReadyList);
+  /*res.status(200).send('received');*/
+
 });
 
 
