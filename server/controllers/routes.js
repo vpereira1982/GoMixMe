@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '_'+ file.originalname);
   }
 })
-const upload = multer({'storage': storage}).fields(multerFields);
+const upload = multer({storage}).fields(multerFields);
 
 
 // SESSION SETTINGS
@@ -105,26 +105,26 @@ router.get('/tracks', (req, res) => {
 
 // DOWNLOAD MT FILES
 router.get('/download', (req, res) => {
-  let playlist = Object.values(req.query);
   let zip = archiver('zip');
-/*  zip.on('finish', (err) => {
-    res.send('');
-  })*/
-
-  console.log('it gets here', playlist)
-
-
-
-
-
-  let zipReadyList = [];
+  let playlist = Object.values(req.query);
+  let zippedFile = fs.createWriteStream(__dirname + '/multitrack-files.zip');
 
   playlist.forEach(each => {
     each = JSON.parse(each);
-    zipReadyList.push({path: each['url'], name: each['title']});
+    let filePath = path.join(__dirname, '../..' + each['url'].slice('http://127.0.0.1:8080'.length));
+    zip.append(fs.createReadStream(filePath), { name: each['title'] });
   });
-  let porra = 'userfiles/1522437367117_Foo Fighters - My Hero.mp3';
-  res.download('userfiles/1522437366980_Radiohead - Idioteque.mp3');
+
+  // pipe the read-stream to the ZippedFile write-stream
+  zip.pipe(zippedFile)
+
+  zippedFile.on('finish', (err) => {
+    // unlinkSync deletes file after sending
+    res.download(zippedFile.path);
+    fs.unlinkSync(zippedFile.path);
+  });
+
+  zip.finalize();
 });
 
 

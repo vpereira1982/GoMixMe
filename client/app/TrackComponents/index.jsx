@@ -22,7 +22,7 @@ class TrackPage extends React.Component {
     }
     this.audio = new Audio();
     this.playTime = 0;
-    this.path = 'http://127.0.0.1:8080/userfiles/';
+    this.path = 'http://localhost:8080/userfiles/';
     this.handleNewComment = this.handleNewComment.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
@@ -96,20 +96,33 @@ class TrackPage extends React.Component {
   }
 
   handleDownload() {
-    axios.get(
-      'api/download',
-      { responseType: 'blob' },
-      { params: this.state.playlist }
-    )
+    let button = document.querySelector('.btn-custom');
+    button.innerHTML = 'Processing...';
+
+    // if <button> has a backgroundColor, it ran before so return.
+    if (button.style.backgroundColor !== '') {
+      button.style.backgroundColor = 'red';
+      button.innerHTML = 'Already Downloaded';
+      return;
+    }
+
+    axios({
+      url: 'api/download',
+      method: 'GET',
+      params: this.state.playlist,
+      responseType: 'blob'
+      })
       .then(res => {
         // creates a <a> tag that has a 'download' attribute and auto-click
-        const url = URL.createObjectURL(res.data)
-        const link = document.createElement('a');
+        let url = URL.createObjectURL(res.data)
+        let link = document.createElement('a');
         link.href = url;
-        link.download = "CHANGEFILENAME.MP3";
+        link.download = this.state.thisTrack.title;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        button.innerHTML = 'Complete';
+        button.style.backgroundColor = '#2A35CD';
       });
   }
 
@@ -122,7 +135,6 @@ class TrackPage extends React.Component {
       const curUserPic = this.path + this.props.userPic;
       const uploaderPic = this.path + thisTrack.profilepic;
       const trackImg = this.path + JSON.parse(thisTrack.image).filename;
-
       return (
         <div className="bg-light">
           <div className="container bg-white content-body">
@@ -147,7 +159,12 @@ class TrackPage extends React.Component {
                       </Link>
                     </p>
                     <p><span className="artwork-genre">{thisTrack.genre}</span></p>
-                    {thisTrack.isMix ? null : <button onClick={this.handleDownload} className="btn btn-info" /> }
+                    {thisTrack.isMix ?
+                      null :
+                      <button onClick={this.handleDownload} className="btn btn-custom mb-4 mt-2">
+                        Download Files
+                      </button>
+                    }
                   </div>
                 </div>
                 <div className="row">

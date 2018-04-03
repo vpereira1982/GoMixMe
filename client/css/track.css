@@ -87,3 +87,9 @@
   letter-spacing: 1px;
   word-spacing: 4px;
 }
+
+.btn-custom {
+  background-color: #009690;
+  color: white;
+  letter-spacing: 1px;
+}
