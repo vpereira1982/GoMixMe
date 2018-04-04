@@ -57,7 +57,7 @@ class Main extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  return {trackList: state.trackList.tracks};
+  return { trackList: state.trackList.tracks };
 }
 
 export default connect(MapStateToProps, { pullTracks })(Main);

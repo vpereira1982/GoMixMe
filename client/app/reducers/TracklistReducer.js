@@ -12,7 +12,7 @@ export default (state = defaultState, action) => {
         const { mixes: payloadMx, multitracks: payloadMt } = action.payload;
         action.payload = {
           mixes: stateMx.concat(payloadMx),
-          multitracks: stateMt.concat(payloadMt)
+          multitracks: stateMt.concat(payloadMt),
         }
       }
 

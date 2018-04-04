@@ -7,21 +7,10 @@ const uniqid = require('uniqid');
 module.exports = {
   login: (data, callback) => {
     if (data.hasOwnProperty('email')) {
-      db.query(`SELECT * FROM users WHERE users.email = '${data.email}'`, callback);
+      db.query(`
+        SELECT * FROM users WHERE users.email = '${data.email}'`,
+        callback);
     }
-  },
-
-  search: (data, callback) => {
-    // This can be used for Search later..
-    db.query(`
-      SELECT * FROM users
-      INNER JOIN mixes
-      WHERE
-      users.genre = '${data}' OR
-      users.firstname = '${data}' OR
-      users.lastname = '${data}' OR
-      mixes.id = '${data}'`,
-      callback);
   },
 
   getUser: (data, callback) => {
@@ -54,8 +43,7 @@ module.exports = {
       INNER JOIN users
       WHERE ${comments_type}.trackId = '${data.id || data.trackId}'
       AND ${comments_type}.userId = users.id
-      ORDER BY ${comments_type}.dt DESC
-      `,
+      ORDER BY ${comments_type}.dt DESC`,
       callback);
   },
 
@@ -71,12 +59,28 @@ module.exports = {
       callback);
   },
 
-  getMixes: (data, callback, page) => {
-    db.query(`SELECT * FROM mixes LIMIT 5 OFFSET ${page * 5}`, callback);
+  getMixes: (search, callback, page) => {
+    if (!search) {
+      db.query(`SELECT * FROM mixes LIMIT 5 OFFSET ${page * 5}`, callback);
+    } else {
+      db.query(`
+        SELECT * FROM mixes
+        WHERE (title LIKE '%${search}%' OR artist LIKE '%${search}%')
+        LIMIT 10 OFFSET ${page * 10}`,
+        callback);
+    }
   },
 
-  getMultiTracks: (data, callback, page) => {
-    db.query(`SELECT * FROM multitracks LIMIT 5 OFFSET ${page * 5}`, callback);
+  getMultiTracks: (search, callback, page) => {
+    if (!search) {
+      db.query(`SELECT * FROM multitracks LIMIT 5 OFFSET ${page * 5}`, callback);
+    } else {
+      db.query(`
+        SELECT * FROM multitracks
+        WHERE (title LIKE '%${search}%' OR artist LIKE '%${search}%')
+        LIMIT 10 OFFSET ${page * 10}`,
+        callback);
+    }
   },
 
   getSession: (data, callback) => {

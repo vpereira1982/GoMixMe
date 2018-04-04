@@ -77,12 +77,12 @@ export const updateProfilePic = (image) => {
   }
 }
 
-export const pullTracks = (search = '', page = 0) => {
+export const pullTracks = (search = '', page = 0, isSearch = false) => {
   return (
     axios.get('/api/tracks', { params: { search, page } })
       .then(res => ({
-        type: 'pullTracks',
-        payload: res.data
+        type: isSearch ? 'search' : 'pullTracks',
+        payload: res.data,
       }))
   )
 }

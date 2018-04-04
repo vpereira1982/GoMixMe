@@ -7,10 +7,11 @@ import { pullTracks, isLogged } from './actions';
 import '../css/header.css';
 
 const Header = (props) => {
-  let clickToSearch = () => {
-    let query = document.getElementById('searchbox').value;
-    props.pullTracks(query);
-    query = '';
+  let clickToSearch = (e) => {
+    e.preventDefault();
+    let search = document.getElementById('searchbox');
+    window.location = `/search?q=${search.value}`;
+    search.value = '';
   }
 
   let handleLogout = () => {
@@ -24,7 +25,7 @@ const Header = (props) => {
     <nav className="navbar navbar-light fixed-top text-white bg-navy">
       <div className="container justify-content-between">
         <Link to="/"><img className="navbar-brand" src="../images/logo.png" /></Link>
-        <form className="form-inline">
+        <form className="form-inline" onSubmit={clickToSearch}>
           <input className="form-control" type="text" size="65" placeholder="Search" id="searchbox" />
           <button className="btn btn-success ml-2" id="button-search" type="button" onClick={clickToSearch}>
             Search

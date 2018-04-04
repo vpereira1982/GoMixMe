@@ -151,6 +151,7 @@ class TrackPage extends React.Component {
                     <small className="text-muted ml-2">{thisTrack.isMix ? 'Mix' : 'Multitrack'}</small>
                   </div>
                 </div>
+
                 <div className="row">
                   <div className="offset-md-1 col-11">
                     <p className="track-play-info">Uploaded by:
@@ -167,6 +168,7 @@ class TrackPage extends React.Component {
                     }
                   </div>
                 </div>
+
                 <div className="row">
                   <div id="track-player" className="track-player col-12">
                     {thisTrack.isMix ?
@@ -175,11 +177,6 @@ class TrackPage extends React.Component {
                     }
                   </div>
                 </div>
-
-
-
-
-
               </div>
               <div className="col-4">
                 <img className="rounded float-right track-main-img" src={`${trackImg}`} />
@@ -211,7 +208,7 @@ class TrackPage extends React.Component {
               </div>
               <div className="col-10">
                 <div className="ml-4">
-                  <h5 className="track-uploader">{thisTrack.displayname}'s Upload Details:</h5>
+                  <h5 className="track-uploader">{thisTrack.displayname}'s Track Details:</h5>
                   <p className="font-weight-light">{thisTrack.description}</p>
                 </div>
               </div>
@@ -233,7 +230,6 @@ class TrackPage extends React.Component {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       )

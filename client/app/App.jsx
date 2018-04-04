@@ -8,6 +8,7 @@ import Login from './Login.jsx';
 import Upload from './UploadComponents/index.jsx';
 import TrackPage from './TrackComponents/index.jsx';
 import Loading from './Loading.jsx';
+import Search from './Search.jsx';
 import ErrorMessage from './Error.jsx';
 import Profile from './Profile.jsx';
 import { connect } from 'react-redux';
@@ -113,6 +114,15 @@ class App extends React.Component {
                 exact
                 render={(props) =>
                   <Upload
+                    customHistory={customHistory}
+                    handleChange={this.handleChange}
+                  />
+                }
+              />
+              <Route
+                path="/search"
+                render={(props) =>
+                  <Search
                     customHistory={customHistory}
                     handleChange={this.handleChange}
                   />
