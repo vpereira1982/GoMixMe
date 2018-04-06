@@ -1,7 +1,3 @@
-export default (str) => {
-  if (str.slice(-1) !== " ") {
-    return str.replace(/[!'<>`()*]/g," ").trim();
-  } else {
-    return str;
-  }
-}
+export default (str) => (
+  str.slice(-1) !== " " ? str.replace(/[!'<>`()*]/g," ").trim() : str;
+);
