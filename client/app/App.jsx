@@ -6,6 +6,7 @@ import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
 import Upload from './UploadComponents/index.jsx';
+import sanitizeStr from './helperFunctions/sanitizeStr';
 import TrackPage from './TrackComponents/index.jsx';
 import Loading from './Loading.jsx';
 import Search from './Search.jsx';
@@ -52,7 +53,7 @@ class App extends React.Component {
 
   handleChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: sanitizeStr(e.target.value)
     });
   }
 
