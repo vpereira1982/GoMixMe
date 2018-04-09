@@ -1,10 +1,40 @@
+@-moz-document url-prefix() {
+  .navbar { padding-bottom: 65px; padding-top:0px; }
+}
+
 .headerProfilePic {
   border: 0.06px solid white;
   border-radius: 50%;
   height: 45px;
   max-height: 45px;
   margin-right: 10px;
-}/*!
+}
+
+.username {
+  color: white !important;;
+}
+
+.username:hover, .settings:hover, .logout:hover {
+  color: #009690 !important;
+}
+
+.settings {
+  position: relative;
+  font-size: 30px;
+  top: 10px;
+  color: white;
+}
+
+.pipe {
+  padding: 0 5px !important;
+  color: #ccc !important;
+  font-size: 20px;
+}
+
+.logout {
+  color: red !important;
+}
+/*!
  * Cropper.js v1.0.0-rc.3
  * https://github.com/fengyuanchen/cropperjs
  *

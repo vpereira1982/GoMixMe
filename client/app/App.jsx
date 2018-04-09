@@ -6,8 +6,9 @@ import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
 import Upload from './UploadComponents/index.jsx';
-import TrackPage from './TrackComponents/index.jsx';
+import TrackPage from './TrackComponents/TrackPage.jsx';
 import Loading from './Loading.jsx';
+import Settings from './Settings.jsx';
 import Search from './Search.jsx';
 import ErrorMessage from './Error.jsx';
 import Profile from './Profile.jsx';
@@ -127,6 +128,11 @@ class App extends React.Component {
                   path="/:uname"
                   exact
                   render={(props) => <Profile {...props} />}
+                />
+                <Route
+                  path="/settings/:uname"
+                  exact
+                  render={(props) => <Settings {...props} />}
                 />
                 <Route component={ErrorMessage} />
               </Switch>

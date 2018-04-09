@@ -122,31 +122,12 @@ a {
   margin: 1em 0 .5em 0;
 }
 
-.username {
-  color: white !important;;
-}
-
-.pipe {
-  padding: 0 12px !important;
-  color: white !important;
-}
-
 img.default-profile {
   max-width: 100%; /* This rule is very important, please do not ignore this! */
 }
 
-
 .pageHeader {
   padding: 20px 0;
-}
-
-.logout {
-  color: red !important;
-}
-
-.logout:hover {
-  color: white;
-  text-decoration: none;
 }
 
 .profile-bckgnd {

@@ -160,7 +160,6 @@ router.post('/addNewComment', (req, res) => {
 router.get('/uploadUser', (req, res) => {
   model.getUser(req.query, (err, data) => {
     if (err) throw (err);
-    console.log(data);
     res.status(200).send(data);
   });
 });

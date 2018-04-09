@@ -20,7 +20,9 @@ app.use('*', (req, res) => {
 
 
 app.listen(port, (err, success) => {
-  err ? console.log('There was an error loading the server') : console.log('SERVER is live on port: ' + port);
+  err ?
+  console.log('There was an error loading the server') :
+  console.log('SERVER is live on port: ' + port);
 });
 
 module.exports = app;
