@@ -6,7 +6,6 @@ import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
 import Upload from './UploadComponents/index.jsx';
-import sanitizeStr from './helperFunctions/sanitizeStr';
 import TrackPage from './TrackComponents/index.jsx';
 import Loading from './Loading.jsx';
 import Search from './Search.jsx';
@@ -25,8 +24,6 @@ class App extends React.Component {
   constructor (props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-    this.loggedHomePage = this.loggedHomePage.bind(this);
-    this.loginHomePage = this.loginHomePage.bind(this);
   }
 
   componentDidMount () {
@@ -53,7 +50,7 @@ class App extends React.Component {
 
   handleChange(e) {
     this.setState({
-      [e.target.name]: sanitizeStr(e.target.value)
+      [e.target.name]: e.target.value
     });
   }
 
@@ -84,15 +81,6 @@ class App extends React.Component {
   //************************
   // Conditional Homepage Routing
   //************************
-
-  loggedHomePage(props) {
-    return <Main {...props} history={customHistory} />
-  }
-
-  loginHomePage() {
-    return <Login handleLogin={this.handleLogin} handleChange={this.handleChange} />
-  }
-
   render() {
     const { isLogged, isReturning, id } = this.props.userDetails;
 
@@ -103,56 +91,69 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
             {isLogged ? <Header /> : null}
-            <Switch>
-              <Route
-                path="/:type/:uname/:track"
-                render={(props) =>
-                  <TrackPage {...props} handleChange={this.handleChange} />
-                }
-              />
-              <Route
-                path="/upload"
-                exact
-                render={(props) =>
-                  <Upload
-                    customHistory={customHistory}
-                    handleChange={this.handleChange}
-                  />
-                }
-              />
-              <Route
-                path="/search"
-                render={(props) =>
-                  <Search
-                    customHistory={customHistory}
-                    handleChange={this.handleChange}
-                  />
-                }
-              />
-              <Route
-                path="/"
-                exact={isReturning ? true : false}
-                render={isLogged ? this.loggedHomePage : this.loginHomePage}
-              />
-              <Route
-                path="/signup"
-                exact
-                render={
-                  (props) => (
-                    <Signup {...props}
-                      handleLogin={this.handleLogin}
+            {isLogged ?
+              <Switch>
+                <Route
+                  path="/:type/:uname/:track"
+                  render={(props) =>
+                    <TrackPage {...props} handleChange={this.handleChange} />
+                  }
+                />
+                <Route
+                  path="/upload"
+                  exact
+                  render={(props) =>
+                    <Upload
+                      customHistory={customHistory}
                       handleChange={this.handleChange}
                     />
-                  )
-                }
-              />
-              <Route
-                path="/:uname"
-                exact
-                render={(props) => <Profile {...props} />}
-              />
-              <Route component={ErrorMessage} />
-            </Switch>
+                  }
+                />
+                <Route
+                  path="/search"
+                  render={(props) =>
+                    <Search
+                      customHistory={customHistory}
+                      handleChange={this.handleChange}
+                    />
+                  }
+                />
+                <Route
+                  path="/"
+                  exact
+                  render={(props) => <Main {...props} history={customHistory} />}
+                />
+                <Route
+                  path="/:uname"
+                  exact
+                  render={(props) => <Profile {...props} />}
+                />
+                <Route component={ErrorMessage} />
+              </Switch>
+            : /********************
+              If User is not logged
+              *********************/
+              <Switch>
+                <Route
+                  path="/signup"
+                  exact
+                  render={
+                    (props) =>
+                      <Signup {...props}
+                        handleLogin={this.handleLogin}
+                        handleChange={this.handleChange}
+                      />
+                  }
+                />
+                <Route
+                  path="/"
+                  render={() =>
+                    <Login handleLogin={this.handleLogin} handleChange={this.handleChange} />
+                  }
+                />
+                <Route component={ErrorMessage} />
+              </Switch>
+          }
           </div>
         </BrowserRouter>
       )

@@ -15,7 +15,7 @@ const List = (props) => (
         <div className="col-12 border-right border-main"></div>
       </div>
     </div>
-    <div className="col-5">
+    <div className="col-6">
       <h1 className="display-4 header-custom mt-3">Multitrack Sessions</h1>
       <Multitracks multitracks={props.tracklist.multitracks} />
     </div>

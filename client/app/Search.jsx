@@ -8,7 +8,7 @@ import Multitracks from './ListComponents/Multitracks.jsx';
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.query = location.search.slice(3);
+    this.query = location.search.slice(3).replace(/%20/g, " ");
   }
 
   componentWillMount() {
@@ -23,15 +23,21 @@ class Search extends React.Component {
           <div className="container bg-white content-body">
             <div className="row">
               <div className="col-12">
-                <h1 className="display-4 header-custom mt-3">Search results for <span className="text-dark font-weight-normal">"{this.query}"</span></h1>
+                <h1 className="display-4 header-custom mt-3">Search results for
+                  <span className="text-dark font-weight-normal">"{this.query}"</span>
+                </h1>
                 <hr/>
                 <h6>Mixes</h6>
-                {searchResults.mixes.length || 'No Results Found'}
-                <Mixes mixes={searchResults.mixes} />
+                {searchResults.mixes.length ?
+                  <Mixes mixes={searchResults.mixes} /> :
+                  'No Results Found'
+                }
                 <hr/>
                 <h6>Multitracks</h6>
-                {searchResults.multitracks.length || 'No Results Found'}
-                <Multitracks multitracks={searchResults.multitracks} />
+                {searchResults.multitracks.length ?
+                  <Multitracks multitracks={searchResults.multitracks} /> :
+                  'No Results Found'
+                }
               </div>
             </div>
         </div>

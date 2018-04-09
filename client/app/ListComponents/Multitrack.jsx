@@ -21,7 +21,6 @@ const Multitrack = (props) => {
   const routePath = `/mt/${displayname}/${title.replace(/ /g,"-")}`;
   const uploadUser = `/${displayname}`
 
-
   return (
     <div className="clearfix mt-3 mb-4">
       <Link to={routePath}>

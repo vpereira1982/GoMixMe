@@ -118,14 +118,16 @@ router.get('/download', (req, res) => {
   zip.pipe(zippedFile)
 
   zippedFile.on('finish', (err) => {
-    // unlinkSync deletes file after sending
     res.download(zippedFile.path);
-    fs.unlinkSync(zippedFile.path);
-  });
+  })
 
   zip.finalize();
 });
 
+// DELETE ZIP FILE
+router.delete('/delete', (req, res) => {
+  fs.unlinkSync(__dirname + '/multitrack-files.zip');
+});
 
 // PULL TRACK INFO
 router.get('/trackDetails', (req, res) => {
@@ -158,6 +160,7 @@ router.post('/addNewComment', (req, res) => {
 router.get('/uploadUser', (req, res) => {
   model.getUser(req.query, (err, data) => {
     if (err) throw (err);
+    console.log(data);
     res.status(200).send(data);
   });
 });

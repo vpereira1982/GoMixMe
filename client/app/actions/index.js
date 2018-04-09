@@ -81,7 +81,7 @@ export const pullTracks = (search = '', page = 0, isSearch = false) => {
   return (
     axios.get('/api/tracks', { params: { search, page } })
       .then(res => ({
-        type: isSearch ? 'search' : 'pullTracks',
+        type: isSearch ? 'search' : 'mainTracks',
         payload: res.data,
       }))
   )

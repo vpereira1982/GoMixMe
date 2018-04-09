@@ -111,19 +111,21 @@ class TrackPage extends React.Component {
       method: 'GET',
       params: this.state.playlist,
       responseType: 'blob'
-      })
-      .then(res => {
-        // creates a <a> tag that has a 'download' attribute and auto-click
-        let url = URL.createObjectURL(res.data)
-        let link = document.createElement('a');
-        link.href = url;
-        link.download = this.state.thisTrack.title;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        button.innerHTML = 'Complete';
-        button.style.backgroundColor = '#2A35CD';
-      });
+    })
+    .then(res => {
+      // creates a <a> tag w/ a 'download' attribute and auto-click
+      let url = URL.createObjectURL(res.data)
+      let link = document.createElement('a');
+      link.href = url;
+      link.download = this.state.thisTrack.title;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      button.innerHTML = 'Complete';
+      button.style.backgroundColor = '#2A35CD';
+    })
+    // now delete the large file from server
+    .then(res => axios.delete('/api/delete'));
   }
 
 

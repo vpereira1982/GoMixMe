@@ -2,7 +2,7 @@ const path = require('path');
 const db = require(path.join(__dirname, '../../database/index.js'));
 const encrypt = require('../encryptor/index.js');
 const uniqid = require('uniqid');
-
+const escaper = str => str.replace(/[!'<>`()*]/g,"\\$&");
 
 module.exports = {
   login: (data, callback) => {
@@ -14,16 +14,59 @@ module.exports = {
   },
 
   getUser: (data, callback) => {
-    db.query(`
-      SELECT
-      firstname,
-      lastname,
-      displayname,
-      genre,
-      description,
-      profilepic
-      FROM users WHERE id = '${data.id}'
-      OR displayname = '${data.displayname}'`,
+      db.query(`
+      (
+        SELECT
+          umx.firstname,
+          umx.lastname,
+          umx.id,
+          umx.displayname,
+          umx.profilepic,
+          umx.description,
+          umx.genre,
+          'mixes' AS 'src',
+          mx.artist,
+          mx.image,
+          mx.genre,
+          0 as previewFile,
+          mx.file,
+          mx.title,
+          mx.id
+        FROM users umx
+        JOIN mixes mx
+        ON mx.userId = umx.id
+        WHERE umx.displayname = '${data.displayname}'
+        ORDER BY
+          mx.artist,
+          mx.title,
+          mx.id
+      )
+      UNION ALL
+      (
+        SELECT
+          umt.firstname,
+          umt.lastname,
+          umt.id,
+          umt.displayname,
+          umt.profilepic,
+          umt.description,
+          umt.genre,
+          'multitracks' AS 'src',
+          mt.artist,
+          mt.image,
+          mt.genre,
+          mt.previewFile,
+          mt.files,
+          mt.title,
+          mt.id
+        FROM users umt
+        JOIN multitracks mt
+        ON mt.userId = umt.id
+        WHERE umt.displayname = '${data.displayname}'
+        ORDER BY
+          mt.artist,
+          mt.title
+      )`,
       callback);
   },
 
@@ -105,10 +148,10 @@ module.exports = {
         dt
       ) VALUES (
         '${trackId}',
-        '${comment}',
+        '${escaper(comment)}',
         ${userId},
         NOW())`,
-        callback)
+      callback)
   },
 
   newUser: (data, callback) => {
@@ -127,15 +170,15 @@ module.exports = {
         description,
         displayname
       ) VALUES (
-        '${data.firstname}',
-        '${data.lastname}',
+        '${escaper(data.firstname)}',
+        '${escaper(data.lastname)}',
         '${pwHashed}',
-        '${data.email}',
+        '${escaper(data.email)}',
         '${data.genre}',
         '${pwSalt}',
         '${data.profilepic}',
-        '${data.description}',
-        '${data.displayname}'
+        '${escaper(data.description)}',
+        '${escaper(data.displayname)}'
       )`
     );
   },
@@ -157,9 +200,9 @@ module.exports = {
         '${uniqid(String(data.userId))}',
         ${data.userId},
         '${data.file}',
-        '${data.artist}',
-        '${data.title}',
-        '${data.description}',
+        '${escaper(data.artist)}',
+        '${escaper(data.title)}',
+        '${escaper(data.description)}',
         '${data.displayName}',
         '${data.image}',
         '${data.genre}',
@@ -186,9 +229,9 @@ module.exports = {
         '${uniqid(String(data.userId))}',
         ${data.userId},
         '${data.files}',
-        '${data.artist}',
-        '${data.title}',
-        '${data.description}',
+        '${escaper(data.artist)}',
+        '${escaper(data.title)}',
+        '${escaper(data.description)}',
         '${data.displayName}',
         '${data.image}',
         '${data.genre}',

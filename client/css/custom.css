@@ -40,6 +40,14 @@
   margin-bottom: 25px;
 }
 
+
+.profile-headline {
+  color: #009690;
+  font-size: 56px;
+  font-weight: lighter;
+  margin-bottom: 25px;
+}
+
 .artwork-thumbnail {
   border: 1px solid #ddd;
   border-radius: 3px;
@@ -139,6 +147,13 @@ img.default-profile {
 .logout:hover {
   color: white;
   text-decoration: none;
+}
+
+.profile-bckgnd {
+  background-image: url('../images/profile-bckg.jpg') !important;
+  background-size: cover;
+  border: solid 5px #28274B;
+  border-radius: 5px;
 }
 
 
