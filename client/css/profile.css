@@ -1,7 +1,7 @@
 .profile-pic {
   width: 300px;
   border: solid 1px gray;
-  background: rgba(0, 0, 0, .3);
+  background: rgba(0, 0, 0, .9);
   border-radius: 300px !important;
   padding: 2px;
 }

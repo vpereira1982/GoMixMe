@@ -113,14 +113,14 @@ class TrackPage extends React.Component {
       responseType: 'blob'
     })
     .then(res => {
-      // creates a <a> tag w/ a 'download' attribute and auto-click
-      let url = URL.createObjectURL(res.data)
+      // creates <a> tag w/ a 'download' attr and auto-clicks
+      let url = URL.createObjectURL(res.data) // remove this
       let link = document.createElement('a');
       link.href = url;
       link.download = this.state.thisTrack.title;
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
+      document.body.removeChild(link); // remove this
       button.innerHTML = 'Complete';
       button.style.backgroundColor = '#2A35CD';
     })
@@ -181,7 +181,7 @@ class TrackPage extends React.Component {
                 </div>
               </div>
               <div className="col-4">
-                <img className="rounded float-right track-main-img" src={`${trackImg}`} />
+                <img className="float-right track-main-img" src={`${trackImg}`} />
               </div>
             </div>
 

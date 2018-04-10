@@ -131,12 +131,11 @@ class App extends React.Component {
                 <Route
                   path="/signup"
                   exact
-                  render={
-                    (props) =>
-                      <Signup {...props}
-                        handleLogin={this.handleLogin}
-                        handleChange={this.handleChange}
-                      />
+                  render={(props) =>
+                    <Signup {...props}
+                      handleLogin={this.handleLogin}
+                      handleChange={this.handleChange}
+                    />
                   }
                 />
                 <Route

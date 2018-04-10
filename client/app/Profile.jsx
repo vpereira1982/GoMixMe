@@ -56,7 +56,7 @@ class Profile extends React.Component {
                 <h5 className="font-weight-light mt-4 mb-4 text-white">Favorite Genre:
                   <span className="artwork-genre ml-3">{genre}</span>
                 </h5>
-                <p className="mt-4">{description}</p>
+                <p className="mt-4 text-white"><small>{description}</small></p>
               </div>
             </div>
             <div className="row mt-3">

@@ -53,8 +53,7 @@ class Upload extends React.Component {
                   className="form-control btn btn-success dropdown-toggle"
                   name="type"
                   onChange={this.handleSelect}
-                  required
-                >
+                  required>
                   <option className="defaultOption" defaultValue>Select Option</option>
                   <option value="Mix">Mix</option>
                   <option value="Multitrack">Multitrack</option>

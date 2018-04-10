@@ -37,7 +37,7 @@ const Header = (props) => {
           </a>
         </form>
         <span className="navbar-text">
-          <Link to={`/${props.displayname}`}>
+          <Link to={`/${props.displayname}`} onClick={() => window.reload()}>
             <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilepic}`} />
             <span className="username">{props.firstname} </span>
           </Link>
