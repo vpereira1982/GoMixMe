@@ -1,23 +1,9 @@
 import axios from 'axios';
 
-export const updateFirstName = (name) => {
+export const persistUser = (info) => {
   return {
-    type: 'first_name',
-    payload: name
-  }
-}
-
-export const updateLastName = (name) => {
-  return {
-    type: 'last_name',
-    payload: name
-  }
-}
-
-export const updateDisplayName = (name) => {
-  return {
-    type: 'display_name',
-    payload: name
+    type: 'persist_user',
+    payload: info
   }
 }
 
@@ -39,34 +25,6 @@ export const updatePw = (pw) => {
   return {
     type: 'pw',
     payload: pw
-  }
-}
-
-export const storeId = (id) => {
-  return {
-    type: 'storeId',
-    payload: id
-  }
-}
-
-export const isReturning = (bool) => {
-  return {
-    type: 'isReturning',
-    payload: bool
-  }
-}
-
-export const selectUploadType = (name) => {
-  return {
-    type: 'UploadType',
-    payload: name
-  }
-}
-
-export const updateFileData = (formData) => {
-  return {
-    type: 'saveFileDetails',
-    payload: formData
   }
 }
 
@@ -108,7 +66,6 @@ export const pullComments = (trackId, isMix) => {
       }))
   )
 }
-
 
 export const clearTrackInfo = () => {
   return {

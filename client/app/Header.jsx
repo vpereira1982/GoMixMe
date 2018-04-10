@@ -38,7 +38,7 @@ const Header = (props) => {
         </form>
         <span className="navbar-text">
           <Link to={`/${props.displayname}`}>
-            <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilePic}`} />
+            <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilepic}`} />
             <span className="username">{props.firstname} </span>
           </Link>
           <span className="pipe font-weight-light"> | </span>
@@ -54,8 +54,8 @@ const Header = (props) => {
 }
 
 const MapStateToProps = (state) => {
-  const { firstname, profilePic, displayname } = state.userDetails;
-  return { firstname, profilePic, displayname };
+  const { firstname, profilepic, displayname } = state.userDetails;
+  return { firstname, profilepic, displayname };
 }
 
 export default connect(MapStateToProps, { pullTracks, isLogged })(Header);

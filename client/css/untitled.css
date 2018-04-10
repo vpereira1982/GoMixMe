@@ -1,0 +1,7 @@
+.profile-main-img {
+  width: 300px;
+  border: solid 1px gray;
+  background: rgba(0, 0, 0, .3);
+  border-radius: 2px !important;
+  padding: 2px;
+}

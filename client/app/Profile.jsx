@@ -4,17 +4,16 @@ import axios from 'axios';
 import Loading from './Loading.jsx';
 import Mixes from './ListComponents/Mixes.jsx';
 import Multitracks from './ListComponents/Multitracks.jsx';
+import '../css/profile.css';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userDetails: null
-    };
+    this.state = { userDetails: null };
     this.URLname = this.props.match.params.uname;
     this.mixes = [];
     this.multitracks = [];
-    this.path = 'http://127.0.0.1:8080/userfiles/'
+    this.path = 'http://localhost:8080/userfiles/'
   }
 
   componentDidMount() {
@@ -49,7 +48,7 @@ class Profile extends React.Component {
           <div className="container bg-white content-body">
             <div className="row profile-bckgnd">
               <div className="col-4 mt-2 mb-2">
-                <img className="rounded track-main-img" src={`${image}`} />
+                <img className="rounded profile-pic" src={`${image}`} />
               </div>
               <div className="col-8">
                 <h3 className="profile-headline">{displayname}</h3>
@@ -65,7 +64,7 @@ class Profile extends React.Component {
                 <h4 className="display-4 header-custom mt-3">{firstname}'s Mixes</h4>
                 {this.mixes.length ?
                   <Mixes mixes={this.mixes} /> :
-                  'None'
+                  'No Mixes yet'
                  }
               </div>
                 <div className="col-1">
@@ -75,7 +74,7 @@ class Profile extends React.Component {
                 <h4 className="display-4 header-custom mt-3">{firstname}'s Multitrack Sessions</h4>
                 {this.multitracks.length ?
                   <Multitracks multitracks={this.multitracks} /> :
-                  'No Results Found'
+                  'No Multitracks yet'
                 }
               </div>
             </div>

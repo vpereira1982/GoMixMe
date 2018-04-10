@@ -1,5 +1,3 @@
-import path from 'path';
-
 const defaultState = {
         isLogged: '',
         firstname: '',
@@ -8,24 +6,19 @@ const defaultState = {
         email: '',
         pw: '',
         id: '',
-        profilePic: '../images/default-profile.png',
+        profilepic: '../images/default-profile.png',
         isReturning: true
       }
 
-
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'first_name':
-      return Object.assign({}, state, {firstname: action.payload});
-
-    case 'last_name':
-      return Object.assign({}, state, {lastname: action.payload});
-
-    case 'display_name':
-      return Object.assign({}, state, {displayname: action.payload});
-
-    case 'isLogged':
-      return Object.assign({}, state, {isLogged: action.payload});
+    case 'persist_user':
+      let userInfo = action.payload;
+      if (!userInfo) {
+        return Object.assign({}, state, { isLogged: false });
+      }
+      userInfo.isLogged = userInfo.hasOwnProperty('id');
+      return Object.assign({}, state, userInfo);
 
     case 'email':
       return Object.assign({}, state, {email: action.payload});
@@ -33,14 +26,8 @@ export default (state = defaultState, action) => {
     case 'pw':
       return Object.assign({}, state, {pw: action.payload});
 
-    case 'isReturning':
-      return Object.assign({}, state, {isReturning: action.payload});
-
-    case 'ProfilePic':
-      return Object.assign({}, state, {profilePic: action.payload});
-
-    case 'storeId':
-      return Object.assign({}, state, {id: action.payload});
+    case 'isLogged':
+      return Object.assign({}, state, {isLogged: action.payload});
 
     default:
       return state;

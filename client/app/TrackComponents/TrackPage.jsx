@@ -241,7 +241,7 @@ class TrackPage extends React.Component {
 
 const MapStateToProps = (state) => {
   return {
-    userPic: state.userDetails.profilePic,
+    userPic: state.userDetails.profilepic,
     userId: state.userDetails.id
   };
 }

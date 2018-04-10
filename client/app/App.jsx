@@ -32,15 +32,9 @@ class App extends React.Component {
     axios.get('/api/session').then(user => {
       if (user) {
         // Call Redux Action Creators:
-        this.props.isLogged(user.data.hasOwnProperty('id'));
-        this.props.storeId(user.data.id);
-        this.props.updateFirstName(user.data.firstname);
-        this.props.updateLastName(user.data.lastname);
-        this.props.updateDisplayName(user.data.displayname);
-        this.props.updateEmail(user.data.email);
-        this.props.updateProfilePic(user.data.profilepic);
+        this.props.persistUser(user.data);
       } else {
-        this.props.isLogged(false);
+        this.props.isLogged = false;
       }
     });
   }
@@ -48,7 +42,6 @@ class App extends React.Component {
   //************************
   // Login Functions
   //************************
-
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -59,31 +52,25 @@ class App extends React.Component {
     e ? e.preventDefault() : null;
     const { email, pw } = this.props.userDetails;
 
-    axios.post('/api/login', {email, pw}).then(user => {
-      if (user) {
-        // If user is valid (i.e. data), redirects to the main page:
-        customHistory.push('/');
+    axios.post('/api/login', {email, pw})
+      .then(user => {
+          customHistory.push('/');
 
-        // Call Redux Action Creators:
-        this.props.isLogged(user.data.hasOwnProperty('id'));
-        this.props.storeId(user.data.id);
-        this.props.isReturning(false);
-        this.props.updateFirstName(user.data.firstname);
-        this.props.updateLastName(user.data.lastname);
-        this.props.updateDisplayName(user.data.displayname);
-        this.props.updateProfilePic(user.data.profilepic);
-      } else if (e) {
-        let errorMsg = document.querySelector('.errorMsg');
-        errorMsg.style.visibility = 'visible';
-      }
-    });
+          // If user is valid (i.e. data), redirects to the main page:
+          this.props.persistUser(user.data);
+      })
+     .catch(error => {
+        const errorMsg = document.querySelector('.errorMsg');
+        errorMsg.classList.remove('d-none');
+      });
   }
 
   //************************
   // Conditional Homepage Routing
   //************************
   render() {
-    const { isLogged, isReturning, id } = this.props.userDetails;
+    console.log(this.props.userDetails)
+    const { isLogged = '' } = this.props.userDetails;
 
     if (isLogged === '') {
       return <Loading />
@@ -132,7 +119,8 @@ class App extends React.Component {
                 <Route
                   path="/settings/:uname"
                   exact
-                  render={(props) => <Settings {...props} />}
+                  render={(props) =>
+                    <Settings {...props} handleChange={this.handleChange} />}
                 />
                 <Route component={ErrorMessage} />
               </Switch>
@@ -168,7 +156,7 @@ class App extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  return {userDetails: state.userDetails}
-}
+  return { userDetails: state.userDetails };
+};
 
 export default connect(MapStateToProps, Actions)(App);

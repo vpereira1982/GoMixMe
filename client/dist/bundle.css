@@ -20,8 +20,8 @@
 
 .settings {
   position: relative;
-  font-size: 30px;
-  top: 10px;
+  font-size: 25px;
+  top: 7px;
   color: white;
 }
 
@@ -555,4 +555,10 @@
   background-color: #009690;
   color: white;
   letter-spacing: 1px;
+}.profile-pic {
+  width: 300px;
+  border: solid 1px gray;
+  background: rgba(0, 0, 0, .3);
+  border-radius: 300px !important;
+  padding: 2px;
 }

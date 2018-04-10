@@ -154,7 +154,7 @@ class Signup extends React.Component {
               />
           </div>
           <div className="form-group">
-          {/* UPLOAD AUDIO button. */}
+          {/* SELECT FAV GENRE DDOWN. */}
             <div className="form-group">
               <select className="custom-select btn btn-success dropdown-toggle" name="genre" required>
                 <option value="">Favorite Genre</option>
