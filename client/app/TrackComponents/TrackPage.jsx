@@ -128,7 +128,6 @@ class TrackPage extends React.Component {
     .then(res => axios.delete('/api/delete'));
   }
 
-
   render() {
     if (!this.state.thisTrack) {
       return <Loading />

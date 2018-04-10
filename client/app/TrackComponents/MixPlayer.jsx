@@ -1,5 +1,5 @@
-import React from 'React';
-import ReactDOM from 'React-DOM';
+import React from 'react';
+import ReactDOM from 'react-DOM';
 
 class MixPlayer extends React.Component {
   constructor(props) {
