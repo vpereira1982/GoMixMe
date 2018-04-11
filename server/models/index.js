@@ -41,7 +41,7 @@ module.exports = {
           mx.title,
           mx.id
       )
-      UNION ALL
+      UNION
       (
         SELECT
           umt.firstname,
@@ -66,7 +66,29 @@ module.exports = {
         ORDER BY
           mt.artist,
           mt.title
-      )`,
+      )
+      UNION
+      (
+        SELECT
+          umt.firstname,
+          umt.lastname,
+          umt.id,
+          umt.displayname,
+          umt.profilepic,
+          umt.description,
+          umt.genre,
+          'none' AS 'src',
+          'none' AS 'artist',
+          'none' AS 'image',
+          'none' AS 'track_genre',
+          'none' AS 'previewFile',
+          'none' AS 'files',
+          'none' AS 'title',
+          'none' AS 'id'
+        FROM users umt
+        WHERE umt.displayname = '${data.displayname}'
+      )
+      `,
       callback);
   },
 
@@ -151,7 +173,7 @@ module.exports = {
         '${escaper(comment)}',
         ${userId},
         NOW())`,
-      callback)
+      callback);
   },
 
   newUser: (data, callback) => {
@@ -179,8 +201,8 @@ module.exports = {
         '${data.profilepic}',
         '${escaper(data.description)}',
         '${escaper(data.displayname)}'
-      )`
-    );
+      )`,
+      callback);
   },
 
   newMix: (data, callback) => {

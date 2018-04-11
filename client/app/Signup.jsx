@@ -8,14 +8,14 @@ import { connect } from 'react-redux';
 import { updatePw, updateEmail } from './actions';
 import { createImgSrc }  from './helperFunctions/createImgSrc.js';
 import '../css/cropper.css';
-const defaultImg = '../../images/default-profile.jpg'
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
+    this.defaultImg = '../../images/default-profile.jpg';
     this.state = {
-      profilePic: defaultImg,
-      cropResult: defaultImg,
+      profilePic: this.defaultImg,
+      cropResult: this.defaultImg,
       cropFile: null,
       firstname: '',
       lastname: '',
@@ -58,8 +58,9 @@ class Signup extends React.Component {
 
     // append the new Cropped file to the FormData
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
+
     // send FORM to API
-    axios.post('/api/newuser', formData).then((res) => {
+    axios.post('/api/newUser', formData).then((res) => {
       // Dispatch email && pw to Redux State so handleLogin() can log the new user
       this.props.updateEmail(this.state.email);
       this.props.updatePw(this.state.pw);
@@ -78,7 +79,6 @@ class Signup extends React.Component {
       cropResult,
       profilePic
     } = this.state;
-
     return (
       <div className="col-md-6 offset-md-3 signup text-white bg-navy">
         <h2> Sign Up </h2> <br />
@@ -88,6 +88,8 @@ class Signup extends React.Component {
               name="firstname"
               type="text"
               className="form-control"
+              maxlength="10"
+              minlength="3"
               onChange={this.handleChange}
               placeholder="First Name"
               value={firstname}
@@ -97,6 +99,8 @@ class Signup extends React.Component {
           <div className="form-group">
             <input
               name="lastname"
+              maxlength="10"
+              minlength="3"
               type="text"
               className="form-control"
               onChange={this.handleChange}
@@ -108,6 +112,8 @@ class Signup extends React.Component {
           <div className="form-group">
             <input
               name="displayname"
+              maxlength="10"
+              minlength="3"
               type="text"
               className="form-control"
               onChange={this.handleChange}
@@ -120,6 +126,8 @@ class Signup extends React.Component {
             <input
               name="pw"
               type="password"
+              maxlength="15"
+              minlength="3"
               className="form-control"
               onChange={this.handleChange}
               placeholder="Password"
@@ -131,6 +139,8 @@ class Signup extends React.Component {
             <input
               name="email"
               type="text"
+              maxlength="40"
+              minlength="10"
               className="form-control"
               onChange={this.handleChange}
               placeholder="Email"
@@ -142,6 +152,7 @@ class Signup extends React.Component {
             <textarea
               name="description"
               type="text"
+              maxlength="350"
               className="form-control"
               rows="5" cols="25"
               onChange={this.handleChange}

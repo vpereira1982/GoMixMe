@@ -22,7 +22,7 @@ class Profile extends React.Component {
         res.data.forEach((track) => {
           if (track.src === 'mixes') {
             this.mixes.push(track);
-          } else {
+          } else if (track.src === 'multitracks') {
             this.multitracks.push(track);
           }
         })

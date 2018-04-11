@@ -60,83 +60,9 @@ CREATE TABLE comments_mtracks (
   dt DATETIME
 );
 
-ALTER TABLE mixes ADD FOREIGN KEY (userId) REFERENCES users(id);
-ALTER TABLE multitracks ADD FOREIGN KEY (userId) REFERENCES users(id);
-ALTER TABLE comments_mixes ADD FOREIGN KEY (trackId) REFERENCES mixes(id);
-ALTER TABLE comments_mixes ADD FOREIGN KEY (userId) REFERENCES users(id);
-ALTER TABLE comments_mtracks ADD FOREIGN KEY (trackId) REFERENCES multitracks(id);
-ALTER TABLE comments_mtracks ADD FOREIGN KEY (userID) REFERENCES users(id);
-
-
-/*Placeholder Data*/
-/*INSERT INTO users (
-  firstname,
-  lastname,
-  displayname,
-  pw,
-  email,
-  genre,
-  salt,
-  profilepic
-  ) VALUES (
-  'Ozzy',
-  'Osbourne',
-  'Ozzy666',
-  'porra9090',
-  'ozzy@gmail.com',
-  'Metal',
-  '$2a$04$M0zPYwllNPuXydAxYVlsru',
-  '1520318251600_croppedImg.png'
-);
-
-INSERT INTO mixes (
-  id,
-  file,
-  userId,
-  image,
-  artist,
-  title,
-  genre,
-  description,
-  displayname,
-  isMix
-  ) VALUES (
-  '3-addafasg',
-  '{"MIX": "mix"}',
-  1,
-  '{"filename": "default-profile.jpg"}',
-  'Pink Floud',
-  'Breath',
-  'Progressive',
-  'Our song is beautiful',
-  'Ozzy666',
-  true
-);
-
-INSERT INTO multitracks (
-  id,
-  previewFile,
-  files,
-  userId,
-  image,
-  artist,
-  title,
-  genre,
-  description,
-  displayname,
-  isMix
-  ) VALUES (
-  '3-addafasg',
-  '{"MULTITRACK": "multitrack"}',
-  '{"MULTITRACK": "multitrack"}',
-  1,
-  '{"filename": "default-profile.jpg"}',
-  'Ozzy',
-  'Lay Your World On Me',
-  'metal',
-  'Our song is beautiful',
-  'Ozzy666',
-  false
-);*/
-
-
+ALTER TABLE mixes ADD FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE multitracks ADD FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE comments_mixes ADD FOREIGN KEY (trackId) REFERENCES mixes(id) ON DELETE CASCADE;
+ALTER TABLE comments_mixes ADD FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE;
+ALTER TABLE comments_mtracks ADD FOREIGN KEY (trackId) REFERENCES multitracks(id) ON DELETE CASCADE;
+ALTER TABLE comments_mtracks ADD FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE;

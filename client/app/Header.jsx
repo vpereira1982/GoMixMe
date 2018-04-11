@@ -7,14 +7,15 @@ import { pullTracks, isLogged } from './actions';
 import '../css/header.css';
 
 const Header = (props) => {
-  let clickToSearch = (e) => {
+  const search = document.getElementById('searchbox');
+
+  const clickToSearch = (e) => {
     e.preventDefault();
-    let search = document.getElementById('searchbox');
     window.location = `/search?q=${search.value}`;
     search.value = '';
   }
 
-  let handleLogout = () => {
+  const handleLogout = () => {
     axios.get('/api/destroyCookie')
       .then(res => {
         props.isLogged(false)
@@ -37,7 +38,7 @@ const Header = (props) => {
           </a>
         </form>
         <span className="navbar-text">
-          <Link to={`/${props.displayname}`} onClick={() => window.reload()}>
+          <Link to={`/${props.displayname}`} onClick={() => location.reload()}>
             <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilepic}`} />
             <span className="username">{props.firstname} </span>
           </Link>
@@ -53,9 +54,6 @@ const Header = (props) => {
   )
 }
 
-const MapStateToProps = (state) => {
-  const { firstname, profilepic, displayname } = state.userDetails;
-  return { firstname, profilepic, displayname };
-}
+const MapStateToProps = (state) => (state.userDetails);
 
 export default connect(MapStateToProps, { pullTracks, isLogged })(Header);

@@ -39,29 +39,31 @@ class App extends React.Component {
     });
   }
 
-  //************************
-  // Login Functions
-  //************************
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
 
+  //************************
+  // Login Function
+  //************************
   handleLogin(e) {
+    // if <Login>, prevent; else if <SignUp>, null;
     e ? e.preventDefault() : null;
     const { email, pw } = this.props.userDetails;
 
-    axios.post('/api/login', {email, pw})
+    axios.post('/api/login', { email, pw })
       .then(user => {
-          customHistory.push('/');
+        // If user is valid (i.e. data), redirects to the main page:
+        customHistory.push('/');
+        this.props.persistUser(user.data);
 
-          // If user is valid (i.e. data), redirects to the main page:
-          this.props.persistUser(user.data);
+        // if user came from <SignUp> reload (i.e. react-router redirect issue)
+        e ? null : location.reload();
       })
      .catch(error => {
-        const errorMsg = document.querySelector('.errorMsg');
-        errorMsg.classList.remove('d-none');
+        document.querySelector('.errorMsg').classList.remove('d-none');
       });
   }
 
@@ -69,7 +71,6 @@ class App extends React.Component {
   // Conditional Homepage Routing
   //************************
   render() {
-    console.log(this.props.userDetails)
     const { isLogged = '' } = this.props.userDetails;
 
     if (isLogged === '') {
@@ -99,6 +100,7 @@ class App extends React.Component {
                 />
                 <Route
                   path="/search"
+                  exact
                   render={(props) =>
                     <Search
                       customHistory={customHistory}
@@ -146,7 +148,7 @@ class App extends React.Component {
                 />
                 <Route component={ErrorMessage} />
               </Switch>
-          }
+            }
           </div>
         </BrowserRouter>
       )

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { createImgSrc }  from './helperFunctions/createImgSrc.js';
 import Cropper from 'react-cropper';
@@ -11,8 +12,13 @@ class Settings extends React.Component {
     this.currentPic = `http://localhost:8080/userfiles/${props.profilepic}`;
     this.state = {
       pw: '',
-      cropResult: this.currentPic,
+      genre: this.props.genre,
+      email: this.props.email,
+      description: this.props.description,
+      firstname: this.props.firstname,
+      lastname: this.props.lastname,
       profilePic: this.currentPic,
+      cropResult: this.currentPic,
       cropFile: null
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -54,40 +60,36 @@ class Settings extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    const formElement = document.getElementById('form');
+    const formElement = document.getElementById('settingsForm');
     const formData = new FormData(formElement);
 
     // append the new Cropped file to the FormData
+    formData.append('id', this.props.id);
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
+
     // send FORM to API
-    axios.post('/api/newuser', formData).then((res) => {
-      // Dispatch email && pw to Redux State so handleLogin() can log the new user
-      this.props.updateEmail(this.state.email);
-      this.props.updatePw(this.state.pw);
-      this.handleLogin();
+    axios.post('/api/updateUser', formData).then((res) => {
+      alert('updated!')
     });
   }
 
   render() {
     const {
-      profilepic,
-      firstname,
-      lastname,
-      displayname,
-      description,
-      email,
-      genre
-    } = this.props;
-    const {
       profilePic,
       cropResult,
+      email,
       pw,
-      cropFile
+      cropFile,
+      description,
+      firstname,
+      lastname,
+      genre
     } = this.state;
 
     return (
-        <div className="bg-light">
-          <div className="container bg-white content-body">
+      <div className="bg-light">
+        <div className="container bg-white content-body">
+          <form method="POST" onSubmit={this.handleFormSubmit} encType="multipart/form-data" id="settingsForm">
             <div className="row">
               <div className="col-4 mt-2 mb-2">
                 <Cropper
@@ -123,25 +125,24 @@ class Settings extends React.Component {
                 <h3 className="profile-headline">Settings</h3>
                 <h5 className="font-weight-light mt-4 mb-4">Favorite Genre:
 
-                  {/* GENRE SELECTOR DROPDOWN */}
-                  <select className="dropdown-toggle artwork-genre ml-3" name="genre" required>
-                    <option value="">Favorite Genre</option>
-                    <option value="Blues">Blues</option>
-                    <option value="Classical">Classical</option>
-                    <option value="Country">Country</option>
-                    <option value="Electronic">Electronic</option>
-                    <option value="Rock">Rock</option>
-                    <option value="Grunge">Grunge</option>
-                    <option value="Pop">Pop</option>
-                    <option value="Metal">Metal</option>
-                    <option value="Jazz">Jazz</option>
-                  </select>
+                {/* GENRE SELECTOR DROPDOWN */}
+                <select className="dropdown-toggle artwork-genre ml-3" name="genre" required>
+                  <option value="">Favorite Genre</option>
+                  <option value="Blues">Blues</option>
+                  <option value="Classical">Classical</option>
+                  <option value="Country">Country</option>
+                  <option value="Electronic">Electronic</option>
+                  <option value="Rock">Rock</option>
+                  <option value="Grunge">Grunge</option>
+                  <option value="Pop">Pop</option>
+                  <option value="Metal">Metal</option>
+                  <option value="Jazz">Jazz</option>
+                </select>
                 </h5>
               </div>
             </div>
           <div className="row">
             <div className="col-12">
-              <form method="POST" onSubmit={this.handleFormSubmit} encType="multipart/form-data" id="form">
                 <div className="form-group input-sm">
                   <input
                     name="firstname"
@@ -198,36 +199,18 @@ class Settings extends React.Component {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-success btn-lg mt-3 mb-3">Submit Changes</button>
-              </form>
+                <button type="submit" className="btn btn-success btn-lg mt-3 mb-3">
+                  Submit Changes
+                </button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     )
   }
 }
 
-const MapStateToProps = (state) => {
-  const {
-    profilepic,
-    firstname,
-    lastname,
-    displayname,
-    description,
-    email,
-    genre
-  } = state.userDetails;
-
-  return {
-    profilepic,
-    firstname,
-    lastname,
-    displayname,
-    description,
-    email,
-    genre
-  }
-}
+const MapStateToProps = (state) => (state.userDetails);
 
 export default connect(MapStateToProps, null)(Settings);

@@ -129,6 +129,7 @@ router.delete('/delete', (req, res) => {
   fs.unlinkSync(__dirname + '/multitrack-files.zip');
 });
 
+
 // PULL TRACK INFO
 router.get('/trackDetails', (req, res) => {
   model.getTrack(req.query, (err, data) => {
@@ -175,7 +176,7 @@ router.get('/destroycookie', (req, res) => {
 
 
 // REGISTER NEW USER
-router.post('/newuser', (req, res) => {
+router.post('/newUser', (req, res) => {
   let data = req.body;
   data.profilepic = req.files.imageCropped[0].filename;
 
@@ -183,8 +184,16 @@ router.post('/newuser', (req, res) => {
     if (err) return next(err)
   });
 
-  model.newUser(data);
-  res.status(201).redirect('/');
+  model.newUser(data, (err, data) => {
+    if (err) throw err;
+    res.status(201).redirect('/');
+  });
+});
+
+
+// UPDATE USER INFO
+router.post('/updateUser', (req, res) => {
+  console.log('this is the req.body for update user', req.body);
 });
 
 
