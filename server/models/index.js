@@ -97,7 +97,7 @@ module.exports = {
       SELECT DISTINCT *, ${type}.id, NULL as pw, NULL as salt
       FROM ${type}
       INNER JOIN users
-      WHERE ${type}.title = '${data.title}'
+      WHERE ${type}.title = '${escaper(data.title)}'
       AND users.displayname = ${type}.displayname`,
       callback);
   },

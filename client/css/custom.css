@@ -137,6 +137,11 @@ img.default-profile {
   border-radius: 5px;
 }
 
+.signup-pic {
+  background-color: #293750;
+  border-padding: 5px;
+}
+
 hr {
   border: 0;
   height: 1px;

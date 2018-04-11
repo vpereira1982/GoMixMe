@@ -27,6 +27,7 @@ class TrackPage extends React.Component {
     this.handleChange = this.props.handleChange.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
     this.handleClickToPlay = this.handleClickToPlay.bind(this);
+    console.log(this.props.match.params)
   }
 
   componentDidMount() {
@@ -114,13 +115,11 @@ class TrackPage extends React.Component {
     })
     .then(res => {
       // creates <a> tag w/ a 'download' attr and auto-clicks
-      let url = URL.createObjectURL(res.data) // remove this
       let link = document.createElement('a');
-      link.href = url;
+      link.href = URL.createObjectURL(res.data);
       link.download = this.state.thisTrack.title;
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link); // remove this
       button.innerHTML = 'Complete';
       button.style.backgroundColor = '#2A35CD';
     })

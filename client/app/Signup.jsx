@@ -35,9 +35,7 @@ class Signup extends React.Component {
     let imageFile = e.target.files[0];
 
     createImgSrc(imageFile, (result) => {
-      this.setState({
-        profilePic: result
-      });
+      this.setState({ profilePic: result });
     });
   }
 
@@ -58,16 +56,15 @@ class Signup extends React.Component {
     let formElement = document.getElementById('form');
     let formData = new FormData(formElement);
 
-    // append the new Cropped Image file to the FormData
+    // append the new Cropped file to the FormData
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
-
     // send FORM to API
     axios.post('/api/newuser', formData).then((res) => {
       // Dispatch email && pw to Redux State so handleLogin() can log the new user
       this.props.updateEmail(this.state.email);
       this.props.updatePw(this.state.pw);
       this.handleLogin();
-    })
+    });
   }
 
   render() {
@@ -95,7 +92,7 @@ class Signup extends React.Component {
               placeholder="First Name"
               value={firstname}
               required
-              />
+            />
           </div>
           <div className="form-group">
             <input
@@ -106,7 +103,7 @@ class Signup extends React.Component {
               placeholder="Last Name"
               value={lastname}
               required
-              />
+            />
           </div>
           <div className="form-group">
             <input
@@ -117,7 +114,7 @@ class Signup extends React.Component {
               placeholder="Display Name"
               value={displayname}
               required
-              />
+            />
           </div>
           <div className="form-group">
             <input
@@ -128,7 +125,7 @@ class Signup extends React.Component {
               placeholder="Password"
               value={pw}
               required
-              />
+            />
           </div>
           <div className="form-group">
             <input
@@ -139,7 +136,7 @@ class Signup extends React.Component {
               placeholder="Email"
               value={email}
               required
-              />
+            />
           </div>
           <div className="form-group">
             <textarea
@@ -151,53 +148,57 @@ class Signup extends React.Component {
               placeholder="Tell us a bit about yourself"
               value={description}
               required
-              />
+            />
           </div>
-          <div className="form-group">
+
           {/* SELECT FAV GENRE DDOWN. */}
-            <div className="form-group">
-              <select className="custom-select btn btn-success dropdown-toggle" name="genre" required>
-                <option value="">Favorite Genre</option>
-                <option value="Blues">Blues</option>
-                <option value="Classical">Classical</option>
-                <option value="Country">Country</option>
-                <option value="Electronic">Electronic</option>
-                <option value="Rock">Rock</option>
-                <option value="Grunge">Grunge</option>
-                <option value="Pop">Pop</option>
-                <option value="Metal">Metal</option>
-                <option value="Jazz">Jazz</option>
-              </select>
-            </div>
-            <div className="form-group">
-            {/* UPLOAD IMAGE button */}
-              <label htmlFor='image' className='btn btn-info'>Upload Profile Photo</label>
-              <input
-                name="image"
-                type="file"
-                id="image"
-                onChange={this.handleImgFile}
-                className="form-control invisible"
-                accept="image/x-png,image/gif,image/jpeg"
-              />
-              <Cropper
-                style={{ height: 300, width: 300 }}
-                aspectRatio={1}
-                zoomable={false}
-                scalable={false}
-                guides={false}
-                src={profilePic}
-                ref={(cropper) => {this.cropper = cropper}}
-              />
-            {/* CROP FILE  button */}
-              <button type="button" className='btn btn-danger mt-3 mb-3' onClick={this.cropImage} required>
-                Crop Image
-              </button>
-              <br />
-              <img className="cropped-img-preview " src={cropResult} />
-            </div>
+          <div className="form-group">
+            <select className="custom-select btn btn-success dropdown-toggle" name="genre" required>
+              <option value="">Favorite Genre</option>
+              <option value="Blues">Blues</option>
+              <option value="Classical">Classical</option>
+              <option value="Country">Country</option>
+              <option value="Electronic">Electronic</option>
+              <option value="Rock">Rock</option>
+              <option value="Grunge">Grunge</option>
+              <option value="Pop">Pop</option>
+              <option value="Metal">Metal</option>
+              <option value="Jazz">Jazz</option>
+            </select>
           </div>
-          <button type="submit" className="btn btn-success">Submit</button>
+
+          {/* UPLOAD IMAGE button */}
+          <div className="form-group p-2 pb-4 signup-pic">
+            <h3 className="mt-2 mb-4"> Profile picture </h3>
+            <Cropper
+              style={{ height: 300, width: 300 }}
+              aspectRatio={1}
+              zoomable={false}
+              scalable={false}
+              guides={false}
+              src={profilePic}
+              ref={(cropper) => {this.cropper = cropper}}
+            />
+            <label htmlFor='image' className='btn btn-info mb-3 mt-3'>Upload Profile Image</label>
+            <input
+              name="image"
+              type="file"
+              id="image"
+              onChange={this.handleImgFile}
+              className="form-control d-none"
+              accept="image/x-png,image/gif,image/jpeg"
+            />
+
+            {/* CROP FILE  button */}
+            <button type="button" className='btn btn-danger mt-2 mb-1 d-block' onClick={this.cropImage} required>
+              Crop Image
+            </button>
+            <br />
+            <h6 className="text-light">Preview</h6>
+            <img className="cropped-img-preview border" src={cropResult} />
+          </div>
+          <hr />
+          <button type="submit" className="btn btn-success btn-lg mt-3">Submit</button>
         </form>
       </div>
     )
