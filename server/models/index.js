@@ -158,6 +158,24 @@ module.exports = {
     }
   },
 
+  updateUser: (data, callback) => {
+    let pwSalt = encrypt.makeSaltSync();
+    let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
+    console.log(data);
+    db.query(
+      `UPDATE users
+        SET firstname = '${escaper(data.firstname)}',
+        SET lastname = '${escaper(data.lastname)}',
+        SET pw = '${pwHashed}' WHEN ${data.pw.length} > 2,
+        SET email = '${escaper(data.email)}',
+        SET genre = '${data.genre}',
+        SET salt = '${pwSalt} WHEN ${data.pw.length} > 2,
+        SET profilepic = '${data.profilepic}',
+        SET description = '${escaper(data.description)}'
+        WHERE id = ${data.id}`,
+      callback);
+  },
+
   newComment: (data, callback) => {
     let { trackId, comment, userId } = data;
     let comments_type = data.isMix ? 'comments_mixes' : 'comments_mtracks';

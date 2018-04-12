@@ -148,6 +148,8 @@ class Settings extends React.Component {
                     name="firstname"
                     type="text"
                     className="form-control"
+                    maxlength="10"
+                    minlength="3"
                     onChange={this.handleChange}
                     placeholder="First Name"
                     value={firstname}
@@ -159,6 +161,8 @@ class Settings extends React.Component {
                     name="lastname"
                     type="text"
                     className="form-control"
+                    maxlength="10"
+                    minlength="3"
                     onChange={this.handleChange}
                     placeholder="Last Name"
                     value={lastname}
@@ -170,10 +174,11 @@ class Settings extends React.Component {
                     name="pw"
                     type="password"
                     className="form-control"
+                    maxlength="15"
+                    minlength="3"
                     onChange={this.handleChange}
-                    placeholder="New Password"
+                    placeholder="Change Password"
                     value={pw}
-                    required
                   />
                 </div>
                 <div className="form-group">
@@ -181,6 +186,8 @@ class Settings extends React.Component {
                     name="email"
                     type="text"
                     className="form-control"
+                    maxlength="40"
+                    minlength="10"
                     onChange={this.handleChange}
                     placeholder="Email"
                     value={email}
@@ -192,6 +199,7 @@ class Settings extends React.Component {
                     name="description"
                     type="text"
                     className="form-control"
+                    maxlength="350"
                     rows="5" cols="25"
                     onChange={this.handleChange}
                     placeholder="Tell us a bit about yourself"

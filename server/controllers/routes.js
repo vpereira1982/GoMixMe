@@ -193,7 +193,17 @@ router.post('/newUser', (req, res) => {
 
 // UPDATE USER INFO
 router.post('/updateUser', (req, res) => {
-  console.log('this is the req.body for update user', req.body);
+  let data = req.body;
+  data.profilepic = req.files.imageCropped[0].filename;
+
+  upload(req, res, (err) => {
+    if (err) return next(err)
+  });
+
+  model.updateUser(data, (err, data) => {
+    if (err) throw err;
+    res.status(201).send('User info updated!');
+  });
 });
 
 
