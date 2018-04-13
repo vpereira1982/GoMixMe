@@ -194,7 +194,7 @@ router.post('/newUser', (req, res) => {
 // UPDATE USER INFO
 router.post('/updateUser', (req, res) => {
   let data = req.body;
-  data.profilepic = req.files.imageCropped[0].filename;
+  data.profilepic = !!req.files.imageCropped ? req.files.imageCropped[0].filename : '';
 
   upload(req, res, (err) => {
     if (err) return next(err)

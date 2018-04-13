@@ -161,17 +161,21 @@ module.exports = {
   updateUser: (data, callback) => {
     let pwSalt = encrypt.makeSaltSync();
     let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
-    console.log(data);
+
     db.query(
       `UPDATE users
         SET firstname = '${escaper(data.firstname)}',
-        SET lastname = '${escaper(data.lastname)}',
-        SET pw = '${pwHashed}' WHEN ${data.pw.length} > 2,
-        SET email = '${escaper(data.email)}',
-        SET genre = '${data.genre}',
-        SET salt = '${pwSalt} WHEN ${data.pw.length} > 2,
-        SET profilepic = '${data.profilepic}',
-        SET description = '${escaper(data.description)}'
+        lastname = '${escaper(data.lastname)}',
+        pw = CASE WHEN ${data.pw.length} > 1 THEN '${pwHashed}' ELSE pw END,
+        email = '${escaper(data.email)}',
+        genre = '${data.genre}',
+        salt = CASE WHEN ${data.pw.length} > 1
+          THEN '${pwSalt}'
+          ELSE salt END,
+        profilepic = CASE WHEN ${data.profilepic.length} > 1
+          THEN '${data.profilepic}'
+          ELSE profilepic END,
+        description = '${escaper(data.description)}'
         WHERE id = ${data.id}`,
       callback);
   },
