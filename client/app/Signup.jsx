@@ -17,23 +17,21 @@ class Signup extends React.Component {
       profilePic: this.defaultImg,
       cropResult: this.defaultImg,
       cropFile: null,
-      firstname: '',
-      lastname: '',
       displayname: '',
-      description: '',
-      email: '',
-      pw: ''
+      description: ''
     };
+
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleImgFile = this.handleImgFile.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
     this.handleLogin = this.props.handleLogin.bind(this);
     this.cropImage = this.cropImage.bind(this);
+
+    console.log(this.props.handleChange);
   }
 
   handleImgFile(e) {
     let imageFile = e.target.files[0];
-
     createImgSrc(imageFile, (result) => {
       this.setState({ profilePic: result });
     });
@@ -57,6 +55,10 @@ class Signup extends React.Component {
     let formData = new FormData(formElement);
 
     // append the new Cropped file to the FormData
+    formData.append('firstname', this.props.userInfo.firstname);
+    formData.append('lastname', this.props.userInfo.lastname);
+    formData.append('pw', this.props.userInfo.pw);
+    formData.append('email', this.props.userInfo.email);
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
 
     // send FORM to API
@@ -83,37 +85,11 @@ class Signup extends React.Component {
       <div className="col-md-6 offset-md-3 signup text-white bg-navy">
         <h2> Sign Up </h2> <br />
         <form method="POST" onSubmit={this.handleFormSubmit} encType="multipart/form-data" id="form">
-          <div className="form-group input-sm">
-            <input
-              name="firstname"
-              type="text"
-              className="form-control"
-              maxlength="10"
-              minlength="3"
-              onChange={this.handleChange}
-              placeholder="First Name"
-              value={firstname}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              name="lastname"
-              maxlength="10"
-              minlength="3"
-              type="text"
-              className="form-control"
-              onChange={this.handleChange}
-              placeholder="Last Name"
-              value={lastname}
-              required
-            />
-          </div>
           <div className="form-group">
             <input
               name="displayname"
-              maxlength="10"
-              minlength="3"
+              maxLength="10"
+              minLength="3"
               type="text"
               className="form-control"
               onChange={this.handleChange}
@@ -123,36 +99,10 @@ class Signup extends React.Component {
             />
           </div>
           <div className="form-group">
-            <input
-              name="pw"
-              type="password"
-              maxlength="15"
-              minlength="3"
-              className="form-control"
-              onChange={this.handleChange}
-              placeholder="Password"
-              value={pw}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              name="email"
-              type="text"
-              maxlength="40"
-              minlength="10"
-              className="form-control"
-              onChange={this.handleChange}
-              placeholder="Email"
-              value={email}
-              required
-            />
-          </div>
-          <div className="form-group">
             <textarea
               name="description"
               type="text"
-              maxlength="350"
+              maxLength="350"
               className="form-control"
               rows="5" cols="25"
               onChange={this.handleChange}

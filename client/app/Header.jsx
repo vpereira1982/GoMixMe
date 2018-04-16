@@ -7,10 +7,10 @@ import { pullTracks, isLogged } from './actions';
 import '../css/header.css';
 
 const Header = (props) => {
-  const search = document.getElementById('searchbox');
 
   const clickToSearch = (e) => {
     e.preventDefault();
+    const search = document.getElementById('searchbox');
     window.location = `/search?q=${search.value}`;
     search.value = '';
   }
@@ -20,6 +20,16 @@ const Header = (props) => {
       .then(res => {
         props.isLogged(false)
       });
+  }
+
+  const clickToProfile = () => {
+  /* React-Router will not auto-refresh the same path (:/uname)
+     force it when the user navigates within profile pages */
+
+    const urlPath = location.pathname.slice(1);
+    if (urlPath.indexOf('/') !== -1) {
+      location.reload();
+    }
   }
 
   return (
@@ -38,7 +48,7 @@ const Header = (props) => {
           </a>
         </form>
         <span className="navbar-text">
-          <Link to={`/${props.displayname}`} onClick={() => location.reload()}>
+          <Link to={`/${props.displayname}`} onClick={clickToProfile}>
             <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilepic}`} />
             <span className="username">{props.firstname} </span>
           </Link>

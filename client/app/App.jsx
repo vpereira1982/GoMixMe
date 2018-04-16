@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios'
 import Header from './Header.jsx';
-import Signup from './Signup.jsx';
 import Main from './Main.jsx';
 import Login from './Login.jsx';
 import Upload from './UploadComponents/index.jsx';
@@ -24,7 +23,6 @@ const customHistory = createBrowserHistory();
 class App extends React.Component {
   constructor (props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount () {
@@ -45,27 +43,6 @@ class App extends React.Component {
     });
   }
 
-  //************************
-  // Login Function
-  //************************
-  handleLogin(e) {
-    // if <Login>, prevent; else if <SignUp>, null;
-    e ? e.preventDefault() : null;
-    const { email, pw } = this.props.userDetails;
-
-    axios.post('/api/login', { email, pw })
-      .then(user => {
-        // If user is valid (i.e. data), redirects to the main page:
-        customHistory.push('/');
-        this.props.persistUser(user.data);
-
-        // if user came from <SignUp> reload (i.e. react-router redirect issue)
-        e ? null : location.reload();
-      })
-     .catch(error => {
-        document.querySelector('.errorMsg').classList.remove('d-none');
-      });
-  }
 
   //************************
   // Conditional Homepage Routing
@@ -131,19 +108,9 @@ class App extends React.Component {
               *********************/
               <Switch>
                 <Route
-                  path="/signup"
-                  exact
-                  render={(props) =>
-                    <Signup {...props}
-                      handleLogin={this.handleLogin}
-                      handleChange={this.handleChange}
-                    />
-                  }
-                />
-                <Route
                   path="/"
                   render={() =>
-                    <Login handleLogin={this.handleLogin} handleChange={this.handleChange} />
+                    <Login handleChange={this.handleChange} customHistory={customHistory} />
                   }
                 />
                 <Route component={ErrorMessage} />

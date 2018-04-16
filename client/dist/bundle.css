@@ -362,6 +362,62 @@
   cursor: not-allowed;
 }
 
+.login-nav {
+  padding: 5px 0 5px 0;
+}
+
+.login {
+  margin-top: 115px;
+  border: solid .7px #e5e5e5;
+  border-radius: 7px;
+  padding: 15px 20px 30px 20px;
+}
+
+.login-body-content {
+  margin-top: 115px;
+  padding: 15px 20px 30px 0;
+}
+
+h1.login-headline {
+  font-size: 2.5em;
+  line-height: 1.3em;
+  margin: 0;
+}
+
+.login-icons-group {
+  margin: 5em 0 5px 0;
+  padding: 0;
+  left: 40px;
+}
+
+.login-icons {
+  height: 5em !important;
+}
+
+.login-icon-text {
+  color: #009690;
+  font-size: 24px;
+  font-weight: lighter;
+  margin-top: 2px;
+}
+
+.sign-up-text {
+  color: #009690 !important;
+
+}
+
+.login-text-gray {
+  color: #707070 !important;
+}
+
+.login-footer-text {
+  color: #f9f9f9 !important;
+}
+
+.errorMsg {
+  font-size: 12px;
+}
+
 .sampleContainer {
   margin-top: 250px;
 }

@@ -148,7 +148,7 @@ class Settings extends React.Component {
                     name="firstname"
                     type="text"
                     className="form-control"
-                    maxlength="10"
+                    maxlength="15"
                     minlength="3"
                     onChange={this.handleChange}
                     placeholder="First Name"
@@ -161,7 +161,7 @@ class Settings extends React.Component {
                     name="lastname"
                     type="text"
                     className="form-control"
-                    maxlength="10"
+                    maxlength="15"
                     minlength="3"
                     onChange={this.handleChange}
                     placeholder="Last Name"
