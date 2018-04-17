@@ -28,7 +28,7 @@ router.use(session({
   name: 'server-session-cookie-id',
   secret: 'my express secret',
   saveUninitialized: true,
-  cookie: {maxAge: new Date() * 60 * 60 * 24},
+  cookie: {maxAge: new Date() * 360 * 60 * 60 * 24},
   resave: false,
   store: new FileStore()
 }));
