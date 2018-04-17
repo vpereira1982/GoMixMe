@@ -28,7 +28,6 @@ router.use(session({
   name: 'server-session-cookie-id',
   secret: 'my express secret',
   saveUninitialized: true,
-  cookie: {maxAge: new Date() * 360 * 60 * 60 * 24},
   resave: false,
   store: new FileStore()
 }));
@@ -48,7 +47,7 @@ router.use(function(req, res, next) {
     ROUTING
 *****************/
 
-// USER MANUAL LOGIN
+// MANUAL LOGIN
 router.post('/login', (req, res) => {
   let query = req.body;
 
@@ -68,8 +67,9 @@ router.post('/login', (req, res) => {
   });
 });
 
-// USER SESSION LOGIN
+// SESSION LOGIN
 router.get('/session', (req, res) => {
+  console.log('this is req.session', req.session)
   model.getSession(req.session, (err, data) => {
     if (data.length === 0) {
       res.send(false);
