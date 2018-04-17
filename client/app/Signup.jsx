@@ -4,8 +4,6 @@ import App from './App.jsx';
 import Cropper from 'react-cropper';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { updatePw, updateEmail } from './actions';
 import { createImgSrc }  from './helperFunctions/createImgSrc.js';
 import '../css/cropper.css';
 
@@ -26,8 +24,6 @@ class Signup extends React.Component {
     this.handleChange = this.props.handleChange.bind(this);
     this.handleLogin = this.props.handleLogin.bind(this);
     this.cropImage = this.cropImage.bind(this);
-
-    console.log(this.props.handleChange);
   }
 
   handleImgFile(e) {
@@ -53,20 +49,17 @@ class Signup extends React.Component {
     e.preventDefault();
     let formElement = document.getElementById('form');
     let formData = new FormData(formElement);
-
+    let userInfo = this.props.userInfo;
     // append the new Cropped file to the FormData
-    formData.append('firstname', this.props.userInfo.firstname);
-    formData.append('lastname', this.props.userInfo.lastname);
-    formData.append('pw', this.props.userInfo.pw);
-    formData.append('email', this.props.userInfo.email);
+    formData.append('firstname', userInfo.firstname);
+    formData.append('lastname', userInfo.lastname);
+    formData.append('pw', userInfo.pw);
+    formData.append('email', userInfo.email);
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
 
     // send FORM to API
     axios.post('/api/newUser', formData).then((res) => {
-      // Dispatch email && pw to Redux State so handleLogin() can log the new user
-      this.props.updateEmail(this.state.email);
-      this.props.updatePw(this.state.pw);
-      this.handleLogin();
+      this.handleLogin(null, userInfo.email, userInfo.pw);
     });
   }
 
@@ -81,6 +74,7 @@ class Signup extends React.Component {
       cropResult,
       profilePic
     } = this.state;
+
     return (
       <div className="col-md-6 offset-md-3 signup text-white bg-navy">
         <h2> Sign Up </h2> <br />
@@ -166,4 +160,4 @@ class Signup extends React.Component {
   }
 }
 
-export default connect(null, { updatePw, updateEmail })(Signup);
+export default Signup;

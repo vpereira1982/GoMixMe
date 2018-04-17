@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { updateEmail, updatePw, persistUser } from './actions';
+import { persistUser } from './actions';
 import { Link } from 'react-router-dom';
 import SignUp from './SignUp.jsx';
 import '../css/login.css';
@@ -13,11 +13,11 @@ class Login extends React.Component {
     this.state = {
       firstname: '',
       lastname: '',
+      loginEmail: '',
+      loginPw: '',
       email: '',
       pw: '',
       confirmPw: '',
-      loginPw: '',
-      loginEmail: '',
       isSignUp: false
     }
     this.handleChange = this.props.handleChange.bind(this);
@@ -40,29 +40,23 @@ class Login extends React.Component {
   //************************
   // Login Function
   //************************
-  handleLogin(e) {
-    // if <Login>, prevent; else if <SignUp>, null;
+  handleLogin(e, email = this.state.loginEmail, pw = this.state.loginPw) {
+    // if <Login>, prevent e.default and use state values; it's from <SignUp>
     e ? e.preventDefault() : null;
-    const { loginEmail, loginPw } = this.state;
-    // THE PROBLEM IS THAT THE REDUCER IS NOT CHANGING EMAIL AND PASSWORD....
-    console.log('it gets here to handleLogin...', loginEmail, loginPw);
 
-    axios.post('/api/login', { email: loginEmail, pw: loginPw })
+    axios.post('/api/login', { email, pw })
       .then(user => {
         // If user is valid (i.e. data), redirects to the main page:
         this.props.customHistory.push('/');
         this.props.persistUser(user.data);
-
-        // if user came from <SignUp> reload (i.e. react-router redirect issue)
-        e ? null : location.reload();
       })
      .catch(error => {
-        document.querySelector('.login-error').classList.remove('d-none');
+        e ? document.querySelector('.login-error').classList.remove('d-none') : null;
       });
   }
 
   render() {
-    const { firstname, lastname, email, pw, confirmPw, isSignUp } = this.state;
+    const { isSignUp } = this.state;
 
     if(!isSignUp) {
       return (
@@ -83,8 +77,9 @@ class Login extends React.Component {
                           type="text"
                           className="form-control mx-1"
                           name="loginEmail"
+                          maxLength="200"
                           placeholder="Email"
-                          value={this.props.loginEmail}
+                          value={this.state.loginEmail}
                           onChange={this.handleChange}
                         />
                       </div>
@@ -93,8 +88,9 @@ class Login extends React.Component {
                           type="password"
                           className="form-control mx-1"
                           name="loginPw"
+                          maxLength="30"
                           placeholder="Password"
-                          value={this.props.loginPw}
+                          value={this.state.loginPw}
                           onChange={this.handleChange}
                         />
                       </div>
@@ -155,8 +151,9 @@ class Login extends React.Component {
                       type="text"
                       className="form-control form-control-lg"
                       name="firstname"
+                      maxLength="15"
                       placeholder="First Name"
-                      value={firstname}
+                      value={this.state.firstname}
                       onChange={this.handleChange}
                       required
                     />
@@ -166,8 +163,9 @@ class Login extends React.Component {
                       type="text"
                       className="form-control form-control-lg"
                       name="lastname"
+                      maxLength="15"
                       placeholder="Last Name"
-                      value={lastname}
+                      value={this.state.lastname}
                       onChange={this.handleChange}
                       required
                     />
@@ -177,8 +175,9 @@ class Login extends React.Component {
                       type="text"
                       className="form-control form-control-lg"
                       name="email"
+                      maxLength="200"
                       placeholder="Email"
-                      value={email}
+                      value={this.state.email}
                       onChange={this.handleChange}
                       required
                     />
@@ -188,8 +187,9 @@ class Login extends React.Component {
                       type="password"
                       className="form-control form-control-lg"
                       name="pw"
+                      maxLength="30"
                       placeholder="Password"
-                      value={pw}
+                      value={this.state.pw}
                       onChange={this.handleChange}
                       required
                     />
@@ -199,8 +199,9 @@ class Login extends React.Component {
                       type="password"
                       className="form-control form-control-lg"
                       name="confirmPw"
+                      maxLength="30"
                       placeholder="Confirm Password"
-                      value={confirmPw}
+                      value={this.state.confirmPw}
                       onChange={this.handleChange}
                       required
                     />
@@ -250,11 +251,5 @@ class Login extends React.Component {
   }
 }
 
-const MapStateToProps = (state) => {
-  return {
-    loginEmail: state.email,
-    loginPw: state.pw
-  }
-}
 
-export default connect(MapStateToProps, { updateEmail, updatePw, persistUser })(Login);
+export default connect(null, { persistUser })(Login);

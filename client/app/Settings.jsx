@@ -69,7 +69,8 @@ class Settings extends React.Component {
 
     // send FORM to API
     axios.post('/api/updateUser', formData).then((res) => {
-      alert('updated!')
+      document.querySelector('.alert').classList.remove('invisible');
+      setTimeout(() => location.pathname = "/", 3000);
     });
   }
 
@@ -204,7 +205,6 @@ class Settings extends React.Component {
                     onChange={this.handleChange}
                     placeholder="Tell us a bit about yourself"
                     value={description}
-                    required
                   />
                 </div>
                 <button type="submit" className="btn btn-success btn-lg mt-3 mb-3">
@@ -213,6 +213,9 @@ class Settings extends React.Component {
               </div>
             </div>
           </form>
+          <div class="alert alert-success invisible">
+            Profile has been updated!
+          </div>
         </div>
       </div>
     )
