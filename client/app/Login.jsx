@@ -51,7 +51,6 @@ class Login extends React.Component {
         this.props.persistUser(user.data);
       })
      .catch(error => {
-      //TO-DO: AXIOS DOES NOT GET 401 ERRORS W/O A ODULE... CHANGE SERVER TO DO SOMETHING DIFFERENT.
         e ? document.querySelector('.login-error').classList.remove('d-none') : null;
       });
   }
@@ -93,6 +92,7 @@ class Login extends React.Component {
                           placeholder="Password"
                           value={this.state.loginPw}
                           onChange={this.handleChange}
+                          autoComplete="off"
                         />
                       </div>
                       <button type="submit" className="btn btn-success mx-1" placeholder="Submit">
@@ -192,6 +192,7 @@ class Login extends React.Component {
                       placeholder="Password"
                       value={this.state.pw}
                       onChange={this.handleChange}
+                      autoComplete="off"
                       required
                     />
                   </div>
@@ -204,6 +205,7 @@ class Login extends React.Component {
                       placeholder="Confirm Password"
                       value={this.state.confirmPw}
                       onChange={this.handleChange}
+                      autoComplete="off"
                       required
                     />
                   </div>

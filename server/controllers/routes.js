@@ -180,9 +180,9 @@ router.post('/newUser', (req, res) => {
   let data = req.body;
   data.profilepic = req.files.imageCropped[0].filename;
 
-  const checkNSaveUser = new Promise((reject, resolve) => {
+  const checkNSaveUser = new Promise((resolve, reject) => {
     model.checkNewUser(data, (err, result) => {
-      if (!result.length || err) {
+      if (result.length) {
         reject(result);
       } else {
         resolve(result);
@@ -204,8 +204,7 @@ router.post('/newUser', (req, res) => {
 
     // if either pw/email exist, fail.
   checkNSaveUser.catch((error) => {
-      console.log('this should bee triggered....')
-      res.status(401).send(error);
+    res.status(401).send(error);
   })
 
 });

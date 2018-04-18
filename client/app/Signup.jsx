@@ -60,7 +60,10 @@ class Signup extends React.Component {
     // send FORM to API
     axios.post('/api/newUser', formData).then((res) => {
       this.handleLogin(null, userInfo.email, userInfo.pw);
-    });
+    })
+      .catch((err) => {
+        alert('Displayname and/or email already exist.')
+      })
   }
 
   render() {
