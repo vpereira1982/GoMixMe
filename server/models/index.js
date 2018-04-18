@@ -162,8 +162,8 @@ module.exports = {
     let pwSalt = encrypt.makeSaltSync();
     let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
 
-    db.query(
-      `UPDATE users
+    db.query(`
+      UPDATE users
         SET firstname = '${escaper(data.firstname)}',
         lastname = '${escaper(data.lastname)}',
         pw = CASE WHEN ${data.pw.length} > 1 THEN '${pwHashed}' ELSE pw END,
@@ -184,8 +184,8 @@ module.exports = {
     let { trackId, comment, userId } = data;
     let comments_type = data.isMix ? 'comments_mixes' : 'comments_mtracks';
 
-    db.query(
-      `INSERT INTO ${comments_type} (
+    db.query(`
+      INSERT INTO ${comments_type} (
         trackId,
         comment,
         userId,
@@ -195,6 +195,16 @@ module.exports = {
         '${escaper(comment)}',
         ${userId},
         NOW())`,
+      callback);
+  },
+
+  checkNewUser: (data, callback) => {
+    db.query(`(
+      SELECT email AS 'value', 'email' AS 'type'
+        FROM users WHERE email = '${data.email}'
+      ) UNION ALL (
+      SELECT displayname, 'displayname' AS 'type'
+        FROM users WHERE displayname = '${data.displayname}')`,
       callback);
   },
 

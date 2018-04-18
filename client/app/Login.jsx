@@ -51,6 +51,7 @@ class Login extends React.Component {
         this.props.persistUser(user.data);
       })
      .catch(error => {
+      //TO-DO: AXIOS DOES NOT GET 401 ERRORS W/O A ODULE... CHANGE SERVER TO DO SOMETHING DIFFERENT.
         e ? document.querySelector('.login-error').classList.remove('d-none') : null;
       });
   }
@@ -70,7 +71,7 @@ class Login extends React.Component {
                     <Link to="/"><img src="../images/logo.svg" /></Link>
                   </div>
 
-                  <div className="offset-4 col-6 mt-4 pr-0">
+                  <div className="offset-3 col-7 mt-4 pr-0">
                     <form className="form-inline float-right" onSubmit={this.handleLogin}>
                       <div className="form-group">
                         <input

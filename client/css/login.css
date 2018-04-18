@@ -1,3 +1,7 @@
+@-moz-document url-prefix() {
+  .form-control { box-shadow: none; }
+}
+
 .login-nav {
   padding: 5px 0 5px 0;
 }
@@ -37,7 +41,7 @@ h1.login-headline {
   margin-top: 2px;
 }
 
-.sign-up-text {
+.signup-text {
   color: #009690 !important;
 
 }
@@ -50,7 +54,7 @@ h1.login-headline {
   color: #f9f9f9 !important;
 }
 
-.errorMsg {
+.login-error {
   font-size: 12px;
 }
 

@@ -26,9 +26,10 @@ const upload = multer({storage}).fields(multerFields);
 // SESSION SETTINGS
 router.use(session({
   name: 'server-session-cookie-id',
-  secret: 'my express secret',
+  secret: 'GoMixMe 666',
   saveUninitialized: true,
   resave: false,
+  cookie: {expires: 31536000000},
   store: new FileStore()
 }));
 
@@ -69,7 +70,6 @@ router.post('/login', (req, res) => {
 
 // SESSION LOGIN
 router.get('/session', (req, res) => {
-  console.log('this is req.session', req.session)
   model.getSession(req.session, (err, data) => {
     if (data.length === 0) {
       res.send(false);
@@ -180,14 +180,34 @@ router.post('/newUser', (req, res) => {
   let data = req.body;
   data.profilepic = req.files.imageCropped[0].filename;
 
-  upload(req, res, (err) => {
-    if (err) return next(err)
-  });
+  const checkNSaveUser = new Promise((reject, resolve) => {
+    model.checkNewUser(data, (err, result) => {
+      if (!result.length || err) {
+        reject(result);
+      } else {
+        resolve(result);
+      }
+    });
+  })
 
-  model.newUser(data, (err, data) => {
-    if (err) throw err;
-    res.status(201).redirect('/');
-  });
+  // else, register this user
+  checkNSaveUser.then((result) => {
+    upload(req, res, (err) => {
+      if (err) return next(err)
+    });
+
+    model.newUser(data, (err, data) => {
+      if (err) throw err;
+      res.status(201).redirect('/');
+    });
+  })
+
+    // if either pw/email exist, fail.
+  checkNSaveUser.catch((error) => {
+      console.log('this should bee triggered....')
+      res.status(401).send(error);
+  })
+
 });
 
 
