@@ -1,12 +1,14 @@
-let mysql = require('mysql');
+const mysql = require('mysql');
 
-let db = mysql.createConnection({
+// local host dev environment
+const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'userbase'
 });
 
+const db = mysql.createConnection(awsDb);
 db.connect();
 
 module.exports = db;

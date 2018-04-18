@@ -1,4 +1,4 @@
- DROP DATABASE IF EXISTS userbase;
+DROP DATABASE IF EXISTS userbase;
 
 CREATE DATABASE userbase;
 
