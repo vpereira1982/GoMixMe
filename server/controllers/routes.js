@@ -16,8 +16,6 @@ const fs = require('fs');
 const s3bucket = new AWS.S3({
   endpoint: 's3.us-east-2.amazonaws.com',
   region: 'us-east-2',
-  accessKeyId: 'AKIAJPGMU5PCHIQGCUCA',
-  secretAccessKey: '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',
   Bucket: 'gomixme',
   signatureVersion: 'v4'
 });
