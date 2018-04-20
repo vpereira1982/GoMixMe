@@ -16,8 +16,8 @@ const fs = require('fs');
 const s3bucket = new AWS.S3({
   endpoint: 's3.us-east-2.amazonaws.com',
   region: 'us-east-2',
-  accessKeyId: 'AKIAITTYXAAQT7D34B3A',
-  secretAccessKey: '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',
+  accessKeyId: 'AKIAJPGMU5PCHIQGCUCA',
+  secretAccessKey: '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',
   Bucket: 'gomixme',
   signatureVersion: 'v4'
 });
@@ -245,22 +245,30 @@ router.post('/upload', (req, res) => {
   if (data.isMix) {
     data.file = JSON.stringify(req.files.mixFile[0]);
     data.image = JSON.stringify(req.files.image[0]);
+    console.log(data.file, data.image, data.file.filename);
 
-    // dinamically change the filepath..
+
+    // dinamically change the filepath.. path
     var filepath = path.join(__dirname, '../../userfiles/boobs.png');
     var readStream = fs.createReadStream(filepath);
+    var Key = JSON.parse(data.file).filename;
 
     var params = {
       Bucket: 'gomixme',
-      Key: 'peitinho.png',
-      Body: readStream
+      Key: 'peitogostoso.png',
+      Body: readStream,
+      ACL: 'public-read'
     }
 
     s3bucket.upload(params, {queueSize: 2, partSize: 1024 * 1024 * 10})
       .on('httpUploadProgress', (upFile) => {
           console.log('Progress:', upFile.loaded, '/', upFile.total);
-        }).
-      send((err, data) => { console.log(err, data) });
+/*          if (upFile.loaded === upFile.total) {
+            console.log('haha');
+            //fs.unlinkSync(__dirname + '/multitrack-files.zip');
+          }*/
+        })
+      .send((err, data) => { console.log(err, data) });
 
 // CLOSE TEST..
 
