@@ -1,6 +1,0 @@
-module.exports = {
-  host: 'gomixme.ctzffnymdddm.us-east-2.rds.amazonaws.com',
-  user: 'admin',
-  password: 'tallica2008',
-  database: 'userbase'
-}

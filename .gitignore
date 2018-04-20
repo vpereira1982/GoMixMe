@@ -1,4 +1,4 @@
 userfiles/
 node_modules/
-server/database/credentials
+server/database/
 gomixme.pem

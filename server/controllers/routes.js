@@ -9,7 +9,19 @@ const FileStore = require('session-file-store')(session);
 const multer = require('multer');
 const multerFields = require('./multerFields.js');
 const archiver = require('archiver');
+const AWS = require('aws-sdk');
 const fs = require('fs');
+
+// AWS SETUP
+const s3bucket = new AWS.S3({
+  endpoint: 's3.us-east-2.amazonaws.com',
+  region: 'us-east-2',
+  accessKeyId: 'AKIAITTYXAAQT7D34B3A',
+  secretAccessKey: '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',
+  Bucket: 'gomixme',
+  signatureVersion: 'v4'
+});
+
 
 // MULTER SETUP
 const storage = multer.diskStorage({
@@ -21,7 +33,6 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({storage}).fields(multerFields);
-
 
 // SESSION SETTINGS
 router.use(session({
@@ -226,7 +237,7 @@ router.post('/updateUser', (req, res) => {
 });
 
 
-// NEW MIX/MULTI UPLOAD
+// NEW MIX OR MT UPLOAD
 router.post('/upload', (req, res) => {
   let data = req.body;
   data.isMix = JSON.parse(data.isMix)
@@ -234,6 +245,25 @@ router.post('/upload', (req, res) => {
   if (data.isMix) {
     data.file = JSON.stringify(req.files.mixFile[0]);
     data.image = JSON.stringify(req.files.image[0]);
+
+    // dinamically change the filepath..
+    var filepath = path.join(__dirname, '../../userfiles/boobs.png');
+    var readStream = fs.createReadStream(filepath);
+
+    var params = {
+      Bucket: 'gomixme',
+      Key: 'peitinho.png',
+      Body: readStream
+    }
+
+    s3bucket.upload(params, {queueSize: 2, partSize: 1024 * 1024 * 10})
+      .on('httpUploadProgress', (upFile) => {
+          console.log('Progress:', upFile.loaded, '/', upFile.total);
+        }).
+      send((err, data) => { console.log(err, data) });
+
+// CLOSE TEST..
+
 
     // send the Mix to mySQL Db
     model.newMix(data);
