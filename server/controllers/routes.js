@@ -212,29 +212,20 @@ router.post('/newUser', (req, res) => {
 
   const checkNSaveUser = new Promise((resolve, reject) => {
     model.checkNewUser(data, (err, result) => {
-      if (result.length) {
-        reject(result);
-      } else {
-        resolve(result);
-      }
+      result.length ? reject(result) : resolve(result);
     });
   })
 
   // else, register this user
   checkNSaveUser.then((result) => {
     storeS3(req.files.imageCropped[0].path, data.profilepic);
-
-/*    upload(req, res, (err) => {
-      if (err) return next(err)
-    });*/
-
     model.newUser(data, (err, data) => {
       if (err) throw err;
       res.status(201).redirect('/');
     });
   })
 
-    // if either pw/email exist, fail.
+  // if either pw/email exist, fail.
   checkNSaveUser.catch((error) => {
     res.status(401).send(error);
   })
@@ -265,8 +256,8 @@ router.post('/upload', (req, res) => {
   if (data.isMix) {
     data.file = JSON.stringify(req.files.mixFile[0]);
     data.image = JSON.stringify(req.files.image[0]);
-    storeS3(req.files.mixFile[0].path, req.files.mixFile[0].filename)
-    storeS3(req.files.image[0].path, req.files.image[0].filename)
+    storeS3(req.files.mixFile[0].path, req.files.mixFile[0].filename);
+    storeS3(req.files.image[0].path, req.files.image[0].filename);
 
     // send the Mix to mySQL Db
     model.newMix(data);
@@ -274,8 +265,8 @@ router.post('/upload', (req, res) => {
     data.previewFile = JSON.stringify(req.files.previewFile[0]);
     data.files = JSON.stringify(req.files.multitrackFiles);
     data.image = JSON.stringify(req.files.image[0]);
-    storeS3(req.files.image[0].path, req.files.image[0].filename)
-    storeS3(req.files.previewFile[0].path, req.files.previewFile[0].filename)
+    storeS3(req.files.image[0].path, req.files.image[0].filename);
+    storeS3(req.files.previewFile[0].path, req.files.previewFile[0].filename);
     req.files.multitrackFiles.forEach(each => {
       storeS3(each.path, each.filename);
     });

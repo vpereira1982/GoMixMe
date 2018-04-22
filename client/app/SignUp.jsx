@@ -60,12 +60,14 @@ class Signup extends React.Component {
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
 
     // send FORM to API
-    axios.post('/api/newUser', formData).then((res) => {
-      // hold a few secs so AWSS3 saves the profile pic
-      setTimeout(() => this.handleLogin(null, userInfo.email, userInfo.pw), 3000);
-    })
+    axios.post('/api/newUser', formData)
+      .then((res) => {
+        // hold a few secs so AWSS3 saves the profile pic
+        setTimeout(() => this.handleLogin(null, userInfo.email, userInfo.pw), 3000);
+      })
       .catch((err) => {
-        alert('Displayname and/or email already exist.')
+        alert('Displayname and/or email already exist.');
+        location.reload();
       })
   }
 
