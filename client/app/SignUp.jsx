@@ -50,6 +50,8 @@ class Signup extends React.Component {
     let formElement = document.getElementById('form');
     let formData = new FormData(formElement);
     let userInfo = this.props.userInfo;
+    document.querySelector('#submitReg').innerHTML = 'Saving..'
+
     // append the new Cropped file to the FormData
     formData.append('firstname', userInfo.firstname);
     formData.append('lastname', userInfo.lastname);
@@ -59,7 +61,8 @@ class Signup extends React.Component {
 
     // send FORM to API
     axios.post('/api/newUser', formData).then((res) => {
-      this.handleLogin(null, userInfo.email, userInfo.pw);
+      // hold a few secs so AWSS3 saves the profile pic
+      setTimeout(() => this.handleLogin(null, userInfo.email, userInfo.pw), 3000);
     })
       .catch((err) => {
         alert('Displayname and/or email already exist.')
@@ -156,7 +159,7 @@ class Signup extends React.Component {
             <img className="cropped-img-preview border" src={cropResult} />
           </div>
           <hr />
-          <button type="submit" className="btn btn-success btn-lg mt-3">Submit</button>
+          <button id="submitReg" type="submit" className="btn btn-success btn-lg mt-3">Submit</button>
         </form>
       </div>
     )

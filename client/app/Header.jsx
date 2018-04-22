@@ -7,6 +7,7 @@ import { pullTracks, isLogged } from './actions';
 import '../css/header.css';
 
 const Header = (props) => {
+  const userPhoto = `https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`;
 
   const clickToSearch = (e) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ const Header = (props) => {
         </form>
         <span className="navbar-text">
           <Link to={`/${props.displayname}`} onClick={clickToProfile}>
-            <img className="headerProfilePic" src={`https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`} />
+            <img className="headerProfilePic" src={userPhoto} />
             <span className="username">{props.firstname} </span>
           </Link>
           <span className="pipe font-weight-light"> | </span>
