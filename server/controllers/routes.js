@@ -222,9 +222,11 @@ router.post('/newUser', (req, res) => {
 
   // else, register this user
   checkNSaveUser.then((result) => {
-    upload(req, res, (err) => {
+    storeS3(req.files.imageCropped[0].path, data.profilepic);
+
+/*    upload(req, res, (err) => {
       if (err) return next(err)
-    });
+    });*/
 
     model.newUser(data, (err, data) => {
       if (err) throw err;
@@ -242,7 +244,7 @@ router.post('/newUser', (req, res) => {
 // UPDATE USER INFO
 router.post('/updateUser', (req, res) => {
   let data = req.body;
-  console.log(req.files.imageCropped[0].path)
+
   if (!!req.files.imageCropped) {
     data.profilepic = req.files.imageCropped[0].filename;
     storeS3(req.files.imageCropped[0].path, data.profilepic);
