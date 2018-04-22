@@ -16,8 +16,8 @@ const Multitrack = (props) => {
     id,
     userId
   } = props.multiDetails
-  const filePath = '../../userfiles/' + JSON.parse(previewFile).filename;
-  const imgPath = '../../userfiles/' + JSON.parse(image).filename;
+  const filePath = 'https://gomixme.s3.us-east-2.amazonaws.com/' + JSON.parse(previewFile).filename;
+  const imgPath = 'https://gomixme.s3.us-east-2.amazonaws.com/' + JSON.parse(image).filename;
   const routePath = `/mt/${displayname}/${title.replace(/ /g,"-")}`;
   const uploadUser = `/${displayname}`
 

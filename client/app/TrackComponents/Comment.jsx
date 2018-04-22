@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import calcTime from '../helperFunctions/calcElapsedTime.js'
 
 const Comment = (props) => {
-  const userPic = `http://127.0.0.1:8080/userfiles/${props.line.profilepic}`;
+  const userPic = `https://gomixme.s3.us-east-2.amazonaws.com/${props.line.profilepic}`;
 
   return (
     <div>

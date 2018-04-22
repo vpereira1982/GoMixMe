@@ -10,16 +10,37 @@ const multer = require('multer');
 const multerFields = require('./multerFields.js');
 const archiver = require('archiver');
 const AWS = require('aws-sdk');
+const S3keys = require('../keys/S3keys.js');
 const fs = require('fs');
 
 // AWS SETUP
 const s3bucket = new AWS.S3({
   endpoint: 's3.us-east-2.amazonaws.com',
   region: 'us-east-2',
-  Bucket: 'gomixme',
+  accessKeyId: S3keys.key,
+  secretAccessKey: S3keys.secret,
+  Bucket: S3keys.bucket,
   signatureVersion: 'v4'
 });
 
+const storeS3 = (filePath, fileName) => {
+    let fileStream = fs.createReadStream(filePath);
+    let params = {
+      Bucket: 'gomixme',
+      Key: fileName,
+      Body: fileStream,
+      ACL: 'public-read'
+    }
+
+    s3bucket.upload(params, {queueSize: 3, partSize: 1024 * 1024 * 10})
+      .on('httpUploadProgress', (upFile) => {
+          console.log('Progress:', upFile.loaded, '/', upFile.total);
+          if (upFile.loaded === upFile.total) {
+            fs.unlinkSync(filepath);
+          }
+        })
+      .send((err, data) => { console.log(err, data) });
+}
 
 // MULTER SETUP
 const storage = multer.diskStorage({
@@ -215,18 +236,17 @@ router.post('/newUser', (req, res) => {
   checkNSaveUser.catch((error) => {
     res.status(401).send(error);
   })
-
 });
 
 
 // UPDATE USER INFO
 router.post('/updateUser', (req, res) => {
   let data = req.body;
-  data.profilepic = !!req.files.imageCropped ? req.files.imageCropped[0].filename : '';
-
-  upload(req, res, (err) => {
-    if (err) return next(err)
-  });
+  console.log(req.files.imageCropped[0].path)
+  if (!!req.files.imageCropped) {
+    data.profilepic = req.files.imageCropped[0].filename;
+    storeS3(req.files.imageCropped[0].path, data.profilepic);
+  }
 
   model.updateUser(data, (err, data) => {
     if (err) throw err;
@@ -243,33 +263,8 @@ router.post('/upload', (req, res) => {
   if (data.isMix) {
     data.file = JSON.stringify(req.files.mixFile[0]);
     data.image = JSON.stringify(req.files.image[0]);
-    console.log(data.file, data.image, data.file.filename);
-
-
-    // dinamically change the filepath.. path
-    var filepath = path.join(__dirname, '../../userfiles/boobs.png');
-    var readStream = fs.createReadStream(filepath);
-    var Key = JSON.parse(data.file).filename;
-
-    var params = {
-      Bucket: 'gomixme',
-      Key: 'peitogostoso.png',
-      Body: readStream,
-      ACL: 'public-read'
-    }
-
-    s3bucket.upload(params, {queueSize: 2, partSize: 1024 * 1024 * 10})
-      .on('httpUploadProgress', (upFile) => {
-          console.log('Progress:', upFile.loaded, '/', upFile.total);
-/*          if (upFile.loaded === upFile.total) {
-            console.log('haha');
-            //fs.unlinkSync(__dirname + '/multitrack-files.zip');
-          }*/
-        })
-      .send((err, data) => { console.log(err, data) });
-
-// CLOSE TEST..
-
+    storeS3(req.files.mixFile[0].path, req.files.mixFile[0].filename)
+    storeS3(req.files.image[0].path, req.files.image[0].filename)
 
     // send the Mix to mySQL Db
     model.newMix(data);
@@ -277,16 +272,15 @@ router.post('/upload', (req, res) => {
     data.previewFile = JSON.stringify(req.files.previewFile[0]);
     data.files = JSON.stringify(req.files.multitrackFiles);
     data.image = JSON.stringify(req.files.image[0]);
+    storeS3(req.files.image[0].path, req.files.image[0].filename)
+    storeS3(req.files.previewFile[0].path, req.files.previewFile[0].filename)
+    req.files.multitrackFiles.forEach(each => {
+      storeS3(each.path, each.filename);
+    });
 
     // send the Multitrack to mySQL Db
     model.newMultitrack(data);
   }
-
-  // Store files in Multer's folder
-  upload(req, res, (err) => {
-    if (err) return next(err);
-  });
-
   res.status(201).send('Success, upload data has been saved');
 });
 

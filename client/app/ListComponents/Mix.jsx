@@ -15,8 +15,8 @@ const Mix = (props) => {
     id,
     userId
   } = props.mixDetails
-  const filePath = '../../userfiles/' + JSON.parse(file).filename;
-  const imgPath = '../../userfiles/' + JSON.parse(image).filename;
+  const filePath = 'https://gomixme.s3.us-east-2.amazonaws.com/' + JSON.parse(file).filename;
+  const imgPath = 'https://gomixme.s3.us-east-2.amazonaws.com/' + JSON.parse(image).filename;
   const routePath = `/mix/${displayname}/${title.replace(/ /g,"-")}`;
   const uploadUser = `/${displayname}`
 

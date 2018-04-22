@@ -1,4 +1,5 @@
 userfiles/
 node_modules/
-server/database/
+database/index.js
+server/keys
 gomixme.pem

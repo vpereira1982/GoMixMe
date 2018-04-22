@@ -9,7 +9,7 @@ import '../css/cropper.css';
 class Settings extends React.Component {
   constructor (props) {
     super(props);
-    this.currentPic = `http://localhost:8080/userfiles/${props.profilepic}`;
+    this.currentPic = `https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`;
     this.state = {
       pw: '',
       genre: this.props.genre,
@@ -17,8 +17,8 @@ class Settings extends React.Component {
       description: this.props.description,
       firstname: this.props.firstname,
       lastname: this.props.lastname,
-      profilePic: this.currentPic,
-      cropResult: this.currentPic,
+      profilePic: `https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`,
+      cropResult: `https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`,
       cropFile: null
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -213,8 +213,8 @@ class Settings extends React.Component {
               </div>
             </div>
           </form>
-          <div class="alert alert-success invisible">
-            Profile has been updated!
+          <div className="alert alert-success invisible">
+            Your profile is getting updated! Please wait...
           </div>
         </div>
       </div>

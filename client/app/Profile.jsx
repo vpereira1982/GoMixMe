@@ -13,7 +13,7 @@ class Profile extends React.Component {
     this.URLname = this.props.match.params.uname;
     this.mixes = [];
     this.multitracks = [];
-    this.path = 'http://localhost:8080/userfiles/'
+    this.path = 'https://gomixme.s3.us-east-2.amazonaws.com/'
   }
 
   componentDidMount() {

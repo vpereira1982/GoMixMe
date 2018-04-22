@@ -22,7 +22,7 @@ class TrackPage extends React.Component {
     }
     this.audio = new Audio();
     this.playTime = 0;
-    this.path = 'http://localhost:8080/userfiles/';
+    this.path = 'https://gomixme.s3.us-east-2.amazonaws.com/';
     this.handleNewComment = this.handleNewComment.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
     this.handleDownload = this.handleDownload.bind(this);

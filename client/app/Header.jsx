@@ -35,7 +35,9 @@ const Header = (props) => {
   return (
     <nav className="navbar navbar-light fixed-top text-white bg-navy">
       <div className="container justify-content-between">
-        <Link to="/"><img className="navbar-brand" src="../images/logo.png" /></Link>
+        <Link to="/">
+          <img className="navbar-brand" src="../images/logo.png"/>
+        </Link>
         <form className="form-inline" onSubmit={clickToSearch}>
           <input className="form-control" type="text" size="55" placeholder="Search" id="searchbox" />
           <button className="btn btn-success" id="button-search" type="button" onClick={clickToSearch}>
@@ -49,7 +51,7 @@ const Header = (props) => {
         </form>
         <span className="navbar-text">
           <Link to={`/${props.displayname}`} onClick={clickToProfile}>
-            <img className="headerProfilePic" src={`http://localhost:8080/userfiles/${props.profilepic}`} />
+            <img className="headerProfilePic" src={`https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`} />
             <span className="username">{props.firstname} </span>
           </Link>
           <span className="pipe font-weight-light"> | </span>
