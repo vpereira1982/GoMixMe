@@ -3,6 +3,7 @@ const path = require('path');
 const model = require('../models/index.js');
 const bodyParser = require('body-parser');
 const encrypt = require('../encryptor/index.js');
+const request = require('request');
 const router = express.Router();
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
@@ -77,7 +78,6 @@ router.use(function(req, res, next) {
 /*****************
     ROUTING
 *****************/
-
 // MANUAL LOGIN
 router.post('/login', (req, res) => {
   let query = req.body;
@@ -140,8 +140,7 @@ router.get('/download', (req, res) => {
 
   playlist.forEach(each => {
     each = JSON.parse(each);
-    let filePath = path.join(__dirname, '../..' + each['url'].slice('http://127.0.0.1:8080'.length));
-    zip.append(fs.createReadStream(filePath), { name: each['title'] });
+    zip.append(request(each.url), { name: each.title });
   });
 
   // pipe the read-stream to the ZippedFile write-stream

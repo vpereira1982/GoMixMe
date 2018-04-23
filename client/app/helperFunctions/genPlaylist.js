@@ -1,6 +1,6 @@
 export default (thisTrack) => {
   const { files, file, previewfile, isMix, artist, title } = thisTrack;
-  const folder = 'http://127.0.0.1:8080/userfiles/';
+  const folder = 'https://gomixme.s3.us-east-2.amazonaws.com/';
 
   if (isMix) {
     let filePath = folder + JSON.parse(file).filename;

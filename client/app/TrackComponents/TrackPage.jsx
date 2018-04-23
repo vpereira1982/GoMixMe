@@ -27,7 +27,6 @@ class TrackPage extends React.Component {
     this.handleChange = this.props.handleChange.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
     this.handleClickToPlay = this.handleClickToPlay.bind(this);
-    console.log(this.props.match.params)
   }
 
   componentDidMount() {

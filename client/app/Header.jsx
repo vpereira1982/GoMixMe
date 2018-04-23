@@ -24,9 +24,7 @@ const Header = (props) => {
   }
 
   const clickToProfile = () => {
-  /* React-Router will not auto-refresh the same path (:/uname)
-     force it when the user navigates within profile pages */
-
+  // ReactRouter will not refresh the same path (:/uname), force it 4 within profiles
     const urlPath = location.pathname.slice(1);
     if (urlPath.indexOf('/') !== -1) {
       location.reload();
