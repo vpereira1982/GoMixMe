@@ -23,7 +23,7 @@ class Signup extends React.Component {
     this.handleChange = this.props.handleChange.bind(this);
     this.handleLogin = this.props.handleLogin.bind(this);
     this.cropImage = this.cropImage.bind(this);
-    this.appendToform = this.appendToform.bind(this);
+    this.appendToform = this.appendToForm.bind(this);
   }
 
   handleImgFile(e) {
