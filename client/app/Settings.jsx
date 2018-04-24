@@ -17,8 +17,8 @@ class Settings extends React.Component {
       description: this.props.description,
       firstname: this.props.firstname,
       lastname: this.props.lastname,
-      profilePic: `https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`,
-      cropResult: `https://gomixme.s3.us-east-2.amazonaws.com/${props.profilepic}`,
+      profilePic: this.currentPic,
+      cropResult: this.currentPic,
       cropFile: null
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -149,8 +149,8 @@ class Settings extends React.Component {
                     name="firstname"
                     type="text"
                     className="form-control"
-                    maxlength="15"
-                    minlength="3"
+                    maxLength="15"
+                    minLength="3"
                     onChange={this.handleChange}
                     placeholder="First Name"
                     value={firstname}
@@ -162,8 +162,8 @@ class Settings extends React.Component {
                     name="lastname"
                     type="text"
                     className="form-control"
-                    maxlength="15"
-                    minlength="3"
+                    maxLength="15"
+                    minLength="3"
                     onChange={this.handleChange}
                     placeholder="Last Name"
                     value={lastname}
@@ -175,8 +175,8 @@ class Settings extends React.Component {
                     name="pw"
                     type="password"
                     className="form-control"
-                    maxlength="15"
-                    minlength="3"
+                    maxLength="15"
+                    minLength="3"
                     onChange={this.handleChange}
                     placeholder="Change Password"
                     value={pw}
@@ -187,8 +187,8 @@ class Settings extends React.Component {
                     name="email"
                     type="text"
                     className="form-control"
-                    maxlength="40"
-                    minlength="10"
+                    maxLength="40"
+                    minLength="10"
                     onChange={this.handleChange}
                     placeholder="Email"
                     value={email}
@@ -200,7 +200,7 @@ class Settings extends React.Component {
                     name="description"
                     type="text"
                     className="form-control"
-                    maxlength="350"
+                    maxLength="350"
                     rows="5" cols="25"
                     onChange={this.handleChange}
                     placeholder="Tell us a bit about yourself"

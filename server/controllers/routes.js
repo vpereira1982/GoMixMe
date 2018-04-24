@@ -45,13 +45,11 @@ const storeS3 = (filePath, fileName) => {
 
 // MULTER SETUP
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../userfiles'));
-  },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '_'+ file.originalname);
   }
-})
+});
+
 const upload = multer({storage}).fields(multerFields);
 
 // SESSION SETTINGS

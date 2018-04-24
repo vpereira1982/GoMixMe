@@ -66,11 +66,11 @@ class Login extends React.Component {
             <nav className="login-nav fixed-top text-white bg-navy">
               <div className="container">
                 <div className="row">
-                  <div className="col-2 pl-0">
-                    <Link to="/"><img src="../images/logo.svg" /></Link>
+                  <div className="col-1 pl-0">
+                    <Link to="/"><img className="logo-lg" src="../images/logo.svg" /></Link>
                   </div>
 
-                  <div className="offset-3 col-7 mt-4 pr-0">
+                  <div className="col-11 mt-4 pr-0">
                     <form className="form-inline float-right" onSubmit={this.handleLogin}>
                       <div className="form-group">
                         <input
@@ -95,7 +95,7 @@ class Login extends React.Component {
                           autoComplete="off"
                         />
                       </div>
-                      <button type="submit" className="btn btn-success mx-1" placeholder="Submit">
+                      <button type="submit" className="btn btn-success ml-1" placeholder="Submit">
                         Sign In
                       </button>
                       <div className="login-error alert-danger d-none mt-1 ml-1">
@@ -107,140 +107,139 @@ class Login extends React.Component {
               </div>
             </nav>
           </div>
-            <div className="row">
-              <div className="col-8 login-body-content ml-0">
-                <div className="row mb-4">
-                  <div className="col-12">
-                    <h1 className="login-headline mb-3 display-2">A community for<br/>audio recording enthusiasts</h1>
-                  </div>
-                </div>
-                <div className="row login-icons-group">
-                  <div className="col-4 pl-0 pr-2">
-                    <img className="login-icons mx-auto d-block" src="../images/icon-share.svg" />
-                    <p className="text-center login-icon-text">Share</p>
-                  </div>
-                  <div className="col-4 pl-0 pr-2">
-                    <img className="login-icons mx-auto d-block" src="../images/icon-mix@3x.png" />
-                    <p className="text-center login-icon-text">Mix</p>
-                  </div>
-                  <div className="col-4 pl-0">
-                    <img className="login-icons mx-auto d-block" src="../images/icon-collaborate.svg" />
-                    <p className="text-center login-icon-text">Collaborate</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-12 mt-4 pt-3 pb-3">
-                    <h4 className="font-weight-light login-text-gray">Share your Multitrack Sessions</h4>
-                  </div>
-                  <div className="col-12 mt-3 pb-3">
-                    <h4 className="font-weight-light login-text-gray">Make your Mix</h4>
-                  </div>
-                  <div className="col-12 mt-3">
-                    <h4 className="font-weight-light login-text-gray">Show it</h4>
-                  </div>
+          <div className="row middle-content">
+            <div className="col-8 login-body-content ml-0 pb-0">
+              <div className="row">
+                <div className="col-12">
+                  <h1 className="login-headline display-2">A community for<br/>audio recording enthusiasts</h1>
                 </div>
               </div>
-
-              {/*SIGN UP FORM*/}
-              <div className="col-4 login bg-light">
-                <h2 className="signUp-text">Sign Up</h2>
-                <br />
-
-                <form onSubmit={this.handleSignUp}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control form-control-lg"
-                      name="firstname"
-                      maxLength="15"
-                      placeholder="First Name"
-                      value={this.state.firstname}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control form-control-lg"
-                      name="lastname"
-                      maxLength="15"
-                      placeholder="Last Name"
-                      value={this.state.lastname}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control form-control-lg"
-                      name="email"
-                      maxLength="200"
-                      placeholder="Email"
-                      value={this.state.email}
-                      onChange={this.handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      name="pw"
-                      maxLength="30"
-                      placeholder="Password"
-                      value={this.state.pw}
-                      onChange={this.handleChange}
-                      autoComplete="off"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      name="confirmPw"
-                      maxLength="30"
-                      placeholder="Confirm Password"
-                      value={this.state.confirmPw}
-                      onChange={this.handleChange}
-                      autoComplete="off"
-                      required
-                    />
-                  </div>
-                  <div className="sign-up-error alert-danger d-none mt-3 mb-2">
-                    Passwords don't match. Please try again.
-                  </div>
-                  <small className="login-text-gray font-weight-light">
-                    By clicking on create account, you agree with our <Link to="terms">terms</Link>
-                  </small>
-                  <button type="submit" className="btn btn-danger btn-lg mt-3 d-block" placeholder="Submit">
-                    Create Account
-                  </button>
-                </form>
-              </div>
-          </div>
-
-          {/*FOOTER*/}
-          <div className="row">
-            <footer className="footer fixed-bottom text-white bg-navy">
-              <div className="container">
-                <div className="row pt-3 pb-3">
-                  <div className="col-4 pl-0">
-                    <small className="float-left">GoMixMe &#9400; 2018. v1.0 BETA</small>
-                  </div>
-                  <div className="col-8 pr-0 float-right">
-                    <small className="float-right"><a href="mailto:support@gomixme.com">Contact Us</a></small>
-                    <small className="float-right mr-4"><a href="#">Terms</a></small>
-                    <small className="float-right mr-4"><a href="#">Careers</a></small>
-                    <small className="float-right mr-4"><a href="#">Cookie Use</a></small>
-                  </div>
+              <div className="row login-icons-group">
+                <div className="col-4 pl-0 pr-2">
+                  <img className="login-icons mx-auto d-block" src="../images/icon-share.svg" />
+                  <p className="text-center login-icon-text">Share</p>
+                </div>
+                <div className="col-4 pl-0 pr-2">
+                  <img className="login-icons mx-auto d-block" src="../images/icon-mix@3x.png" />
+                  <p className="text-center login-icon-text">Mix</p>
+                </div>
+                <div className="col-4 pl-0">
+                  <img className="login-icons mx-auto d-block" src="../images/icon-collaborate.svg" />
+                  <p className="text-center login-icon-text">Collaborate</p>
                 </div>
               </div>
-            </footer>
-          </div>
+              <div className="row">
+                <div className="col-12 mt-4 pt-3 pb-3 shar_mix_col">
+                  <h4 className="font-weight-light login-text-gray">Share your Multitrack Sessions</h4>
+                </div>
+                <div className="col-12 mt-3 pb-3 shar_mix_col">
+                  <h4 className="font-weight-light login-text-gray">Make your Mixes</h4>
+                </div>
+                <div className="col-12 mt-3 shar_mix_col">
+                  <h4 className="font-weight-light login-text-gray">Collaborate</h4>
+                </div>
+              </div>
+            </div>
+
+            {/*SIGN UP FORM*/}
+            <div className="col-4 login bg-light">
+              <h2 className="signUp-text">Sign Up</h2>
+              <br />
+              <form onSubmit={this.handleSignUp}>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    name="firstname"
+                    maxLength="15"
+                    placeholder="First Name"
+                    value={this.state.firstname}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    name="lastname"
+                    maxLength="15"
+                    placeholder="Last Name"
+                    value={this.state.lastname}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    name="email"
+                    maxLength="200"
+                    placeholder="Email"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="form-control form-control-lg"
+                    name="pw"
+                    maxLength="30"
+                    placeholder="Password"
+                    value={this.state.pw}
+                    onChange={this.handleChange}
+                    autoComplete="off"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="password"
+                    className="form-control form-control-lg"
+                    name="confirmPw"
+                    maxLength="30"
+                    placeholder="Confirm Password"
+                    value={this.state.confirmPw}
+                    onChange={this.handleChange}
+                    autoComplete="off"
+                    required
+                  />
+                </div>
+                <div className="sign-up-error alert-danger d-none mt-3 mb-2">
+                  Passwords don't match. Please try again.
+                </div>
+                <small className="login-text-gray font-weight-light">
+                  By clicking on create account, you agree with our <Link to="terms">terms</Link>
+                </small>
+                <button type="submit" className="btn btn-danger btn-lg mt-3 d-block" placeholder="Submit">
+                  Create Account
+                </button>
+              </form>
+            </div>
         </div>
+
+        {/*FOOTER*/}
+        <div className="row">
+          <footer className="footer fixed-bottom text-white bg-navy">
+            <div className="container">
+              <div className="row footer-p">
+                <div className="col-4 pl-0">
+                  <small className="float-left">GoMixMe &#9400; 2018. v1.0 BETA</small>
+                </div>
+                <div className="col-8 pr-0 float-right">
+                  <small className="float-right"><a href="mailto:support@gomixme.com">Contact Us</a></small>
+                  <small className="float-right mr-4"><a href="#">Terms</a></small>
+                  <small className="float-right mr-4"><a href="#">Careers</a></small>
+                  <small className="float-right mr-4"><a href="#">Cookie Use</a></small>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
       )
     } else {
       return (

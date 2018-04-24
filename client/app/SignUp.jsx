@@ -90,7 +90,7 @@ class Signup extends React.Component {
           <div className="form-group">
             <input
               name="displayname"
-              maxLength="10"
+              maxLength="12"
               minLength="3"
               type="text"
               className="form-control"

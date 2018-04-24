@@ -362,8 +362,58 @@
   cursor: not-allowed;
 }
 
+@media screen and (min-width: 100px) and (max-width: 1280px) {
+  .shar_mix_col {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  h4.login-text-gray {
+    font-size: 1.1rem;
+  }
+
+  div.login-icons-group {
+    margin: 2em 0 5px 0;
+    padding: 0;
+    left: 40px;
+  }
+
+  .footer-p {
+    padding: 7px 0 !important;
+  }
+
+  div.col-8.login-body-content {
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+  }
+
+  div.col-4.login.bg-light {
+    margin-top: 110px !important;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  img.login-icons {
+    height: 11em !important;
+  }
+
+  div.middle-content {
+    margin-top: 50px;
+  }
+
+  h1.login-headline.mb-3.display-2 {
+    font-size: 3em;
+  }
+}
+
+
 @-moz-document url-prefix() {
   .form-control { box-shadow: none; }
+}
+
+.logo-lg {
+  position: relative;
+  top: 2px;
 }
 
 .login-nav {
@@ -378,7 +428,7 @@
 }
 
 .login-body-content {
-  margin-top: 115px;
+  margin-top: 100px;
   padding: 15px 20px 30px 0;
 }
 
@@ -389,13 +439,13 @@ h1.login-headline {
 }
 
 .login-icons-group {
-  margin: 5em 0 5px 0;
+  margin: 4em 0 5px 0;
   padding: 0;
   left: 40px;
 }
 
 .login-icons {
-  height: 5em !important;
+  height: 10em !important;
 }
 
 .login-icon-text {
@@ -422,6 +472,9 @@ h1.login-headline {
   font-size: 12px;
 }
 
+.footer-p {
+  padding: 15px 0;
+}
 .sampleContainer {
   margin-top: 250px;
 }
