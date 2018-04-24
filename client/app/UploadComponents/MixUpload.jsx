@@ -7,7 +7,7 @@ const MixUpload = (props) => (
       type="file"
       className="form-control form-control-lg"
       name="mixFile"
-      accept="application/x-zip-compressed,audio/*"
+      accept="audio/*"
       onChange={props.handleForm}
       />
   </div>

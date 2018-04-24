@@ -43,7 +43,7 @@ class Upload extends React.Component {
         <div className="bg-light">
           <div className="container bg-white content-body">
             <h2 className="pageHeader header-custom">Upload Audio</h2>
-            <form id="Form" onSubmit={this.handleFormData} encType="multipart/form-data">
+            <form method="POST" id="Form" onSubmit={this.handleFormData} encType="multipart/form-data">
               <div className="form-group">
                 <p>
                   <strong>Step 1:</strong>
@@ -63,7 +63,9 @@ class Upload extends React.Component {
               <MixUpload handleForm={handleConditionalForm} />
               {/* Step2 for Multitracks */}
               <MultitrackUpload handleForm={handleConditionalForm} />
-              <button id="button" type="button" className="btn btn-success">Continue</button>
+              <button type="button" id="button" className="btn btn-success">
+                Continue
+              </button>
             </form>
           </div>
         </div>

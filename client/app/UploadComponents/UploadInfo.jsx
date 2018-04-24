@@ -81,9 +81,9 @@ class UploadDetails extends React.Component {
 
     return (
       <div className="bg-light">
-        <div className="container bg-white">
+        <div className="container bg-white content-body">
           <form id="upload-form" onSubmit={this.handleSubmit} encType="multipart/form-data">
-            <h2 className="pageHeader header-custom">Share some info</h2>
+            <h2 className="pageHeader header-custom">Share some details</h2>
             <div className="form-group">
               <h5><label htmlFor="artist">Artist</label></h5>
               <input
@@ -91,6 +91,7 @@ class UploadDetails extends React.Component {
                 type="text"
                 id="artist"
                 size="40"
+                maxLength="25"
                 placeholder="Recording Artist Name"
                 onChange={this.handleChange}
                 value={artist}
@@ -103,6 +104,7 @@ class UploadDetails extends React.Component {
                 type="text"
                 id="title"
                 size="40"
+                maxLength="25"
                 placeholder={isMix ? 'Title of your Mix' : 'Title of your Session'}
                 onChange={this.handleChange}
                 value={title}
@@ -136,7 +138,7 @@ class UploadDetails extends React.Component {
                 id="description"
                 rows="5"
                 cols="80"
-                maxlength="300"
+                maxLength="300"
                 placeholder={isMix ? 'Describe your Mix' : 'Describe your Session'}
                 onChange={this.handleChange}
                 value={description}
