@@ -24,6 +24,7 @@ class UploadDetails extends React.Component {
     this.cropImage = this.cropImage.bind(this);
     this.handleChange = props.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.appendToForm = this.appendToForm.bind(this);
   }
 
   handleUploadImage(e) {
@@ -51,11 +52,26 @@ class UploadDetails extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
+    if (!this.state.image) {
+      alert('Please crop your track\'s artwork');
+      return;
+    }
+    const formComplete = this.appendToForm();
+
     // Make Form disappear and load new Transferring component
     document.getElementById('upload-form').style.display = 'none';
     this.setState({transferring: true});
 
-    // Handle formData and push to server
+    // Push formData to server
+    axios.post('/api/upload', formComplete)
+      .then((res) => {
+        this.props.customHistory.push('/');
+        setTimeout(() => location.reload(), 3000);
+      });
+  }
+
+  appendToForm() {
+    // Handle formData
     let { formData, isMix, customHistory, id, displayName } = this.props;
     let { image, artist, title, genre, description } = this.state;
 
@@ -68,11 +84,7 @@ class UploadDetails extends React.Component {
     formData.append('description', description);
     formData.append('image', image, 'croppedImg.png');
 
-    axios.post('/api/upload', formData)
-      .then((res) => {
-        customHistory.push('/');
-        setTimeout(() => location.reload(), 3000);
-      });
+    return formData;
   }
 
   render() {

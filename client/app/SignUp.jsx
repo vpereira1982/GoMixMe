@@ -53,7 +53,7 @@ class Signup extends React.Component {
       return;
     }
 
-    const formComplete = this.appendToform();
+    const formComplete = this.appendToForm();
     const userInfo = this.props.userInfo;
     document.querySelector('#submitReg').innerHTML = 'Saving..'
 
@@ -69,7 +69,7 @@ class Signup extends React.Component {
       })
   }
 
-  appendToform() {
+  appendToForm() {
     let formElement = document.getElementById('form');
     let formData = new FormData(formElement);
     let userInfo = this.props.userInfo;
