@@ -120,7 +120,8 @@ class Login extends React.Component {
                   <p className="text-center login-icon-text">Share</p>
                 </div>
                 <div className="col-4 pl-0 pr-2">
-                  <img className="login-icons mx-auto d-block" src="../images/icon-mix@3x.png" />
+
+                  <img className="login-icons mx-auto d-block" src="../images/icon-mix.svg" />
                   <p className="text-center login-icon-text">Mix</p>
                 </div>
                 <div className="col-4 pl-0">

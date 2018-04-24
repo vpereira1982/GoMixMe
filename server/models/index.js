@@ -116,7 +116,7 @@ module.exports = {
     let type = JSON.parse(data.isMix) ? 'mixes' : 'multitracks';
 
     db.query(`
-      SELECT DISTINCT *, ${type}.id, NULL as pw, NULL as salt
+      SELECT DISTINCT *, ${type}.description, ${type}.id, NULL as pw, NULL as salt
       FROM ${type}
       INNER JOIN users
       WHERE ${type}.title = '${escaper(data.title)}'
@@ -149,7 +149,8 @@ module.exports = {
   },
 
   getSession: (data, callback) => {
-    if (data.hasOwnProperty('id')) {
+    let hasId = Object.prototype.hasOwnProperty.call(data, 'id');
+    if (hasId) {
       db.query(`
         SELECT * FROM users
         WHERE users.id = '${data.uid}' AND
@@ -161,6 +162,7 @@ module.exports = {
   updateUser: (data, callback) => {
     let pwSalt = encrypt.makeSaltSync();
     let pwHashed = encrypt.makeHashPw(data.pw, pwSalt);
+    let hasNewPic = Object.prototype.hasOwnProperty.call(data, 'profilepic');
 
     db.query(`
       UPDATE users
@@ -172,7 +174,7 @@ module.exports = {
         salt = CASE WHEN ${data.pw.length} > 1
           THEN '${pwSalt}'
           ELSE salt END,
-        profilepic = CASE WHEN ${data.profilepic.length} > 1
+        profilepic = CASE WHEN ${hasNewPic}
           THEN '${data.profilepic}'
           ELSE profilepic END,
         description = '${escaper(data.description)}'
