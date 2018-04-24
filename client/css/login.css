@@ -38,6 +38,12 @@
   }
 }
 
+@media screen and (min-height: 785px) {
+  div.middle-content {
+    margin-top: 40px;
+  }
+}
+
 
 @-moz-document url-prefix() {
   .form-control { box-shadow: none; }

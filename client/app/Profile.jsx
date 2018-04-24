@@ -71,7 +71,7 @@ class Profile extends React.Component {
                   <div className="col-12 border-right border-main"></div>
                 </div>
               <div className="col-5">
-                <h4 className="display-4 header-custom mt-3">{firstname}'s Multitrack Sessions</h4>
+                <h4 className="display-4 header-custom mt-3">{firstname}'s Sessions</h4>
                 {this.multitracks.length ?
                   <Multitracks multitracks={this.multitracks} /> :
                   'No Multitracks yet'
