@@ -10,7 +10,7 @@ class MixPlayer extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let audioMix = this.props.audio;
 
     audioMix.onloadedmetadata = () => {

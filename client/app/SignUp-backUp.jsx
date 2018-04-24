@@ -14,16 +14,16 @@ class Signup extends React.Component {
     this.state = {
       profilePic: this.defaultImg,
       cropResult: this.defaultImg,
-      cropFile: false,
+      cropFile: null,
       displayname: '',
       description: ''
     };
+
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleImgFile = this.handleImgFile.bind(this);
     this.handleChange = this.props.handleChange.bind(this);
     this.handleLogin = this.props.handleLogin.bind(this);
     this.cropImage = this.cropImage.bind(this);
-    this.appendToform = this.appendToform.bind(this);
   }
 
   handleImgFile(e) {
@@ -47,32 +47,10 @@ class Signup extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-
-    if (!this.state.cropFile) {
-      alert('Please crop your image');
-      return;
-    }
-
-    const formComplete = this.appendToform();
-    const userInfo = this.props.userInfo;
-    document.querySelector('#submitReg').innerHTML = 'Saving..'
-
-    // send FORM to API
-    axios.post('/api/newUser', formComplete)
-      .then((res) => {
-        // hold a few secs so AWSS3 saves the profile pic
-        setTimeout(() => this.handleLogin(null, userInfo.email, userInfo.pw), 3000);
-      })
-      .catch((err) => {
-        alert('Displayname and/or email already exist.');
-        location.reload();
-      })
-  }
-
-  appendToform() {
     let formElement = document.getElementById('form');
     let formData = new FormData(formElement);
     let userInfo = this.props.userInfo;
+    document.querySelector('#submitReg').innerHTML = 'Saving..'
 
     // append the new Cropped file to the FormData
     formData.append('firstname', userInfo.firstname);
@@ -81,7 +59,16 @@ class Signup extends React.Component {
     formData.append('email', userInfo.email);
     formData.append('imageCropped', this.state.cropFile, 'croppedImg.png');
 
-    return formData;
+    // send FORM to API
+    axios.post('/api/newUser', formData)
+      .then((res) => {
+        // hold a few secs so AWSS3 saves the profile pic
+        setTimeout(() => this.handleLogin(null, userInfo.email, userInfo.pw), 3000);
+      })
+      .catch((err) => {
+        alert('Displayname and/or email already exist.');
+        location.reload();
+      })
   }
 
   render() {

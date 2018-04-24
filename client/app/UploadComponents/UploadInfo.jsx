@@ -116,7 +116,7 @@ class UploadDetails extends React.Component {
                 onChange={this.handleChange}
                 required
               >
-                <option value="">Favorite Genre</option>
+                <option value="">Track Genre</option>
                 <option value="Blues">Blues</option>
                 <option value="Classical">Classical</option>
                 <option value="Country">Country</option>
