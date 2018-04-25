@@ -23,17 +23,16 @@ class Search extends React.Component {
           <div className="container bg-white content-body">
             <div className="row">
               <div className="col-12">
-                <h1 className="display-4 header-custom mt-3">Search results for
-                  <span className="text-dark font-weight-normal">"{this.query}"</span>
+                <h1 className="display-4 header-custom mt-3 pb-2">Search results for
+                  <span className="text-dark font-weight-normal"> "{this.query}"</span>
                 </h1>
-                <hr/>
-                <h6>Mixes</h6>
+                <h3 className="mt-4">Mixes</h3>
                 {searchResults.mixes.length ?
                   <Mixes mixes={searchResults.mixes} /> :
                   'No Results Found'
                 }
                 <hr/>
-                <h6>Multitracks</h6>
+                <h3 className="mt-4">Multitracks</h3>
                 {searchResults.multitracks.length ?
                   <Multitracks multitracks={searchResults.multitracks} /> :
                   'No Results Found'
