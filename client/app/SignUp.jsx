@@ -48,10 +48,10 @@ class Signup extends React.Component {
   handleFormSubmit(e) {
     e.preventDefault();
 
-    if (!this.state.cropFile) {
+/*    if (!this.state.cropFile) {
       alert('Please crop your image');
       return;
-    }
+    }*/
 
     const formComplete = this.appendToForm();
     const userInfo = this.props.userInfo;
@@ -98,8 +98,39 @@ class Signup extends React.Component {
 
     return (
       <div className="col-md-6 offset-md-3 signup text-white bg-navy">
-        <h2> Sign Up </h2> <br />
+        <h2 className="pageHeader header-custom mb-3">About you</h2>
         <form method="POST" onSubmit={this.handleFormSubmit} encType="multipart/form-data" id="form">
+          {/* UPLOAD IMAGE button */}
+          <div className="form-group p-2 pb-4 signup-pic">
+            <h4 className="mt-2 mb-4"> Profile Picture </h4>
+            <Cropper
+              style={{ height: 300, width: 300 }}
+              aspectRatio={1}
+              zoomable={false}
+              scalable={false}
+              guides={false}
+              src={profilePic}
+              ref={(cropper) => {this.cropper = cropper}}
+            />
+            <label htmlFor='image' className='btn btn-info mb-3 mt-3'>Upload Profile Image</label>
+            <input
+              name="image"
+              type="file"
+              id="image"
+              onChange={this.handleImgFile}
+              className="form-control d-none"
+              accept="image/x-png,image/gif,image/jpeg"
+            />
+
+            {/* CROP FILE  button */}
+            <button type="button" className='btn btn-danger mt-2 mb-1 d-block' onClick={this.cropImage}>
+              Crop Image
+            </button>
+            <br />
+            <h6 className="text-light">Preview</h6>
+            <img className="cropped-img-preview border" src={cropResult} />
+          </div>
+          <hr />
           <div className="form-group">
             <input
               name="displayname"
@@ -142,38 +173,6 @@ class Signup extends React.Component {
               <option value="Jazz">Jazz</option>
             </select>
           </div>
-
-          {/* UPLOAD IMAGE button */}
-          <div className="form-group p-2 pb-4 signup-pic">
-            <h3 className="mt-2 mb-4"> Profile picture </h3>
-            <Cropper
-              style={{ height: 300, width: 300 }}
-              aspectRatio={1}
-              zoomable={false}
-              scalable={false}
-              guides={false}
-              src={profilePic}
-              ref={(cropper) => {this.cropper = cropper}}
-            />
-            <label htmlFor='image' className='btn btn-info mb-3 mt-3'>Upload Profile Image</label>
-            <input
-              name="image"
-              type="file"
-              id="image"
-              onChange={this.handleImgFile}
-              className="form-control d-none"
-              accept="image/x-png,image/gif,image/jpeg"
-            />
-
-            {/* CROP FILE  button */}
-            <button type="button" className='btn btn-danger mt-2 mb-1 d-block' onClick={this.cropImage}>
-              Crop Image
-            </button>
-            <br />
-            <h6 className="text-light">Preview</h6>
-            <img className="cropped-img-preview border" src={cropResult} />
-          </div>
-          <hr />
           <button id="submitReg" type="submit" className="btn btn-success btn-lg mt-3">Submit</button>
         </form>
       </div>

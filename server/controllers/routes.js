@@ -12,6 +12,7 @@ const multerFields = require('./multerFields.js');
 const archiver = require('archiver');
 const AWS = require('aws-sdk');
 const S3keys = require('../keys/S3keys.js');
+const S3path = 'https://gomixme.s3.us-east-2.amazonaws.com/gomixme/';
 const fs = require('fs');
 
 // AWS SETUP
@@ -205,7 +206,8 @@ router.get('/destroycookie', (req, res) => {
 // REGISTER NEW USER
 router.post('/newUser', (req, res) => {
   let data = req.body;
-  data.profilepic = req.files.imageCropped[0].filename;
+  let hasPic = Object.prototype.hasOwnProperty.call(req.files, "imageCropped");
+  data.profilepic = hasPic ? req.files.imageCropped[0].filename : 'default-profile.jpg';
 
   const checkNSaveUser = new Promise((resolve, reject) => {
     model.checkNewUser(data, (err, result) => {
@@ -215,7 +217,7 @@ router.post('/newUser', (req, res) => {
 
   // else, register this user
   checkNSaveUser.then((result) => {
-    storeS3(req.files.imageCropped[0].path, data.profilepic);
+    hasPic ? storeS3(req.files.imageCropped[0].path, data.profilepic) : null;
     model.newUser(data, (err, data) => {
       if (err) throw err;
       res.status(201).redirect('/');
