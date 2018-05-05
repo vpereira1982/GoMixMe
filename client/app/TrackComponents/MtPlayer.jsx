@@ -4,7 +4,7 @@ import MtEachTrack from './MtEachTrack.jsx';
 
 export default (props) => {
   // track-player class keeps player at bottom. No need for that with MTracks
-  let parentNode = document.getElementById('track-player');
+  const parentNode = document.getElementById('track-player');
   if (parentNode) {
     parentNode.className = "col-12";
   }

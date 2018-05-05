@@ -3,7 +3,7 @@ export default (thisTrack) => {
   const folder = 'https://gomixme.s3.us-east-2.amazonaws.com/';
 
   if (isMix) {
-    let filePath = folder + JSON.parse(file).filename;
+    const filePath = folder + JSON.parse(file).filename;
     return [{url: filePath, title: `${artist} - ${title}`}];
   }
 

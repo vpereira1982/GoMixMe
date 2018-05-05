@@ -27,7 +27,7 @@ class Signup extends React.Component {
   }
 
   handleImgFile(e) {
-    let imageFile = e.target.files[0];
+    const imageFile = e.target.files[0];
     createImgSrc(imageFile, (result) => {
       this.setState({ profilePic: result });
     });
@@ -35,7 +35,7 @@ class Signup extends React.Component {
 
   cropImage() {
     // convert dataURI -> Blob -> File
-    let canvas = this.cropper.getCroppedCanvas();
+    const canvas = this.cropper.getCroppedCanvas();
 
     canvas.toBlob((blob) => {
       this.setState({
@@ -47,14 +47,9 @@ class Signup extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-
-/*    if (!this.state.cropFile) {
-      alert('Please crop your image');
-      return;
-    }*/
-
     const formComplete = this.appendToForm();
     const userInfo = this.props.userInfo;
+
     document.querySelector('#submitReg').innerHTML = 'Saving..'
 
     // send FORM to API
@@ -70,9 +65,9 @@ class Signup extends React.Component {
   }
 
   appendToForm() {
-    let formElement = document.getElementById('form');
-    let formData = new FormData(formElement);
-    let userInfo = this.props.userInfo;
+    const formElement = document.getElementById('form');
+    const formData = new FormData(formElement);
+    const userInfo = this.props.userInfo;
 
     // append the new Cropped file to the FormData
     formData.append('firstname', userInfo.firstname);

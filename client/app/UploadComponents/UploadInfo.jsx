@@ -28,7 +28,7 @@ class UploadDetails extends React.Component {
   }
 
   handleUploadImage(e) {
-    let imageFile = e.target.files[0];
+    const imageFile = e.target.files[0];
     createImgSrc(imageFile, (result) => {
       this.setState({
         imgSrc: result
@@ -38,7 +38,7 @@ class UploadDetails extends React.Component {
 
   cropImage() {
     // convert dataURI -> Blob -> File
-    let canvas = this.cropper.getCroppedCanvas();
+    const canvas = this.cropper.getCroppedCanvas();
     canvas.toBlob((blob) => {
       this.setState({
         cropResult: canvas.toDataURL(),
@@ -66,14 +66,14 @@ class UploadDetails extends React.Component {
     axios.post('/api/upload', formComplete)
       .then((res) => {
         this.props.customHistory.push('/');
-        setTimeout(() => location.reload(), 3000);
+        setTimeout(() => location.reload(), 15000);
       });
   }
 
   appendToForm() {
     // Handle formData
-    let { formData, isMix, customHistory, id, displayName } = this.props;
-    let { image, artist, title, genre, description } = this.state;
+    const { formData, isMix, customHistory, id, displayName } = this.props;
+    const { image, artist, title, genre, description } = this.state;
 
     formData.append('isMix', isMix);
     formData.append('title', title);

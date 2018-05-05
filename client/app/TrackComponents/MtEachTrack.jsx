@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 
 export default (props) => {
   const play = () => {
-    let audioElem = props.audio;
-    let thisTrack = props.track.url.replace(/ /g, "%20");
-    let prevPauseIcon = document.querySelector('.pause');
+    const audioElem = props.audio;
+    const thisTrack = props.track.url.replace(/ /g, "%20");
+    const prevPauseIcon = document.querySelector('.pause');
 
     // if there is already an audio src, pause;
     audioElem.src ? audioElem.pause() : null;
@@ -22,7 +22,7 @@ export default (props) => {
       audioElem.play();
 
       // if it's playing, icon should change to 'pause'
-      let currIcon = document.getElementsByClassName('lil_play_icon')[Number(props.index)]
+      const currIcon = document.getElementsByClassName('lil_play_icon')[Number(props.index)]
       currIcon.innerHTML = 'pause_circle_outline'
       currIcon.classList.add('pause');
     }

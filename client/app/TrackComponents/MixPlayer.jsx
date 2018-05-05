@@ -11,18 +11,18 @@ class MixPlayer extends React.Component {
   }
 
   componentDidMount() {
-    let audioMix = this.props.audio;
+    const audioMix = this.props.audio;
 
     audioMix.onloadedmetadata = () => {
-      let duration = parseInt(audioMix.duration);
-      let displayDuration = Math.floor(duration/60) + ':' + parseInt(duration % 60);
+      const duration = parseInt(audioMix.duration);
+      const displayDuration = Math.floor(duration/60) + ':' + parseInt(duration % 60);
       this.setState({ duration: displayDuration });
     };
 
     setInterval(() => {
-      let currentTimeInt = Math.round(audioMix.currentTime);
-      let minutes = Math.floor(currentTimeInt / 60);
-      let seconds = Math.abs(Math.floor((minutes * 60) - currentTimeInt));
+      const currentTimeInt = Math.round(audioMix.currentTime);
+      const minutes = Math.floor(currentTimeInt / 60);
+      const seconds = Math.abs(Math.floor((minutes * 60) - currentTimeInt));
       this.setState({
         currentTime: minutes  + ':' + (seconds < 10 ? "0" + seconds : seconds)
       });
@@ -30,7 +30,7 @@ class MixPlayer extends React.Component {
   }
 
   render () {
-    let { duration, currentTime } = this.state;
+    const { duration, currentTime } = this.state;
     return (
       <div className="mix_player">
         <span className="ml-3 font-weight-light">

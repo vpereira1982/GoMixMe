@@ -13,7 +13,7 @@ const defaultState = {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case 'persist_user':
-      let userInfo = action.payload;
+      const userInfo = action.payload;
       if (!userInfo) {
         return Object.assign({}, state, { isLogged: false });
       }

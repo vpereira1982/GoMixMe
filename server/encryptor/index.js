@@ -1,5 +1,5 @@
-let bcrypt = require('bcrypt');
-let saltRounds = Math.random();
+const bcrypt = require('bcrypt');
+const saltRounds = Math.random();
 
 module.exports = {
   makeSaltSync: function() {

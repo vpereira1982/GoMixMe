@@ -49,7 +49,6 @@ class Search extends React.Component {
 }
 
 const MapStateToProps = (state) => {
-  console.log(state);
   return { searchResults: state.searchResults.tracks };
 }
 

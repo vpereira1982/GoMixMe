@@ -4,7 +4,7 @@ import '../../css/loading.css';
 
 const Transferring = () => {
   setTimeout(() => {
-    let smallText = document.querySelector('small');
+    const smallText = document.querySelector('small');
     smallText.innerHTML = "This may take a while.."
   }, 10000);
 

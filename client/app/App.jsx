@@ -14,15 +14,14 @@ import Profile from './Profile.jsx';
 import { connect } from 'react-redux';
 import * as Actions from './actions';
 
-// LOAD REACT-ROUTER MODULES
+// REACT-ROUTER MODULES
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
-
-const customHistory = createBrowserHistory();
 
 class App extends React.Component {
   constructor (props) {
     super(props);
+    this.customHistory = createBrowserHistory();
   }
 
   componentDidMount () {
@@ -43,10 +42,9 @@ class App extends React.Component {
     });
   }
 
-
-  //************************
-  // Conditional Homepage Routing
-  //************************
+  //******************************
+  // Conditional Component Routing
+  //******************************
   render() {
     const { isLogged = '' } = this.props.userDetails;
 
@@ -70,7 +68,7 @@ class App extends React.Component {
                   exact
                   render={(props) =>
                     <Upload
-                      customHistory={customHistory}
+                      customHistory={this.customHistory}
                       handleChange={this.handleChange}
                     />
                   }
@@ -80,7 +78,7 @@ class App extends React.Component {
                   exact
                   render={(props) =>
                     <Search
-                      customHistory={customHistory}
+                      customHistory={this.customHistory}
                       handleChange={this.handleChange}
                     />
                   }
@@ -88,7 +86,7 @@ class App extends React.Component {
                 <Route
                   path="/"
                   exact
-                  render={(props) => <Main {...props} history={customHistory} />}
+                  render={(props) => <Main {...props} />}
                 />
                 <Route
                   path="/:uname"
@@ -110,7 +108,7 @@ class App extends React.Component {
                 <Route
                   path="/"
                   render={() =>
-                    <Login handleChange={this.handleChange} customHistory={customHistory} />
+                    <Login handleChange={this.handleChange} customHistory={this.customHistory} />
                   }
                 />
                 <Route component={ErrorMessage} />

@@ -26,8 +26,8 @@ const s3bucket = new AWS.S3({
 });
 
 const storeS3 = (filePath, fileName) => {
-    let fileStream = fs.createReadStream(filePath);
-    let params = {
+    const fileStream = fs.createReadStream(filePath);
+    const params = {
       Bucket: 'gomixme',
       Key: fileName,
       Body: fileStream,
@@ -77,14 +77,15 @@ router.use(function(req, res, next) {
 /*****************
     ROUTING
 *****************/
+
 // MANUAL LOGIN
 router.post('/login', (req, res) => {
-  let query = req.body;
+  const query = req.body;
 
   model.login(query, (err, data) => {
     if (err) throw err;
 
-    let pwHashed = typeof data[0] === 'object' ?
+    const pwHashed = typeof data[0] === 'object' ?
      encrypt.makeHashPw(query.pw, data[0].salt) : false;
 
     if (pwHashed && pwHashed === data[0].pw) {
@@ -109,8 +110,8 @@ router.get('/session', (req, res) => {
 
 // MAIN TRACKLIST
 router.get('/tracks', (req, res) => {
-  let { search, page } = req.query;
-  let dbQueries = new Promise((resolve, reject) => {
+  const { search, page } = req.query;
+  const dbQueries = new Promise((resolve, reject) => {
     // pull Mixes from db
     model.getMixes(search, (err, data) => {
       if (err) reject(err);
@@ -133,9 +134,9 @@ router.get('/tracks', (req, res) => {
 
 // DOWNLOAD MT FILES
 router.get('/download', (req, res) => {
-  let zip = archiver('zip');
-  let playlist = Object.values(req.query);
-  let zippedFile = fs.createWriteStream(__dirname + '/multitrack-files.zip');
+  const zip = archiver('zip');
+  const playlist = Object.values(req.query);
+  const zippedFile = fs.createWriteStream(__dirname + '/multitrack-files.zip');
 
   playlist.forEach(each => {
     each = JSON.parse(each);
@@ -205,8 +206,8 @@ router.get('/destroycookie', (req, res) => {
 
 // REGISTER NEW USER
 router.post('/newUser', (req, res) => {
-  let data = req.body;
-  let hasPic = Object.prototype.hasOwnProperty.call(req.files, "imageCropped");
+  const data = req.body;
+  const hasPic = Object.prototype.hasOwnProperty.call(req.files, "imageCropped");
   data.profilepic = hasPic ? req.files.imageCropped[0].filename : 'default-profile.jpg';
 
   const checkNSaveUser = new Promise((resolve, reject) => {
@@ -233,7 +234,7 @@ router.post('/newUser', (req, res) => {
 
 // UPDATE USER INFO
 router.post('/updateUser', (req, res) => {
-  let data = req.body;
+  const data = req.body;
 
   if (!!req.files.imageCropped) {
     data.profilepic = req.files.imageCropped[0].filename;
@@ -249,7 +250,7 @@ router.post('/updateUser', (req, res) => {
 
 // NEW MIX OR MT UPLOAD
 router.post('/upload', (req, res) => {
-  let data = req.body;
+  const data = req.body;
   data.isMix = JSON.parse(data.isMix)
 
   if (data.isMix) {

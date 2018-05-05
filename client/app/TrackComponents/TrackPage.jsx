@@ -75,10 +75,10 @@ class TrackPage extends React.Component {
 
   handleClickToPlay(e) {
     // previewFile only exists for Multitracks
-    let { file, previewFile } = this.state.thisTrack;
-    let track = previewFile || file;
-    let filePath = this.path + JSON.parse(track).filename;
-    let icon = document.querySelector('.track-play-icon');
+    const { file, previewFile } = this.state.thisTrack;
+    const track = previewFile || file;
+    const filePath = this.path + JSON.parse(track).filename;
+    const icon = document.querySelector('.track-play-icon');
 
     if (this.audio.src) {
       this.playTime = this.audio.currentTime;
@@ -96,7 +96,7 @@ class TrackPage extends React.Component {
   }
 
   handleDownload() {
-    let button = document.querySelector('.btn-custom');
+    const button = document.querySelector('.btn-custom');
     button.innerHTML = 'Processing...';
 
     // if <button> has a backgroundColor, it ran before so return.
@@ -114,7 +114,7 @@ class TrackPage extends React.Component {
     })
     .then(res => {
       // creates <a> tag w/ a 'download' attr and auto-clicks
-      let link = document.createElement('a');
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(res.data);
       link.download = this.state.thisTrack.title;
       document.body.appendChild(link);
