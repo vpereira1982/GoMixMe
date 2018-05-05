@@ -248,7 +248,7 @@ router.post('/updateUser', (req, res) => {
 });
 
 
-// NEW MIX OR MT UPLOAD
+// UPLOAD
 router.post('/upload', (req, res) => {
   const data = req.body;
   data.isMix = JSON.parse(data.isMix)

@@ -14,7 +14,7 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    // 'onScroll' does not work well in React + CSS.
+    // 'onScroll' does not work well in React + CSS
     window.addEventListener('scroll', this.handleScrolling);
     // Pull page 1 tracks
     if (!this.props.trackList) {
