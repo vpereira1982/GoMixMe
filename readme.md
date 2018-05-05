@@ -12,6 +12,7 @@ Recurring:
 1 - npm start
 2 - npm run webpack
 
+
 ### Install and Set Up a Local MySQL Server
 
 - Ensure you have mysql installed by doing which mysql from inside the terminal. If you don't have it, install it
